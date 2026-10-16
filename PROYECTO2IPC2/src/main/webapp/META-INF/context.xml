@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/PROYECTO2IPC2">
+  <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory" initialSize="10" logAbandoned="true" maxTotal="100" maxWaitMillis="10000" minEvictableIdleTimeMillis="30000" minIdle="10" name="jdbc/EscuelaDBPool" password="pastormario2911" removeAbandonedOnBorrow="true" removeAbandonedTimeout="60" testOnBorrow="true" testOnReturn="false" testWhileIdle="false" timeBetweenEvictionRunsMillis="30000" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/SISTEMA_DE_ESCUELA" username="mario" validationQuery="SELECT 1" validationQueryTimeout="30"/>
+</Context>
