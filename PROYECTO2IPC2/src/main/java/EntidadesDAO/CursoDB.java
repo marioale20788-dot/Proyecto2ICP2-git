@@ -21,13 +21,14 @@ public class CursoDB {
 
     public Curso crearCurso(Curso curso) throws DatosNoValidosExcepcion {
         String sql = "INSERT INTO curso(codigo_curso,nombre_curso,descripcion,estado) values(?,?,?,?)";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement insertStatement = conn.prepareStatement(sql);
-            insertStatement.setString(1, curso.getCodigoCurso());
-            if (bucarCursoPorNombreCodigo(curso.getNombreCurso()).isEmpty() == false) {
+          if (bucarCursoPorNombreCodigo(curso.getNombreCurso()).isEmpty() == false) {
                 throw new DatosNoValidosExcepcion("nombre de curso repetido");
             }
+        try ( Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement insertStatement = conn.prepareStatement(sql);){
+           
+            insertStatement.setString(1, curso.getCodigoCurso());
+          
             insertStatement.setString(2, curso.getNombreCurso());
             insertStatement.setString(3, curso.getDescripcionCurso());
             insertStatement.setBoolean(4, curso.getEstado());
@@ -42,10 +43,10 @@ public class CursoDB {
     public ArrayList<Curso> obtenerTodosLosCursos() {
         String sql = "SELECT * FROM curso";
         ArrayList<Curso> cursos = new ArrayList<>();
-        Connection conn;
-        try {
-            conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+
+        try (     Connection   conn = DBConnection.getInstance().getConnection();
+            PreparedStatement queryStatement = conn.prepareStatement(sql);){
+    
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
                 Curso curso = new Curso(resultado.getString("codigo_curso"),
@@ -63,10 +64,10 @@ public class CursoDB {
     }
     public Curso updateCurso(String codigoCurso , Curso curso) throws DatosNoValidosExcepcion{
             String sql = "UPDATE curso SET nombre_curso = ?,descripcion = ?,estado = ? WHERE codigo_curso = ? ";
-        try {
+        try (    Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement updateStatement = conn.prepareStatement(sql);){
           
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+        
             updateStatement.setString(1, curso.getNombreCurso());
             updateStatement.setString(2,curso.getDescripcionCurso());
             updateStatement.setBoolean(3, curso.getEstado());
@@ -79,9 +80,9 @@ public class CursoDB {
     }
     public void eliminarCurso(String codigoCurso) throws ElemtoAElminarEnUsoExcepcion{
             String sql =  "DELETE FROM curso WHERE codigo_curso = ?";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+        try(    Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+        
             updateStatement.setString(1, codigoCurso);
             updateStatement.execute();
             
@@ -93,9 +94,9 @@ public class CursoDB {
     public ArrayList<Curso> bucarCursoPorNombreCodigo(String dato)  {
         String sql = "SELECT * FROM curso WHERE(nombre_curso = ? OR codigo_curso = ?)";
         ArrayList<Curso> cursos = new ArrayList<>();
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+        try (   Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement queryStatement = conn.prepareStatement(sql);){
+         
             queryStatement.setString(1, dato);
             queryStatement.setString(2, dato);
             ResultSet resultado = queryStatement.executeQuery();

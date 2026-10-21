@@ -20,9 +20,9 @@ public class PrestamoDB {
     
     public boolean buscarLibroEnPrestamo(String idLibro) throws ElementoNoEncotradoExcepcion{
         String sql = "SELECT * FROM prestamo WHERE id_libro = ? AND estado = 'ACTIVO'";
-         try {
-             Connection conn = DBConnection.getInstance().getConnection();
-             PreparedStatement queryStatement = conn.prepareStatement(sql);
+         try (    Connection conn = DBConnection.getInstance().getConnection();
+             PreparedStatement queryStatement = conn.prepareStatement(sql);){
+         
              queryStatement.setString(1, idLibro);
              ResultSet resultado =  queryStatement.executeQuery();
              return resultado.next();

@@ -21,9 +21,8 @@ public class LibroDB {
 
     public void crearLibro(Libro libro) throws DatosNoValidosExcepcion {
         String sql = "INSERT INTO libro(id_libro,titulo,autor,editorial,cantidad) values(?,?,?,?,?)";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement insertStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement insertStatement = conn.prepareStatement(sql);) {
+
             insertStatement.setString(1, libro.getIdLibro());
             insertStatement.setString(2, libro.getNombreLibro());
             insertStatement.setString(3, libro.getAutor());
@@ -41,10 +40,8 @@ public class LibroDB {
         String sql = "SELECT * FROM libro WHERE activo = true";
         ArrayList<Libro> libros = new ArrayList<>();
 
-        Connection conn;
-        try {
-            conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
                 Libro libro = new Libro(
@@ -66,23 +63,22 @@ public class LibroDB {
     public ArrayList<Libro> buscarLibroPorIdONombre(String valor) {
 
         String sqlId = "SELECT * FROM libro WHERE (id_libro = ? OR titulo = ?) AND activo = true;";
-        Connection conn;
-       ArrayList<Libro> libro = new ArrayList<>();
-        try {
-            conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sqlId);
+
+        ArrayList<Libro> libro = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sqlId);) {
+
             queryStatement.setString(1, valor);
             queryStatement.setString(2, valor);
             ResultSet resultadoBusquedaID = queryStatement.executeQuery();
             if (resultadoBusquedaID.next()) {
-               Libro libroEntidad = new Libro(resultadoBusquedaID.getString("id_libro"),
+                Libro libroEntidad = new Libro(resultadoBusquedaID.getString("id_libro"),
                         resultadoBusquedaID.getString("titulo"),
                         resultadoBusquedaID.getString("autor"),
                         resultadoBusquedaID.getString("editorial"),
                         resultadoBusquedaID.getInt("cantidad"));
 
-              libro.add(libroEntidad);
-              return libro;
+                libro.add(libroEntidad);
+                return libro;
             }
         } catch (SQLException ex) {
             sqlExcepcion(ex);
@@ -91,11 +87,11 @@ public class LibroDB {
         return libro;
 
     }
-    public Libro updateLibro(String idLIbro, Libro LibroConUpdates) throws DatosNoValidosExcepcion{
+
+    public Libro updateLibro(String idLIbro, Libro LibroConUpdates) throws DatosNoValidosExcepcion {
         String sql = "UPDATE libro SET titulo = ?, autor = ?, editorial = ?, cantidad = ? WHERE id_libro = ?";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setString(1, LibroConUpdates.getNombreLibro());
             updateStatement.setString(2, LibroConUpdates.getAutor());
             updateStatement.setString(3, LibroConUpdates.getEditorial());
@@ -104,26 +100,22 @@ public class LibroDB {
             int resultado = updateStatement.executeUpdate();
             return LibroConUpdates;
         } catch (SQLException ex) {
-                throw new DatosNoValidosExcepcion(sqlExcepcion(ex));
+            throw new DatosNoValidosExcepcion(sqlExcepcion(ex));
         }
-        
+
     }
-   
-    public void eliminarLibro(String idLibro) throws ElementoNoEncotradoExcepcion{
+
+    public void eliminarLibro(String idLibro) throws ElementoNoEncotradoExcepcion {
         String sql = "UPDATE libro SET activo = false WHERE id_libro = ?";
-         try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setString(1, idLibro);
             int resultado = updateStatement.executeUpdate();
 
         } catch (SQLException ex) {
-                throw new ElementoNoEncotradoExcepcion(sqlExcepcion(ex));
+            throw new ElementoNoEncotradoExcepcion(sqlExcepcion(ex));
         }
     }
-    
-   
-    
 
     public String sqlExcepcion(SQLException excepcion) {
         String error;

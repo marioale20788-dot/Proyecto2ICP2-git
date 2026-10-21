@@ -27,9 +27,8 @@ public class CicloLectivoDB {
                 throw new DatosNoValidosExcepcion("YA EXISTE UN CICLO ACTIVO");
             }
         }
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement insertStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement insertStatement = conn.prepareStatement(sql);) {
+
             insertStatement.setInt(1, ciclo.getAnio());
             insertStatement.setDate(2, Date.valueOf(ciclo.getFechaInicio()));
             insertStatement.setDate(3, Date.valueOf(ciclo.getFechaFinal()));
@@ -45,10 +44,9 @@ public class CicloLectivoDB {
     public ArrayList<CicloLectivo> obtenerTodosLosCiclos() {
         String sql = "SELECT * FROM ciclo_lectivo";
         ArrayList<CicloLectivo> ciclos = new ArrayList<>();
-        Connection conn;
-        try {
-            conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
                 CicloLectivo ciclo = new CicloLectivo(resultado.getInt("anio"),
@@ -67,14 +65,13 @@ public class CicloLectivoDB {
 
     public CicloLectivo updateCiclo(int ciclo, CicloLectivo cambiosCiclo) throws DatosNoValidosExcepcion {
         String sql = "UPDATE ciclo_lectivo SET fecha_inicio = ?, fecha_final = ?, estado = ? WHERE anio = ?";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            if (cambiosCiclo.getEstado() == true) {
-                if (verificarCicloActivoParaUpdate(ciclo) == true) {
-                    throw new DatosNoValidosExcepcion("YA EXISTE UN CICLO ACTIVO");
-                }
+        if (cambiosCiclo.getEstado() == true) {
+            if (verificarCicloActivoParaUpdate(ciclo) == true) {
+                throw new DatosNoValidosExcepcion("YA EXISTE UN CICLO ACTIVO");
             }
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+        }
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setDate(1, Date.valueOf(cambiosCiclo.getFechaInicio()));
             updateStatement.setDate(2, Date.valueOf(cambiosCiclo.getFechaFinal()));
             updateStatement.setBoolean(3, cambiosCiclo.getEstado());
@@ -92,9 +89,8 @@ public class CicloLectivoDB {
         String sql = "SELECT * FROM ciclo_lectivo WHERE anio = ?";
         ArrayList<CicloLectivo> ciclos = new ArrayList<>();
 
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             queryStatement.setInt(1, anio);
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
@@ -114,23 +110,21 @@ public class CicloLectivoDB {
 
     public boolean eliminarCicloSinUso(int anio) throws ElemtoAElminarEnUsoExcepcion {
         String sql = "DELETE FROM ciclo_lectivo WHERE anio = ?";
-        Connection conn;
-        try {
-            conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setInt(1, anio);
             return updateStatement.execute();
         } catch (SQLException ex) {
-            throw  new ElemtoAElminarEnUsoExcepcion(sqlExcepcion(ex));
+            throw new ElemtoAElminarEnUsoExcepcion(sqlExcepcion(ex));
         }
 
     }
 
     public boolean verificarCicloActivo() throws DatosNoValidosExcepcion {
         String sql = "SELECT * FROM ciclo_lectivo WHERE estado = true";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             ResultSet resultado = queryStatement.executeQuery();
             return resultado.next();
         } catch (SQLException ex) {
@@ -141,9 +135,8 @@ public class CicloLectivoDB {
 
     public boolean verificarCicloActivoParaUpdate(int anio) throws DatosNoValidosExcepcion {
         String sql = "SELECT * FROM ciclo_lectivo WHERE estado = true AND anio != ?";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             queryStatement.setInt(1, anio);
             ResultSet resultado = queryStatement.executeQuery();
             return resultado.next();

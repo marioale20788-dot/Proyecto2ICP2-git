@@ -21,53 +21,49 @@ public class CarreraDB {
 
     public void crearCarrera(Carrera carrera) throws DatosNoValidosExcepcion {
         String sql = "INSERT INTO carrera(id_carrera,nombre,estado) values(?,?,?)";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement insertStatement = conn.prepareStatement(sql);
+        if (!buscarCarreraPorNombreOId(carrera.getNombre()).isEmpty()) {
+            throw new DatosNoValidosExcepcion("NOMBRE DE CARRERA REPETIDO");
+        }
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement insertStatement = conn.prepareStatement(sql);) {
+
             insertStatement.setString(1, carrera.getIdCarrera());
-            if(!buscarCarreraPorNombreOId(carrera.getNombre()).isEmpty()){
-                 throw  new DatosNoValidosExcepcion("NOMBRE DE CARRERA REPETIDO");           
-            }
+
             insertStatement.setString(2, carrera.getNombre());
             insertStatement.setBoolean(3, carrera.getEstado());
             insertStatement.execute();
-           
+
         } catch (SQLException ex) {
-           throw  new DatosNoValidosExcepcion(sqlExcepcion(ex));
+            throw new DatosNoValidosExcepcion(sqlExcepcion(ex));
         }
 
     }
-    public ArrayList<Carrera> buscarTodasLasCarreras(){
+
+    public ArrayList<Carrera> buscarTodasLasCarreras() {
         String sql = "SELECT * FROM carrera";
         ArrayList<Carrera> carreras = new ArrayList<>();
-      Connection conn;
-      
-        try {
-            conn = DBConnection.getInstance().getConnection();
-             PreparedStatement queryStatement = conn.prepareStatement(sql);
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             ResultSet resultado = queryStatement.executeQuery();
-            while(resultado.next()){
-                Carrera carrera = new Carrera(resultado.getString("id_carrera"), 
-                        resultado.getString("nombre"), 
+            while (resultado.next()) {
+                Carrera carrera = new Carrera(resultado.getString("id_carrera"),
+                        resultado.getString("nombre"),
                         resultado.getBoolean("estado"));
                 carreras.add(carrera);
             }
             return carreras;
 
         } catch (SQLException ex) {
-           return carreras;
+            return carreras;
         }
-       
-        
-        
+
     }
-    
-    public Carrera updateCarrera(Carrera carrera,String idCarrera) throws DatosNoValidosExcepcion{
-          String sql = "UPDATE carrera SET nombre = ?,estado = ? WHERE id_carrera = ? ";
-        try {
-          
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+
+    public Carrera updateCarrera(Carrera carrera, String idCarrera) throws DatosNoValidosExcepcion {
+        String sql = "UPDATE carrera SET nombre = ?,estado = ? WHERE id_carrera = ? ";
+        try (Connection conn = DBConnection.getInstance().getConnection(); 
+                PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setString(1, carrera.getNombre());
             updateStatement.setBoolean(2, carrera.getEstado());
             updateStatement.setString(3, idCarrera);
@@ -76,48 +72,49 @@ public class CarreraDB {
         } catch (SQLException ex) {
             throw new DatosNoValidosExcepcion(sqlExcepcion(ex));
         }
-                 
-    }
-    public ArrayList<Carrera> buscarCarreraPorNombreOId(String dato){
-        String sql = "SELECT * FROM carrera  WHERE (id_carrera = ? OR nombre = ?)";
-          ArrayList<Carrera> carreras = new ArrayList<>();
 
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);
+    }
+
+    public ArrayList<Carrera> buscarCarreraPorNombreOId(String dato) {
+        String sql = "SELECT * FROM carrera  WHERE (id_carrera = ? OR nombre = ?)";
+        ArrayList<Carrera> carreras = new ArrayList<>();
+
+        try ( Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement queryStatement = conn.prepareStatement(sql);){
+           
             queryStatement.setString(1, dato);
             queryStatement.setString(2, dato);
-            ResultSet resultado =  queryStatement.executeQuery();
-            while(resultado.next()){
-               Carrera carrera = new Carrera(resultado.getString("id_carrera"), 
-                        resultado.getString("nombre"), 
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Carrera carrera = new Carrera(resultado.getString("id_carrera"),
+                        resultado.getString("nombre"),
                         resultado.getBoolean("estado"));
                 carreras.add(carrera);
-               
+
             }
-             return carreras;
-            
+            return carreras;
+
         } catch (SQLException ex) {
-                return carreras;
+            return carreras;
         }
-      
-        
+
     }
-    public void EliminarCarrera(String id) throws ElemtoAElminarEnUsoExcepcion{
-        String sql =  "DELETE FROM carrera WHERE id_carrera = ?";
-        try {
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);
+
+    public void EliminarCarrera(String id) throws ElemtoAElminarEnUsoExcepcion {
+        String sql = "DELETE FROM carrera WHERE id_carrera = ?";
+        try ( Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement updateStatement = conn.prepareStatement(sql);){
+           
             updateStatement.setString(1, id);
             updateStatement.execute();
-            
+
         } catch (SQLException ex) {
-            throw  new ElemtoAElminarEnUsoExcepcion(sqlExcepcion(ex));
+            throw new ElemtoAElminarEnUsoExcepcion(sqlExcepcion(ex));
         }
-        
+
     }
-   
- public String sqlExcepcion(SQLException excepcion) {
+
+    public String sqlExcepcion(SQLException excepcion) {
         String error;
 
         switch (excepcion.getErrorCode()) {
