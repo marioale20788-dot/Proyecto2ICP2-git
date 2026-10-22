@@ -1,6 +1,7 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/AsignacionDocente.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/Carrera.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/CicloLectivo.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/CostoPorAnio.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/Curriculo.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/Curso.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/DatosMedicosEstudiante.java
@@ -12,9 +13,11 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/Seccion.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/TipoUsuarioEnum.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/Usuario.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/Entidades/inscripcion.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/AsignacionDocenteDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/CarreraDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/CicloLectivoDB.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/CostoPorAnioDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/CurriculoDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/CursoDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/DBConnection.java
@@ -27,6 +30,7 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/PrestamoDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/SeccionDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/UsuarioDB.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDAO/inscripcionDB.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudAsignacionDocente.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudCarrera.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudCicloLectivo.java
@@ -35,6 +39,7 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudEmpleado.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudEstudiante.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudGrado.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudInscrpcion.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudLibro.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudSeccion.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDeServicio/CrudUsuario.java
@@ -60,6 +65,9 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Estudiante/UpdateEstudiante.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Grado/GradoRespuesta.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Grado/NewGradoRequest.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Inscripcion/IncripcionRespuesta.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Inscripcion/NewIncricpionRequest.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Inscripcion/UpdateIncripcionRequest.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Libro/LibroRespuesta.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Libro/NewLibroRequest.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/EntidadesDto/Libro/UpdateLibroRequest.java
@@ -78,6 +86,7 @@
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/EmpleadosResource.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/EstudianteResource.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/GradoResource.java
+/home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/InsripcionResource.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/JakartaEE11Resource.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/LibroResource.java
 /home/mario/NetBeansProjects/PROYECTO2IPC2/src/main/java/proyecto1/proyecto2ipc2/resources/SeccionResource.java

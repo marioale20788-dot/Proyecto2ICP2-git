@@ -9,9 +9,11 @@ EntidadesDto/Estudiante/NuevoEstudianteDatosMedicosRequest.class
 EntidadesDAO/AsignacionDocenteDB.class
 Entidades/Curso.class
 Entidades/Seccion.class
+EntidadesDto/Inscripcion/UpdateIncripcionRequest.class
 proyecto1/proyecto2ipc2/resources/CurriculoResource.class
 EntidadesDeServicio/CrudGrado.class
 EntidadesDto/Empleado/EmpleadoUsuarioRespuesta.class
+EntidadesDeServicio/CrudInscrpcion.class
 EntidadesDAO/CarreraDB.class
 EntidadesDto/AsignacionMaestro/NuevaAsignacionRequest.class
 EntidadesDAO/LibroDB.class
@@ -20,13 +22,17 @@ EntidadesDto/Libro/NewLibroRequest.class
 proyecto1/proyecto2ipc2/resources/CicloLectivoResource.class
 EntidadesDeServicio/CrudEstudiante.class
 EntidadesDeServicio/CrudLibro.class
+Entidades/inscripcion.class
 proyecto1/proyecto2ipc2/resources/CursoResource.class
 EntidadesDAO/CicloLectivoDB.class
 Entidades/AsignacionDocente.class
+EntidadesDto/Inscripcion/NewIncricpionRequest.class
 EntidadesDAO/UsuarioDB.class
 Entidades/Grado.class
+EntidadesDAO/inscripcionDB.class
 Entidades/CicloLectivo.class
 Excepciones/DatosNoValidosExcepcion.class
+proyecto1/proyecto2ipc2/resources/InsripcionResource.class
 EntidadesDeServicio/CrudUsuario.class
 EntidadesDto/Curriculo/CurriculoRespuesta.class
 EntidadesDto/Seccion/SeccionRespuesta.class
@@ -37,6 +43,7 @@ proyecto1/proyecto2ipc2/resources/AsignacionDocenteResource.class
 EntidadesDeServicio/CrudCurriculo.class
 Excepciones/ElemtoAElminarEnUsoExcepcion.class
 Entidades/Estudiante.class
+EntidadesDto/Inscripcion/IncripcionRespuesta.class
 Entidades/TipoUsuarioEnum.class
 proyecto1/proyecto2ipc2/resources/SeccionResource.class
 EntidadesDAO/CursoDB.class
@@ -57,6 +64,7 @@ Entidades/DatosMedicosEstudiante.class
 Entidades/EncargadoEstudiante.class
 proyecto1/proyecto2ipc2/resources/JakartaEE11Resource.class
 EntidadesDAO/EmpleadoDB.class
+EntidadesDAO/CostoPorAnioDB.class
 EntidadesDAO/DatosMedicosEstudianteDB.class
 EntidadesDto/Empleado/UpdateEmpleadoRequest.class
 EntidadesDto/CicloLectivo/UpdateCicloRequest.class
@@ -74,6 +82,7 @@ proyecto1/proyecto2ipc2/resources/CarreraResource.class
 EntidadesDeServicio/CrudAsignacionDocente.class
 EntidadesDto/Libro/LibroRespuesta.class
 EntidadesDto/AsignacionMaestro/NuevaAsingacionRespuesta.class
+Entidades/CostoPorAnio.class
 EntidadesDto/Estudiante/NuevoEstudianteEncargadoRequest.class
 EntidadesDto/Curso/UpdateCurso.class
 EntidadesDto/Seccion/NuevaSeccionRequest.class
