@@ -43,6 +43,8 @@ public class CurriculoResource {
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
             return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
     }

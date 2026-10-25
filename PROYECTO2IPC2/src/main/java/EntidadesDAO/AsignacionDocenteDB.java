@@ -47,6 +47,27 @@ public class AsignacionDocenteDB {
         }
         
     }
+      public ArrayList<AsignacionDocente> obtenerAsignacionPorDocente(String idUsuario) {
+        String sql = "SELECT * FROM asignacion_maestros WHERE id_empleado = ?";
+        ArrayList<AsignacionDocente> asignacion = new ArrayList<>();      
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {           
+            queryStatement.setString(1, idUsuario);
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                AsignacionDocente asignacionDocente = new AsignacionDocente(resultado.getString("id_empleado"),
+                        resultado.getString("id_seccion"),
+                        resultado.getString("id_curriculo"));
+                asignacionDocente.setIdAsginacion(resultado.getString("id_asignacion"));
+                asignacion.add(asignacionDocente);
+            }
+            return asignacion;
+            
+        } catch (SQLException ex) {
+         return asignacion;
+        }
+        
+    }
+    
     public ArrayList<AsignacionDocente> obtenerAsignacionPorId(String idAsignacion) {
         String sql = "SELECT * FROM asignacion_maestros WHERE id_asignacion = ?";
         ArrayList<AsignacionDocente> asignacion = new ArrayList<>();      

@@ -22,11 +22,21 @@ import java.util.ArrayList;
  */
 public class CrudCurriculo {
     
-    public void AgregarCurriculo(NuevoCurriculoRequest nuevoCurriculo) throws DatosNoValidosExcepcion{
+    public void AgregarCurriculo(NuevoCurriculoRequest nuevoCurriculo) throws DatosNoValidosExcepcion, ElementoNoEncotradoExcepcion{
         Curriculo curriculo = new Curriculo(nuevoCurriculo.getIdGrado(), nuevoCurriculo.getCodigoCurso(), nuevoCurriculo.getCicloLectivo());
         if(curriculo.esValido()==false){
             throw new DatosNoValidosExcepcion("DATOS NO VALIDOS");
         }
+        CursoDB cursoDB = new CursoDB();
+        ArrayList<Curso> curso = cursoDB.bucarCursoPorNombreCodigo(curriculo.getCodigoCurso());
+        if(curso.isEmpty()){
+           throw  new ElementoNoEncotradoExcepcion("NO EXISTE UN CURSO CON ESE CODIGO");
+        }
+        if(curso.getFirst().getEstado()==false){
+             throw new DatosNoValidosExcepcion("ESTE CURSO EESTA DESACTIVADO");
+        }
+        
+        
         curriculo.crearIdCurriculo();
         CurriculoDB curriculoDb = new CurriculoDB();
         curriculoDb.insertarCurriculo(curriculo);

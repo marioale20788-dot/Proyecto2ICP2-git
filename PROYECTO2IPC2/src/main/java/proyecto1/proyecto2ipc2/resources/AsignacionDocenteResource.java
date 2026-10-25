@@ -38,7 +38,7 @@ public class AsignacionDocenteResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response crearSeccion(NuevaAsignacionRequest nuevaAsginacion) {
+    public Response asignarDocente(NuevaAsignacionRequest nuevaAsginacion) {
         CrudAsignacionDocente crud = new CrudAsignacionDocente();
         try {
             crud.asingarDocente(nuevaAsginacion);
@@ -52,7 +52,7 @@ public class AsignacionDocenteResource {
     @GET
 
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerSeccionesPorGrado(NuevaAsginacionGetRequest nuevaAsignacion) {
+    public Response obtenerAsignaciones(NuevaAsginacionGetRequest nuevaAsignacion) {
         CrudAsignacionDocente crud = new CrudAsignacionDocente();
         try {
             AsignacionDocente asingacion = crud.obtenerAsignacionsPorSeccionCurriculo(nuevaAsignacion.getIdSeccion(), nuevaAsignacion.getIdCurriculo());
@@ -64,7 +64,7 @@ public class AsignacionDocenteResource {
     }
       @DELETE
     @Path("{idAsignacion}")
-    public Response borrarSeccion(@PathParam("idAsignacion") String idAsginacion) {
+    public Response borrarAsignacion(@PathParam("idAsignacion") String idAsginacion) {
      CrudAsignacionDocente crud = new CrudAsignacionDocente();
         try {
             crud.eliminarAsignacion(idAsginacion);

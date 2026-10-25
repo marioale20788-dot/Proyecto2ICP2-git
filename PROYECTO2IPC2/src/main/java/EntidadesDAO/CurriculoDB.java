@@ -94,6 +94,28 @@ public class CurriculoDB {
         }
         
     }
+      public Curriculo obtenreCurriculoPorIdCiclo(String id, int ciclo){
+         String sql = "SELECT * FROM curriculo WHERE id_curriculo = ? AND id_ciclo_lectivo = ?";
+      Curriculo curso = null;
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, id);
+            queryStatement.setInt(2, ciclo);
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                 curso = new Curriculo(resultado.getString("id_grado"),
+                        resultado.getString("codigo_curso"),
+                        resultado.getInt("id_ciclo_lectivo"));
+                curso.setIdCurriculo(resultado.getString("id_curriculo"));
+
+                
+            }
+            return curso;
+
+        } catch (SQLException ex) {
+             return curso;
+        }
+        
+    }
     public void eliminarCursoCurriculo(String idCurriculo) throws ElemtoAElminarEnUsoExcepcion{
           String sql = "DELETE FROM curriculo WHERE id_curriculo = ?";
 

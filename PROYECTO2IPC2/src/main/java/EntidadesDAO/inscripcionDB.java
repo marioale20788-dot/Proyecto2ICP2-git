@@ -146,6 +146,28 @@ public class inscripcionDB {
             return inscripcionesEstudiante;
         }
     }
+      public ArrayList<inscripcion> ListaDeEstudiantesInscritos(int idCiclo,String idSeccion) {
+        String sql = "SELECT * FROM inscripcion WHERE id_ciclo_lectivo = ? AND id_seccion = ?";
+        ArrayList<inscripcion> inscripcionesEstudiante = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setInt(1, idCiclo);
+            queryStatement.setString(2, idSeccion);
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                inscripcion inscripcion = new inscripcion(resultado.getDate("fecha_inscripcion").toLocalDate(),
+                        resultado.getString("id_estudiante"),
+                        resultado.getString("id_seccion"),
+                        resultado.getInt("id_ciclo_lectivo"));
+                inscripcion.setIdInscripcion(resultado.getString("id_inscripcion"));
+                inscripcionesEstudiante.add(inscripcion);
+            }
+            return inscripcionesEstudiante;
+
+        } catch (SQLException ex) {
+            return inscripcionesEstudiante;
+        }
+    }
+
 
     public String sqlExcepcion(SQLException excepcion) {
         String error;

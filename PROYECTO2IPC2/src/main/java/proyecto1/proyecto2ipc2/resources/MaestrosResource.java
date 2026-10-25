@@ -4,10 +4,60 @@
  */
 package proyecto1.proyecto2ipc2.resources;
 
+import EntidadesDeServicio.SistemaMaestros;
+import EntidadesDto.Maestro.getAsignacionesRequest;
+import EntidadesDto.Maestro.getEstudiantesInscritos;
+import EntidadesDto.Maestro.getInscripcionesSeccionRequest;
+import Excepciones.DatosNoValidosExcepcion;
+import Excepciones.ElementoNoEncotradoExcepcion;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author mario
  */
+@Path("/Maestros")
 public class MaestrosResource {
+
+    @GET
+    @Path("/{idMaestro}/{ciclo}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerSeccionesPorGrado(@PathParam("idMaestro") String idMaestro, @PathParam("ciclo") int ciclo) {
+        SistemaMaestros maestros = new SistemaMaestros();
+
+        try {
+            ArrayList<getAsignacionesRequest> asignaciones = maestros.obtenerAsignaciones(idMaestro, ciclo);
+            return Response.ok(asignaciones).build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+    }
+      @GET
+   
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerEstudiantesInscritosAseccion (getEstudiantesInscritos estudiantesInscitos) {
+           SistemaMaestros maestros = new SistemaMaestros();
+           try {
+               ArrayList<getInscripcionesSeccionRequest> inscripciones = maestros.obtenerEstuidantesInscritos(estudiantesInscitos.getIdSeccion(),
+                       estudiantesInscitos.getCiclo(),estudiantesInscitos.getIdAsignacion());
+                 return Response.ok(inscripciones).build();
+           } catch (ElementoNoEncotradoExcepcion ex) {
+             return Response.status(Response.Status.NOT_FOUND).build();
+           } catch (DatosNoValidosExcepcion ex) {
+             return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+      
+    }
     
+    
+    
+
 }
