@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="SolvenciaPagoEstudiante" 
+              whenNoDataType="AllSectionsNoDetail" 
+              pageWidth="612" pageHeight="792" columnWidth="532" 
+              leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" 
+              uuid="d8143d2c-8a21-4f11-a87f-9b2f6b8b0e12">
+
+    <parameter name="TITULO_ESCUELA" class="java.lang.String"/>
+    <parameter name="NOMBRE_ESTUDIANTE" class="java.lang.String"/>
+    <parameter name="DOCUMENTO_IDENTIDAD" class="java.lang.String"/>
+    <parameter name="PERIODO_SOLVENTE" class="java.lang.String"/>
+    <parameter name="FECHA_EMISION" class="java.lang.String"/>
+    <parameter name="NOMBRE_EMISOR" class="java.lang.String"/>
+
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+
+    <title>
+        <band height="110" splitType="Stretch">
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="0" width="532" height="25" uuid="a1122334-5566-7788-9900-aabbccddeeff"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{TITULO_ESCUELA}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="0" y="25" width="532" height="18" uuid="a2233445-6677-8899-0011-bbccddeeff11"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <text><![CDATA[DEPARTAMENTO DE ADMINISTRACIÓN Y FINANZAS]]></text>
+            </staticText>
+
+            <line>
+                <reportElement x="0" y="48" width="532" height="1" forecolor="#003366" uuid="f1122334-5566-7788-9900-112233445566"/>
+            </line>
+
+            <staticText>
+                <reportElement x="0" y="58" width="532" height="26" uuid="b2233445-6677-8899-0011-bbccddeeff00"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[CONSTANCIA DE SOLVENCIA DE PAGO]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <detail>
+        <band height="320" splitType="Stretch">
+       
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="15" width="532" height="60" uuid="d4455667-8899-0011-2233-ddeeff001122"/>
+                <textElement textAlignment="Justified" markup="html">
+                    <font size="11"/>
+                    <paragraph lineSpacing="Proportional" lineSpacingSize="1.5"/>
+                </textElement>
+                <textFieldExpression><![CDATA["El Departamento de Finanzas <b>HACE CONSTAR</b> que el/la estudiante <b>" + $P{NOMBRE_ESTUDIANTE} + "</b>, identificado(a) con documento de identificacion: <b>" + $P{DOCUMENTO_IDENTIDAD} + "</b>, ha cumplido correctamente con sus pagos correspondientes."]]></textFieldExpression>
+            </textField>
+
+            <textField textAdjust="StretchHeight">
+                <reportElement x="0" y="85" width="532" height="55" uuid="d5566778-8899-0011-2233-ddeeff001133"/>
+                <textElement textAlignment="Justified" markup="html">
+                    <font size="11"/>
+                    <paragraph lineSpacing="Proportional" lineSpacingSize="1.5"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Se declara que a la fecha de emisión de este documento, el/la estudiante <b>NO PRESENTA DEUDAS PENDIENTES DE PAGO</b> correspondientes hasta la fecha <b>" + $P{PERIODO_SOLVENTE} + "</b>."]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="0" y="210" width="532" height="25" uuid="07788990-1122-3344-5566-001122334455"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Dado el " + $P{FECHA_EMISION} + "."]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="130" splitType="Stretch">
+           
+
+            <staticText>
+                <reportElement x="0" y="90" width="532" height="30" forecolor="#666666" uuid="41122334-5566-7788-9900-445566778899"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <text><![CDATA[AVISO LEGAL: Documento generado por el sistema de control escolar. Valido de 30 días a partir de su fecha de emisión.]]></text>
+            </staticText>
+        </band>
+    </pageFooter>
+</jasperReport>

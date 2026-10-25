@@ -40,13 +40,19 @@ public class InsripcionResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response crearSeccion(NewIncricpionRequest nuevaIncripcion) {
+    public Response InscribirEstudiante(NewIncricpionRequest nuevaIncripcion) {
         CrudInscrpcion crud = new CrudInscrpcion();
         try {
             crud.inscribirEstudiante(nuevaIncripcion);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+           return Response.status(Response.Status.BAD_REQUEST)
+               .entity("Error al procesar la solicitud: " + ex.getMessage())
+                   .build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+            return Response.status(Response.Status.NOT_FOUND)
+                     .entity("Error al procesar la solicitud: " + ex.getMessage())
+                   .build();
         }
 
     }
@@ -54,7 +60,7 @@ public class InsripcionResource {
     @GET
     @Path("/Estudiante/{idEstudiante}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerSeccionesPorNombre(@PathParam("idEstudiante") String idEstudiante) {
+    public Response obtenerInscripcionesPorNombre(@PathParam("idEstudiante") String idEstudiante) {
         CrudInscrpcion crud = new CrudInscrpcion();
 
         List<IncripcionRespuesta> resupesta;
@@ -73,7 +79,7 @@ public class InsripcionResource {
     @GET
     @Path("/Ciclo/{ciclo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerSeccionesPorCiclo(@PathParam("ciclo") int ciclo) {
+    public Response obtenerInscripcionesPorCiclo(@PathParam("ciclo") int ciclo) {
         CrudInscrpcion crud = new CrudInscrpcion();
 
         ArrayList<IncripcionRespuesta> resupesta;
@@ -93,7 +99,7 @@ public class InsripcionResource {
     @Path("{idInscripcion}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response UpdateSeccion(@PathParam("idInscripcion") String idInscripcion,
+    public Response UpdateInscripcion(@PathParam("idInscripcion") String idInscripcion,
             UpdateIncripcionRequest update) {
          CrudInscrpcion crud = new CrudInscrpcion();
 
@@ -110,7 +116,7 @@ public class InsripcionResource {
     
     @DELETE
 
-    public Response borrarSeccion(NewIncricpionRequest inscripcionAEliminar) {
+    public Response borrarInscripcion(NewIncricpionRequest inscripcionAEliminar) {
       CrudInscrpcion crud = new CrudInscrpcion();
         try {
             crud.elminiarInscipcion(inscripcionAEliminar);

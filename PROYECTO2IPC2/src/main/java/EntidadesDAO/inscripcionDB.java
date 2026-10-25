@@ -24,13 +24,8 @@ import java.util.ArrayList;
 public class inscripcionDB {
 
     public void inscribirEstudiante(inscripcion incripcionEstudiante) throws DatosNoValidosExcepcion {
-        UsuarioDB usuarioDB = new UsuarioDB();
-        ArrayList<Usuario> usuario = usuarioDB.obtenerUsuarioPorDpi(incripcionEstudiante.getIdEstudiante());
-        if (!usuario.isEmpty()) {
-            if (usuario.getFirst().getTipo() != TipoUsuarioEnum.Estudiante) {
-                throw new DatosNoValidosExcepcion("EL USUARIO INGRESADO NO ES UN ESTUDIANTE");
-            }
-        }
+        
+   
         String sql = "INSERT INTO inscripcion(id_inscripcion,fecha_inscripcion,id_estudiante,id_seccion,id_ciclo_lectivo) VALUES(?,?,?,?,?) ";
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement insertStatement = conn.prepareStatement(sql);) {
             insertStatement.setString(1, incripcionEstudiante.getIdInscripcion());

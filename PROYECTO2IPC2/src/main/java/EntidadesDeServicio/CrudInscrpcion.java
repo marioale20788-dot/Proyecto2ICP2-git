@@ -4,11 +4,16 @@
  */
 package EntidadesDeServicio;
 
+import Entidades.CicloLectivo;
 import Entidades.CostoPorAnio;
+import Entidades.Prestamo;
 import Entidades.Seccion;
+import Entidades.TipoUsuarioEnum;
 import Entidades.Usuario;
 import Entidades.inscripcion;
+import EntidadesDAO.CicloLectivoDB;
 import EntidadesDAO.CostoPorAnioDB;
+import EntidadesDAO.PrestamoDB;
 import EntidadesDAO.SeccionDB;
 import EntidadesDAO.UsuarioDB;
 import EntidadesDAO.inscripcionDB;
@@ -28,18 +33,47 @@ import java.util.ArrayList;
  */
 public class CrudInscrpcion {
 
-    public void inscribirEstudiante(NewIncricpionRequest nuevaInscripcion) throws DatosNoValidosExcepcion {
+    public void inscribirEstudiante(NewIncricpionRequest nuevaInscripcion) throws DatosNoValidosExcepcion, ElementoNoEncotradoExcepcion {
         inscripcion incripcionEstudiante = new inscripcion(nuevaInscripcion.getFechaInscripcion(),
                 nuevaInscripcion.getIdEstudiante(), nuevaInscripcion.getIdSeccion(), nuevaInscripcion.getIdCicloLectivo());
 
         if (incripcionEstudiante.esValido() == false) {
             throw new DatosNoValidosExcepcion("DATOS INVALIDOS");
         }
+        CostoPorAnioDB costoDB = new CostoPorAnioDB();
+        boolean pagosColegiaturaPendientes = costoDB.costosPendientesParaInscripcion(incripcionEstudiante.getIdEstudiante());
+        if (pagosColegiaturaPendientes == true) {
+            throw new DatosNoValidosExcepcion("PAGOS PENDIENTES DE COLEGIATURA POR REALIZAR ");
+
+        }
+        PrestamoDB prestamoDb = new PrestamoDB();
+        ArrayList<Prestamo> prestamosPendiantes = prestamoDb.obtenerPrestamosEstudiante(incripcionEstudiante.getIdEstudiante(),"DEVUELTO_CON_MORA");
+        if(!prestamosPendiantes.isEmpty()){
+             throw new DatosNoValidosExcepcion("PAGOS PENDIENTES  DE BIBLIOTECA POR REALIZAR ");
+        }
+        
+
         incripcionEstudiante.crearIdInscripcion();
+        UsuarioDB usuarioDB = new UsuarioDB();
+        ArrayList<Usuario> usuario = usuarioDB.obtenerUsuarioPorDpi(incripcionEstudiante.getIdEstudiante());
+        if (!usuario.isEmpty()) {
+            if (usuario.getFirst().getTipo() != TipoUsuarioEnum.Estudiante) {
+                throw new DatosNoValidosExcepcion("EL USUARIO INGRESADO NO ES UN ESTUDIANTE");
+            }
+        }
+        CicloLectivoDB cicloDb = new CicloLectivoDB();
+        ArrayList<CicloLectivo> ciclo = cicloDb.buscarCicloPorAnio(incripcionEstudiante.getIdCicloLectivo());
+        if(!ciclo.isEmpty()){
+            if(ciclo.getFirst().getEstado()==false){
+                  throw new DatosNoValidosExcepcion("EL CICLO NO ESTA ACTIVO");
+            }
+        }
+        
+        
         inscripcionDB inscripcionDB = new inscripcionDB();
         inscripcionDB.inscribirEstudiante(incripcionEstudiante);
         ArrayList<CostoPorAnio> costos = configurarPagosInscripcion(incripcionEstudiante);
-        CostoPorAnioDB costoDB = new CostoPorAnioDB();
+
         for (CostoPorAnio costo : costos) {
             costoDB.insertarCosto(costo);
         }
@@ -73,18 +107,17 @@ public class CrudInscrpcion {
         return respuesta;
 
     }
-    
-    public void elminiarInscipcion(NewIncricpionRequest inscripcionAEliminar) throws ElementoNoEncotradoExcepcion, ElemtoAElminarEnUsoExcepcion{
+
+    public void elminiarInscipcion(NewIncricpionRequest inscripcionAEliminar) throws ElementoNoEncotradoExcepcion, ElemtoAElminarEnUsoExcepcion {
         inscripcionDB inscripcionDb = new inscripcionDB();
-       boolean existeInscripcion= inscripcionDb.existeIncripcionAElminar(inscripcionAEliminar.getIdEstudiante(),inscripcionAEliminar.getIdCicloLectivo());
-        if(existeInscripcion==false){
-             throw new ElementoNoEncotradoExcepcion("NO SE ENCONTRO NINGUN ESTUDIANTE");
+        boolean existeInscripcion = inscripcionDb.existeIncripcionAElminar(inscripcionAEliminar.getIdEstudiante(), inscripcionAEliminar.getIdCicloLectivo());
+        if (existeInscripcion == false) {
+            throw new ElementoNoEncotradoExcepcion("NO SE ENCONTRO NINGUN ESTUDIANTE");
         }
         inscripcionDb.eliminarInscipcion(inscripcionAEliminar);
         CostoPorAnioDB costosDb = new CostoPorAnioDB();
         costosDb.eliminarCostosPorAnio(inscripcionAEliminar);
-                
-        
+
     }
 
     public ArrayList<IncripcionRespuesta> obtenerInscripcionesPorEstuidante(String idSturiante) throws DatosNoValidosExcepcion, ElementoNoEncotradoExcepcion {
@@ -159,7 +192,6 @@ public class CrudInscrpcion {
                 idInscripcion,
                 500.00,
                 fechaLimiteInscripcion,
-                null,
                 false,
                 idEstudiante,
                 anio
@@ -174,7 +206,6 @@ public class CrudInscrpcion {
                     idMensualidad,
                     350.00,
                     fechaLimiteMes,
-                    null,
                     false,
                     idEstudiante,
                     anio

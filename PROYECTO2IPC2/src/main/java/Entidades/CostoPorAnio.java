@@ -16,20 +16,20 @@ public class CostoPorAnio {
     private String idCosto;
     private Double monto;
     private LocalDate fechaLimite;
-    private LocalDate fechaPago;
     private boolean estado;
     private String idEstudiante;
     private Integer cicloLectivo;
 
-    public CostoPorAnio(String idCosto, Double monto, LocalDate fechaLimite, LocalDate fechaPago, boolean estado, String idEstudiante, Integer cicloLectivo) {
+    public CostoPorAnio(String idCosto, Double monto, LocalDate fechaLimite, boolean estado, String idEstudiante, Integer cicloLectivo) {
         this.idCosto = idCosto;
         this.monto = monto;
         this.fechaLimite = fechaLimite;
-        this.fechaPago = fechaPago;
+
         this.estado = estado;
         this.idEstudiante = idEstudiante;
         this.cicloLectivo = cicloLectivo;
     }
+  
 
     public String getIdCosto() {
         return idCosto;
@@ -55,13 +55,6 @@ public class CostoPorAnio {
         this.fechaLimite = fechaLimite;
     }
 
-    public LocalDate getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(LocalDate fechaPago) {
-        this.fechaPago = fechaPago;
-    }
 
     public boolean getEstado() {
         return estado;
