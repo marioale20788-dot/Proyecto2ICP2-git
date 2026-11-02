@@ -1,0 +1,22 @@
+<div class="container justify-content-end mb-3 mt-4">
+  <a [routerLink]="['/Estudiantes']" class="btn btn-outline-secondary">   <i class="bi bi-arrow-left-square-fill me-1"></i>  Ir a Estudiantes </a>
+</div>
+
+<div class="container">
+  <h1>Modificar Estudiante: {{ dpiEstudiante }}</h1>
+  <div class="row">
+
+    @if (!errorMensaje()) {
+      @if (estudianteUpdate()) {
+        <app-form-estudiante   [modoEditar]="true"     [estudianteAEditar]="estudianteUpdate()!">
+        </app-form-estudiante>
+      }
+    } @else {
+      <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+        <strong>¡Error!</strong> {{ errorMensaje() }}
+        <button type="button" class="btn-close" (click)="errorMensaje.set(null)"></button>
+      </div>
+    }
+
+  </div>
+</div>

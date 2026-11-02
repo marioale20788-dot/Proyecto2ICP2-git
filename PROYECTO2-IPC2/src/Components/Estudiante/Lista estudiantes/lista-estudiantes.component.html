@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-dark">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small">
+            <tr>
+              <th class="py-3 px-3">DPI</th>
+              <th class="py-3 px-3">Nombre Estudiante</th>
+              <th class="py-3 px-3">Correo</th>
+              <th class="py-3 px-3">Encargado</th>
+              <th class="py-3 px-3">Graduado</th>
+              <th class="py-3 px-3">Tel. Emergencia</th>
+              <th class="py-3 px-3">Editar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (estudiante of estudiantes; track estudiante.dpiUsuario) {
+              <tr>
+                <td class="py-3 px-3 fw-bold text-secondary">{{ estudiante.dpiUsuario }}</td>
+                <td class="py-3 px-3 fw-bold text-secondary">{{ estudiante.nombreEstudiante }}</td>
+                <td class="py-3 px-3 fw-bold text-secondary">{{ estudiante.correoElectronico }}</td>
+                <td class="py-3 px-3 fw-bold text-secondary">{{ estudiante.nombreEncargado }}</td>
+                <td class="py-3 px-3 fw-bold">        {{ estudiante.graduado ? 'Sí' : 'No' }}                    </td>
+                <td class="py-3 px-3 fw-bold text-secondary">{{ estudiante.contactoDeEmergencia }}</td>
+                <td class="py-3 px-3 fw-bold text-secondary">
+                  <a [routerLink]="['/Estudiantes/Update', estudiante.dpiUsuario]" class="btn btn-close-white w-100">EDITAR</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

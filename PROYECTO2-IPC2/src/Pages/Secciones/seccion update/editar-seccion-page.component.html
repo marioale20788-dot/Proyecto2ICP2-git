@@ -1,0 +1,21 @@
+
+<div class="container justify-content-end mb-3">
+  <a [routerLink]="['/Seccion']" class="btn btn-outline-secondary">
+    <i class="bi bi-arrow-left-square-fill me-1"></i>
+    Ir a secciones
+  </a>
+</div>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Editar Sección</h2>
+
+  @if (seccion()) {
+    <app-form-seccion  [seccionAEditar]="seccion()!"      [modoEditar]="true">
+    </app-form-seccion>
+  }
+  @if (errorCarga()) {
+    <div class="alert alert-danger my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorCarga() }}
+    </div>
+  }
+</div>

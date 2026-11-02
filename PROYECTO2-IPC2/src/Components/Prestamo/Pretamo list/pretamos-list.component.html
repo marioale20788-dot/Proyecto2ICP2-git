@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-dark">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">id prestamo</th>
+              <th class="py-3 px-4">id libro</th>
+              <th class="py-3 px-4">cantidad</th>
+              <th class="py-3 px-4">fecha prestamo</th>
+              <th class="py-3 px-4">fecha esperada</th>
+              <th class="py-3 px-4">mora est.</th>
+                 <th class="py-3 px-4">Devolver.</th>
+              <th class="py-3 px-4">editar</th>
+              <th class="py-3 px-4">Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (prestamo of prestamos; track prestamo.idPrestamo) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{prestamo.idPrestamo}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{prestamo.idLibro}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{prestamo.cantidad}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{prestamo.fechaPrestamo}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{prestamo.fechaDeEntregaEsperada}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">Q{{prestamo.estimacionMora}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+  <a [routerLink]="['/Prestamos/Devolver', prestamo.idPrestamo]" class="btn btn-close-white w-100 mb-2">  DEVOLVER
+  </a>
+</td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+                  <a [routerLink]="['/Prestamos/Update', prestamo.idPrestamo]" class="btn btn-close-white w-100 mb-2">EDITAR</a>
+                </td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Delete event {{ prestamo.idPrestamo }}" 
+                    (click)="eliminarPrestamo(prestamo.idPrestamo)"> <i class="bi bi-trash"></i> </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

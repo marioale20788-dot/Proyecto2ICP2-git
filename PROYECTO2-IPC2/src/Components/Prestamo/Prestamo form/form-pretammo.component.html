@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <form [formGroup]="updatePrestamoForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">DETALLES PRÉSTAMO</h5>
+        
+        @if (modoEditar) {
+          <div>
+            <span>Id Préstamo: </span>
+            <span class="badge bg-success fs-6">{{ prestamoAEditar.idPrestamo }}</span>
+            <input type="hidden" name="idPrestamo" id="idPrestamo" formControlName="idPrestamo" />
+          </div>
+        }
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+          
+          <div class="col-md-6">
+            <label for="idLibro" class="form-label fw-bold">ID Libro</label>
+            <input class="form-control" name="idLibro" id="idLibro" formControlName="idLibro" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="idUsuario" class="form-label fw-bold">ID Usuario / Estudiante</label>
+            <input class="form-control" name="idUsuario" id="idUsuario" formControlName="idUsuario" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="cantidad" class="form-label fw-bold">Cantidad</label>
+            <input type="number" class="form-control" name="cantidad" id="cantidad" formControlName="cantidad" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="fechaDePrestamo" class="form-label fw-bold">Fecha de Préstamo</label>
+            <input type="date" class="form-control" name="fechaDePrestamo" id="fechaDePrestamo" formControlName="fechaDePrestamo" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="fechaDeEntregaEsperada" class="form-label fw-bold">Fecha Esperada de Entrega</label>
+            <input type="date" class="form-control" name="fechaDeEntregaEsperada" id="fechaDeEntregaEsperada" formControlName="fechaDeEntregaEsperada" />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="updatePrestamoForm.invalid">
+          GUARDAR
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACION REALIZADA</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if(errorOperacion()){
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

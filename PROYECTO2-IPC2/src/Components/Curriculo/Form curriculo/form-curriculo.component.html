@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <form [formGroup]="curriculoForm" (ngSubmit)="insertarCurriculo()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">AGREGAR CURSO AL CURRÍCULO</h5>
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+          
+          <div class="col-md-4">
+            <label for="idGrado" class="form-label fw-bold">Grado</label>
+            <select class="form-select" name="idGrado" id="idGrado" formControlName="idGrado">
+              <option [ngValue]="null" disabled selected>Seleccione un grado...</option>
+              @for (grado of grados(); track grado.idGrado) {
+                <option [value]="grado.idGrado">{{ grado.nombreGrado }} ({{ grado.idNivel }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-5">
+            <label for="codigoCurso" class="form-label fw-bold">Curso</label>
+            <select class="form-select" name="codigoCurso" id="codigoCurso" formControlName="codigoCurso">
+              <option [ngValue]="null" disabled selected>Seleccione un curso...</option>
+              @for (curso of cursos(); track curso.codigoCurso) {
+                <option [value]="curso.codigoCurso">{{ curso.nombreCurso }} ({{ curso.codigoCurso }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="cicloLectivo" class="form-label fw-bold">Ciclo Lectivo</label>
+            <input type="number" class="form-control" name="cicloLectivo" id="cicloLectivo" formControlName="cicloLectivo" />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="curriculoForm.invalid">
+          GUARDAR EN CURRÍCULO
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>CURSO AGREGADO CON ÉXITO AL CURRÍCULO</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

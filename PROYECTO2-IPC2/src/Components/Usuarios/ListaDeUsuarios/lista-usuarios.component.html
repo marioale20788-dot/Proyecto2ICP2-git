@@ -1,0 +1,69 @@
+      <div class="container mt-4">
+                                <div class="card shadow-sm border-0 rounded-3">
+                                    <div class="card-body p-0 overflow-hidden">
+                                       
+                                        <div class="table-dark">
+                                            <table class="table table-hover table-striped align-middle mb-0">
+                                                <thead class="table-dark text-uppercase small"> 
+                                                    <tr>
+                                                        <th class="py-3 px-4">id </th>
+                                                        <th class="py-3 px-4">correo Electronico</th>
+                                                        <th class="py-3 px-4">Rol</th>
+                                                        <th class="py-3 px-4">estado</th>
+                                                        <th class="py-3 px-4">salario</th>
+                                                        <th class="py-3 px-4">Nombre</th>
+                                                        <th class="py-3 px-4">fecha De Contratacion</th>
+                                                         <th class="py-3 px-4">EDITAR</th>
+                                                              
+
+                                                    </tr>
+                                                </thead>
+
+
+                                                @for (RespuestaEmpleado of listaUsuarios; track RespuestaEmpleado.id) {
+                                                    
+                                                        <tbody>
+                                                        <tr>
+                                                            <td  class="py-3 px-4 fw-bold text-secondary">{{RespuestaEmpleado.id}}</td>
+                                                            <td  class="py-3 px-4 fw-bold text-secondary"> {{RespuestaEmpleado.correoElectronico}}</td>
+
+
+                                                            <td  class="py-3 px-4 fw-bold text-secondary"> {{RespuestaEmpleado.rol}}</td>
+                                                          
+
+                                                            @if (RespuestaEmpleado.estado==false) {
+                                                                 <td  class="py-3 px-4 fw-bold text-secondary"> DESACTIVO </td>
+
+                                                            }@else {
+                                                                 <td  class="py-3 px-4 fw-bold text-secondary"> ACTIVO </td>
+
+
+                                                            }
+                                                             <td  class="py-3 px-4 fw-bold text-secondary"> {{ RespuestaEmpleado.salario| currency:'GTQ':'symbol':'1.2-2' }}</td>
+                                                                 
+                                                            <td  class="py-3 px-4 fw-bold text-secondary"> {{RespuestaEmpleado.nombreCompleto}}</td>
+                                                            <td  class="py-3 px-4 fw-bold text-secondary">{{ RespuestaEmpleado.fechaDeContratacion | date:'dd/MM/yyyy' }}</td>
+
+                                                            <td  class="py-3 px-4 fw-bold text-secondary">
+
+                                                              <a [routerLink]="['/Usuarios/Update/', RespuestaEmpleado.id]" class="btn btn-close-white w-100 mb-2"> EDITAR</a>
+                                                            </td>
+                                                         
+
+                                                        </tr>
+                                                    </tbody>
+
+                                                }
+
+                                                  
+
+
+                                                
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            
+
+                            </div>

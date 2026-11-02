@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-dark">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">id grado</th>
+              <th class="py-3 px-4">nombre grado</th>
+              <th class="py-3 px-4">id nivel</th>
+              <th class="py-3 px-4">id carrera</th>
+              <th class="py-3 px-4">Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (grado of grados; track grado.idGrado) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{grado.idGrado}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{grado.nombreGrado}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{grado.idNivel}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{grado.idCarrera}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Delete event {{ grado.idGrado }}" 
+                    (click)="eliminarGrado(grado.idGrado)"> <i class="bi bi-trash"></i> </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

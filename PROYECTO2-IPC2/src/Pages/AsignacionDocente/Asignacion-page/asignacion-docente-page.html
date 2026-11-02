@@ -1,0 +1,81 @@
+<div class="container mt-5">
+  <div class="row g-3">
+
+    <form [formGroup]="filtroForm" (ngSubmit)="buscarAsignaciones()" class="row g-3 align-items-end">
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Grado:</label>
+        <select class="form-select" formControlName="idGrado" (change)="cargarCurriculosYSecciones()">
+          <option [ngValue]="null" disabled selected>Seleccione un grado</option>
+          @for (grado of grados(); track grado.idGrado) {
+            <option [value]="grado.idGrado">{{ grado.nombreGrado }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Ciclo Lectivo:</label>
+        <input   type="number"   class="form-control"   formControlName="ciclo"   (change)="cargarCurriculosYSecciones()" 
+        />
+      </div>
+
+     
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Curso (Currículo):</label>
+        <select class="form-select" formControlName="idCurriculo">
+          <option [ngValue]="null" disabled selected>Seleccione un curso</option>
+          @for (item of curriculos(); track item.idCurriculo) {
+            <option [value]="item.idCurriculo">
+              {{ item.nombreCurso }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold">Sección:</label>
+        <select class="form-select" formControlName="idSeccion">
+          <option [ngValue]="null" disabled selected>Seleccione sección </option>
+          @for (seccion of secciones(); track seccion.idSeccion) {
+            <option [value]="seccion.idSeccion">
+              {{ seccion.nombreSeccion }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="col-12 text-end mt-3">
+        <button class="btn btn-dark" type="submit" [disabled]="filtroForm.invalid"> Buscar Asignación
+        </button>
+      </div>
+
+    </form>
+
+    <div class="col-12 mt-4">
+      <app-lista-asignaciones [asignaciones]="asignaciones()" (idAsignacionAEliminar)="prepararEliminar($event)">
+      </app-lista-asignaciones>
+
+      @if (idAsignacionAEliminar()) {
+        <app-modal-confirmation   [idAEliminar]="idAsignacionAEliminar()!"  (ConfirmacionEliminar)="eliminar()">
+        </app-modal-confirmation>
+      }
+
+      @if (errorMensage()) {
+        <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+          <strong>¡Error!</strong> {{ errorMensage() }}
+          <button type="button" class="btn-close" (click)="errorMensage.set(null)"></button>
+        </div>
+      }
+      
+      @if (eliminado()) {
+        <div class="alert alert-success d-flex align-items-center my-3">
+          <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+          <div>  Asignación eliminada con éxito.
+            <button type="button" class="btn-close" (click)="eliminado.set(false)"></button>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

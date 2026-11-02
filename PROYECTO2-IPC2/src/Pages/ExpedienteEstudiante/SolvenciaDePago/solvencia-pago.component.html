@@ -1,0 +1,21 @@
+<div class="card p-4">
+  <h2>Solvencia de Pago</h2>
+  <hr />
+
+  <form (ngSubmit)="generarSolvencia(idInput.value, cicloInput.value)">
+    <div class="mb-3">
+      <label for="idEstudiante" class="form-label">ID / Carné del Estudiante:</label>
+      <input  #idInput type="text"  id="idEstudiante"  class="form-control"   required></div>
+
+    <div class="mb-3">
+      <label for="ciclo" class="form-label">Ciclo (Año):</label>
+      <input   #cicloInput  type="text"   id="ciclo"   class="form-control"   [value]="cicloPorDefecto"  required></div>
+
+    <button 
+      type="button" 
+       class="btn btn-outline-secondary w-100"
+      (click)="generarSolvencia(idInput.value, cicloInput.value)">
+      Generar PDF de Solvencia
+    </button>
+  </form>
+</div>

@@ -1,0 +1,91 @@
+<div class="container mt-4">
+  <h3>Reporte de Estado de Cuenta</h3>
+
+  <form [formGroup]="filtroForm" class="row g-3 my-2">
+    <div class="col-md-4">
+      <label class="form-label">ID Estudiante / Usuario</label>
+      <input type="text" class="form-control" formControlName="idUsuario">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Fecha Inicio (Opcional)</label>
+      <input type="date" class="form-control" formControlName="fechaInicio">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Fecha Final (Opcional)</label>
+      <input type="date" class="form-control" formControlName="fechaFinal">
+    </div>
+
+    <div class="col-md-6 d-flex gap-2">
+      <button type="button" class="btn btn-dark w-100" [disabled]="filtroForm.invalid" (click)="consultarPagos()">Buscar Pagos</button>
+      <button type="button" class="btn btn-dark w-100" [disabled]="filtroForm.invalid" (click)="abrirPdfPagos()">PDF Pagos</button>
+    </div>
+
+    <div class="col-md-6 d-flex gap-2">
+      <button type="button" class="btn btn-dark w-100" [disabled]="filtroForm.invalid" (click)="consultarCostos()">Buscar Costos</button>
+      <button type="button" class="btn btn-dark w-100" [disabled]="filtroForm.invalid" (click)="abrirPdfCostos()">PDF Costos</button>
+    </div>
+  </form>
+
+  @if (errorMensaje()) {
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      {{ errorMensaje() }}
+      <button type="button" class="btn-close" (click)="errorMensaje.set('')" aria-label="Close"></button>
+    </div>
+  }
+
+  @if (tipoConsulta === 'PAGOS' && pagos.length > 0) {
+    <div class="table-responsive mt-3">
+      <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th class="py-3 px-4">ID Pago</th>
+            <th class="py-3 px-4">Tipo Pago</th>
+            <th class="py-3 px-4">Fecha Pago</th>
+            <th class="py-3 px-4">ID Estudiante</th>
+            <th class="py-3 px-4 text-end">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of pagos; track item.idPago) {
+            <tr>
+              <td class="py-3 px-4 fw-bold text-secondary">{{ item.idPago }}</td>
+              <td class="py-3 px-4">{{ item.tipoPago }}</td>
+              <td class="py-3 px-4">{{ item.fechaPago }}</td>
+              <td class="py-3 px-4">{{ item.idEstuidante }}</td>
+              <td class="py-3 px-4 text-end fw-bold">{{ item.monto | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (tipoConsulta === 'COSTOS' && costos.length > 0) {
+    <div class="table-responsive mt-3">
+      <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th class="py-3 px-4">ID Costo</th>
+            <th class="py-3 px-4">Ciclo Lectivo</th>
+            <th class="py-3 px-4">Fecha Límite</th>
+            <th class="py-3 px-4">Estado</th>
+            <th class="py-3 px-4 text-end">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of costos; track item.idCosto) {
+            <tr>
+              <td class="py-3 px-4 fw-bold text-secondary">{{ item.idCosto }}</td>
+              <td class="py-3 px-4">{{ item.cicloLectivo }}</td>
+              <td class="py-3 px-4">{{ item.fechaLimite }}</td>
+              <td class="py-3 px-4">{{ item.estado ? 'PAGADO' : 'PENDIENTE' }}</td>
+              <td class="py-3 px-4 text-end fw-bold">{{ item.monto | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

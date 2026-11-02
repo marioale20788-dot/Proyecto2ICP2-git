@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-dark">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">año</th>
+              <th class="py-3 px-4">fecha inicio</th>
+              <th class="py-3 px-4">fecha final</th>
+              <th class="py-3 px-4">estado</th>
+              <th class="py-3 px-4">editar</th>
+              <th class="py-3 px-4">Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (ciclo of ciclos; track ciclo.anio) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ciclo.anio}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ciclo.fechaInicio}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ciclo.fechaFinal}}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+     
+                    {{ciclo.estado ? 'Activo' : 'Inactivo'}}
+                  
+                </td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+                  <a [routerLink]="['/CicloLectivo/Update', ciclo.anio]" class="btn btn-close-white w-100 mb-2">EDITAR</a>
+                </td>
+                <td class="py-3 px-4 fw-bold text-secondary">
+                  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Delete event {{ ciclo.anio }}" 
+                    (click)="eliminarCiclo(ciclo.anio)"> <i class="bi bi-trash"></i> </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <form [formGroup]="updateInscripcionForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">DETALLES INSCRIPCIÓN</h5>
+        
+        @if (modoEditar) {
+          <div>
+            <span>Id Inscripción: </span>
+            <span class="badge bg-success fs-6">{{ inscripcionAEditar.idIncripcion }}</span>
+            <input type="hidden" name="idIncripcion" id="idIncripcion" formControlName="idIncripcion" />
+          </div>
+        }
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+          
+          @if (!modoEditar) {
+            <div class="col-md-6">
+              <label for="idGrado" class="form-label fw-bold">Grado</label>
+              <select class="form-select" id="idGrado" formControlName="idGrado" #selectGrado (change)="onGradoChange(selectGrado.value)">
+                <option [ngValue]="null">Seleccione un grado</option>
+                @for (grado of grados(); track grado.idGrado) {
+                  <option [value]="grado.idGrado">{{ grado.nombreGrado }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <div class="col-md-6">
+            <label for="idSeccion" class="form-label fw-bold">Sección</label>
+            <select class="form-select" id="idSeccion" formControlName="idSeccion">
+              <option [ngValue]="null">Seleccione una sección</option>
+              @for (seccion of secciones(); track seccion.idSeccion) {
+                <option [value]="seccion.idSeccion">
+                  {{ seccion.nombreSeccion}} - {{seccion.idGrado}}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="fechaInscripcion" class="form-label fw-bold">Fecha Inscripción</label>
+            <input type="date" class="form-control" name="fechaInscripcion" id="fechaInscripcion" formControlName="fechaInscripcion" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="idCicloLectivo" class="form-label fw-bold">Ciclo Lectivo</label>
+            <input type="number" class="form-control" name="idCicloLectivo" id="idCicloLectivo" formControlName="idCicloLectivo" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="idEstudiante" class="form-label fw-bold">ID Estudiante</label>
+            <input class="form-control" name="idEstudiante" id="idEstudiante" formControlName="idEstudiante" />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="updateInscripcionForm.invalid">
+          GUARDAR
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACIÓN REALIZADA</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

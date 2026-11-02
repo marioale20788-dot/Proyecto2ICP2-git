@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <form [formGroup]="updateCursoForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">{{ modoEditar ? 'EDITAR CURSO' : 'DETALLES CURSO' }}</h5>
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+          
+     
+          <div class="col-md-6">
+            <label for="codigoCurso" class="form-label fw-bold">Código del Curso</label>
+            <input class="form-control" name="codigoCurso" id="codigoCurso" formControlName="codigoCurso" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="nombreCurso" class="form-label fw-bold">Nombre del Curso</label>
+            <input class="form-control" name="nombreCurso" id="nombreCurso" formControlName="nombreCurso"  />
+          </div>
+
+          <div class="col-md-12">
+            <label for="descripcionCurso" class="form-label fw-bold">Descripción</label>
+            <textarea class="form-control" name="descripcionCurso" id="descripcionCurso" formControlName="descripcionCurso" rows="3" ></textarea>
+          </div>
+
+          <div class="col-md-6">
+            <label for="estado" class="form-label fw-bold">Estado</label>
+            <select class="form-select" name="estado" id="estado" formControlName="estado">
+              <option [ngValue]="true">Activo</option>
+              <option [ngValue]="false">Inactivo</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="updateCursoForm.invalid">
+          {{ modoEditar ? 'ACTUALIZAR' : 'GUARDAR' }}
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACIÓN REALIZADA CON ÉXITO</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

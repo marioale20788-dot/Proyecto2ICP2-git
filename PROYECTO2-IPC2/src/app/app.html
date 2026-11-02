@@ -1,0 +1,14 @@
+@if (mostrarHeader) {
+  <div class="d-flex">
+    <app-header></app-header>
+
+    <main class="flex-grow-1 p-4" style="margin-left: 200px;">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+} @else {
+ 
+  <router-outlet></router-outlet>
+}

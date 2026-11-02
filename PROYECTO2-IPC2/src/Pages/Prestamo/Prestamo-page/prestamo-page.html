@@ -1,0 +1,42 @@
+<div class="container mt-5">
+  <div class="row g-3">
+
+    <form [formGroup]="valorABuscarForm" (ngSubmit)="buscarPorUsuario()" class="row g-3 align-items-end">
+
+      <div class="col-md-8">
+        <label class="form-label fw-bold">ID del Usuario / Estudiante:</label>
+        <input type="text" class="form-control" formControlName="valor" />
+      </div>
+
+      <div class="col-md-4">
+        <button class="btn btn-dark w-100" type="submit"> Buscar Préstamos </button>
+      </div>
+    </form>
+
+    <div class="col-12 mt-4">
+      <app-lista-prestamos [prestamos]="prestamos()" (idPrestamoAElminar)="eliminarPrestamo($event)"></app-lista-prestamos>
+
+      @if (idPrestamoAeliminar()) {
+        <app-modal-confirmation [idAEliminar]="idPrestamoAeliminar()!" (ConfirmacionEliminar)="eliminar()"></app-modal-confirmation>
+      }
+
+      @if (errorMensage()) {
+        <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+          <strong>¡Error!</strong> {{ errorMensage() }}
+          <button type="button" class="btn-close" (click)="errorMensage.set(null)"></button>
+        </div>
+      }
+
+      @if(eliminado()) {
+        <div class="alert alert-success d-flex align-items-center">
+          <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+          <div>
+            Operacion realizada con exito.
+            <button type="button" class="btn-close" (click)="eliminado.set(false)"></button>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

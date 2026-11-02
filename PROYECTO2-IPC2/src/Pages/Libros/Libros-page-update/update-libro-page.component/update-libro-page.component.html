@@ -1,0 +1,29 @@
+
+<div class="container justify-content-end mb-3">
+  <a [routerLink]="['/Libros']" class="btn btn-outline-secondary">
+    <i class="bi bi-arrow-left-square-fill me-1"></i>
+    Ir a libros
+  </a>
+</div>
+<div class="container">
+    <h1>Modificar libro {{ codigoLibro }}</h1>
+    <div class="row">
+
+        @if (!errorMensaje()) {
+            @if (libroUpdate()) {
+
+<app-update-libro [modoEditar]="true"    [libroAEditar]="libroUpdate()!"></app-update-libro>
+            }
+        
+        }
+        @else {
+
+        <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+        <strong>¡Error!</strong> {{ errorMensaje() }}
+        <button type="button" class="btn-close" (click)="errorMensaje.set(null)"></button>
+      </div>
+        </div>
+        }
+    </div>
+</div>

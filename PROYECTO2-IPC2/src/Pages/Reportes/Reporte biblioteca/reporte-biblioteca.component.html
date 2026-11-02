@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h3>Reporte de Biblioteca (Préstamos con Mora)</h3>
+
+  <form [formGroup]="filtroForm" (ngSubmit)="consultar()" class="row g-3 my-2">
+    <div class="col-md-12 d-flex gap-2">
+      <button type="submit" class="btn btn-dark w-100">Buscar</button>
+      <button type="button" class="btn btn-dark w-100" (click)="abrirPdf()">Ver PDF</button>
+    </div>
+  </form>
+
+  @if (errorMensaje()) {
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      {{ errorMensaje() }}
+      <button type="button" class="btn-close" (click)="errorMensaje.set('')" aria-label="Close"></button>
+    </div>
+  }
+
+  @if (prestamos.length > 0) {
+    <div class="table-responsive mt-3">
+      <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th class="py-3 px-4">ID Préstamo</th>
+            <th class="py-3 px-4">ID Usuario</th>
+            <th class="py-3 px-4">ID Libro</th>
+            <th class="py-3 px-4">Fecha Préstamo</th>
+            <th class="py-3 px-4">Entrega Esperada</th>
+            <th class="py-3 px-4">Entrega Real</th>
+            <th class="py-3 px-4">Estado</th>
+            <th class="py-3 px-4 text-end">Mora</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of prestamos; track item.idPrestamo) {
+            <tr>
+              <td class="py-3 px-4 fw-bold text-secondary">{{ item.idPrestamo }}</td>
+              <td class="py-3 px-4">{{ item.idUsuario }}</td>
+              <td class="py-3 px-4">{{ item.idLibro }}</td>
+              <td class="py-3 px-4">{{ item.fechaPrestamo }}</td>
+              <td class="py-3 px-4">{{ item.fechaEsperadaEntrega }}</td>
+              <td class="py-3 px-4">{{ item.fechaEntregaReal ?? 'Pendiente' }}</td>
+              <td class="py-3 px-4">{{ item.estado }}</td>
+              <td class="py-3 px-4 text-end fw-bold">{{ item.mora | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <form [formGroup]="updateSeccionForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">{{ modoEditar ? 'EDITAR SECCIÓN' : 'DETALLES SECCIÓN' }}</h5>
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+          
+          <div class="col-md-4">
+            <label for="nombreSeccion" class="form-label fw-bold">Nombre / Letra Sección</label>
+            <input class="form-control" name="nombreSeccion" id="nombreSeccion" formControlName="nombreSeccion" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="idGrado" class="form-label fw-bold">Grado Pertenece</label>
+            <select class="form-select" name="idGrado" id="idGrado" formControlName="idGrado">
+              <option [ngValue]="null" disabled selected>Seleccione un grado...</option>
+              @for (grado of grados(); track grado.idGrado) {
+                <option [value]="grado.idGrado">{{ grado.nombreGrado }} ({{ grado.idNivel }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="anio" class="form-label fw-bold">Año Lectivo</label>
+            <input type="number" class="form-control" name="anio" id="anio" formControlName="anio" />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="updateSeccionForm.invalid">
+          {{ modoEditar ? 'ACTUALIZAR' : 'GUARDAR' }}
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACIÓN REALIZADA CON ÉXITO</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

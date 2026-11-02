@@ -1,0 +1,245 @@
+<header class="position-fixed top-0 start-0 p-3 bg-dark text-white d-flex flex-column" style="width: 200px; min-height: 100vh; z-index: 1050;">
+  <div class="d-flex flex-column w-100 h-100">
+
+    <hr class="border-secondary my-2">
+
+    <ul class="nav nav-pills flex-column gap-1 w-100 flex-grow-1">
+
+      <li class="nav-item">
+        <a routerLink="/Home" routerLinkActive="active" class="nav-link link-light d-block w-100">
+          <i class="bi bi-house-door me-1"></i> Home
+        </a>
+      </li>
+
+      @if (tieneRol(['Estudiante'])) {
+        <li class="nav-item">
+          <a routerLink="/ESTUDIANTE/Perfil" routerLinkActive="active" class="nav-link link-light">
+            <i class="bi bi-person-circle me-1"></i> Datos Personales
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/ESTUDIANTE/NotasEstudiante" routerLinkActive="active" class="nav-link link-light">
+            <i class="bi bi-journal-text me-1"></i> Notas del Ciclo
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/ESTUDIANTE/Pagos" routerLinkActive="active" class="nav-link link-light">
+            <i class="bi bi-cash-stack me-1"></i> Pagos y Cobros
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/ESTUDIANTE/Biblioteca" routerLinkActive="active" class="nav-link link-light">
+            <i class="bi bi-book me-1"></i> Biblioteca y Préstamos
+          </a>
+        </li>
+      }
+
+      @if (tieneRol(['Bibliotecario'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-book me-1"></i> Libros
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a routerLink="/Libros" routerLinkActive="active" class="dropdown-item">Ver Libros</a></li>
+            <li><a routerLink="/Libros/crearLibro" routerLinkActive="active" class="dropdown-item">Ingresar Libro</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-journal-bookmark me-1"></i> Préstamos
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a routerLink="/Prestamos" routerLinkActive="active" class="dropdown-item">Ver Préstamos</a></li>
+            <li><a routerLink="/Prestamos/crearPrestamo" routerLinkActive="active" class="dropdown-item">Ingresar Préstamo</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Bibliotecario', 'Admin', 'Super_Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-file-earmark-text me-1"></i> Reporte Biblioteca
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/ReporteBiblioteca/ReporteBiblioteca">Reporte biblioteca</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Super_Admin', 'Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-people me-1"></i> Usuarios
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a routerLink="/Usuarios" routerLinkActive="active" class="dropdown-item">Lista de Usuarios</a></li>
+            <li><a routerLink="/Usuarios/ingresarEmpleado" routerLinkActive="active" class="dropdown-item">INGRESAR EMPLEADO</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-mortarboard-fill me-1"></i> Estudiantes
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a routerLink="/Estudiantes" routerLinkActive="active" class="dropdown-item">Lista de Estudiantes</a></li>
+            <li><a routerLink="/Estudiantes/crearEstudiante" routerLinkActive="active" class="dropdown-item">INGRESAR ESTUDIANTE</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-award-fill me-1"></i> Grados
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Grado">Lista de Grados</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-journal-code me-1"></i> CURSOS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Curso">Lista de cursos</a></li>
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Curso/Crear">Añadir curso</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-layers-fill me-1"></i> Secciones
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Seccion">Lista de secciones</a></li>
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Seccion/Crear">Añadir sección</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-briefcase-fill me-1"></i> CARRERAS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Carrera">Lista de carreras</a></li>
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Carrera/Crear">Añadir carrera</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-book-half me-1"></i> CURRÍCULO
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Curriculo">CURRÍCULO POR CURSO</a></li>
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/Curriculo/Crear">Añadir curso a currículo</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-badge-fill me-1"></i> ASIGNACIÓN DOCENTE
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/AsignacionDocente">Asignaciones</a></li>
+            <li><a class="dropdown-item" routerLink="/SuperAdmin/AsignacionDocente/Crear">Crear asignación</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Super_Admin', 'Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bar-chart-line-fill me-1"></i> REPORTE ACADÉMICO
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/Estudiantes/ReporteAcademico">REPORTE ACADEMICO</a></li>
+            <li><a class="dropdown-item" routerLink="/Estudiantes/ReporteEstadoCuenta">REPORTE ESTADO DE CUENTA</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Secretaria', 'Admin', 'Super_Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-exclamation-circle-fill me-1"></i> REPORTES DE PAGO
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/Reporte">Reporte morosidad</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Secretaria'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-file-earmark-check-fill me-1"></i> INSCRIPCIÓN
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/Inscripciones">Inscripciones</a></li>
+            <li><a class="dropdown-item" routerLink="/Inscripciones/Crear">Nueva inscripción</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-cash-coin me-1"></i> PAGOS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/pagos">Registrar pagos</a></li>
+            <li><a class="dropdown-item" routerLink="/Solvencia">Solvencia de pago</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Super_Admin'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-award-fill me-1"></i> GRADOS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/CicloLectivo/Grado">Lista de Grados</a></li>
+            <li><a class="dropdown-item" routerLink="/CicloLectivo/Grado/Crear">CREAR GRADO</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-calendar-range-fill me-1"></i> CICLOS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a routerLink="/CicloLectivo" routerLinkActive="active" class="dropdown-item">Lista de ciclos</a></li>
+            <li><a routerLink="/CicloLectivo/Crear" routerLinkActive="active" class="dropdown-item">CREAR CICLO</a></li>
+            <li><a routerLink="/CicloLectivo/ReporteIngresos" routerLinkActive="active" class="dropdown-item">Reporte de ingresos</a></li>
+          </ul>
+        </li>
+      }
+
+      @if (tieneRol(['Maestro'])) {
+        <li class="nav-item dropdown">
+          <a class="nav-link link-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-award-fill me-1"></i> Maestros
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li>
+              <a class="dropdown-item" routerLink="/MAESTRO/Maestro">
+                Mis Asignaciones
+              </a>
+            </li>
+          </ul>
+        </li>
+      }
+
+    </ul>
+
+    <div class="mt-auto pt-3 border-top border-secondary w-100">
+      <button (click)="cerrarSesion()" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+
+  </div>
+</header>

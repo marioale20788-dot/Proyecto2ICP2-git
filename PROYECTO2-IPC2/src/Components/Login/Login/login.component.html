@@ -1,0 +1,48 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card bg-dark text-white shadow-lg p-4 rounded-4 border-secondary" style="max-width: 400px; width: 100%;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4 text-white fw-bold">Iniciar Sesión</h3>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger alert-dismissible fade show border-0 rounded-3" role="alert">
+          {{ errorMessage }}
+          <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+        </div>
+      }
+
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="mb-3">
+          <label for="idUsuario" class="form-label text-light fw-semibold">Usuario</label>
+          <input 
+            type="text" 
+            id="idUsuario" 
+            name="idUsuario"
+            class="form-control bg-secondary text-white border-0 rounded-3" 
+            [(ngModel)]="credentials.idUsuario" 
+            placeholder="Ingrese su usuario" 
+            required 
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="contrasena" class="form-label text-light fw-semibold">Contraseña</label>
+          <input 
+            type="password" 
+            id="contrasena" 
+            name="contrasena"
+            class="form-control bg-secondary text-white border-0 rounded-3" 
+            [(ngModel)]="credentials.contrasena" 
+            placeholder="Ingrese su contraseña" 
+            required 
+          />
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-outline-light rounded-3 fw-bold py-2" [disabled]="loginForm.invalid">
+            Ingresar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

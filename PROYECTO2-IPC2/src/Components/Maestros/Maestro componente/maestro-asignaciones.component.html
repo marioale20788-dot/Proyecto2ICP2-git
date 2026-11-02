@@ -1,0 +1,104 @@
+<div class="container-fluid py-3">
+
+  <div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-body">
+      <form (submit)="buscarAsignaciones($event)" class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="ciclo" class="col-form-label fw-bold"> Ciclo Lectivo: </label>
+        </div>
+        <div class="col-auto">
+          <input  type="number"   id="ciclo"  class="form-control"   style="width: 120px;"  [value]="cicloInput()"    (input)="CicloChange($event)"  required   />
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-dark">
+            <i class="bi bi-search"></i> Consultar Asignaciones
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  @if (errorMsg()) {
+    <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i> {{ errorMsg() }}
+      <button type="button" class="btn-close" (click)="errorMsg.set(null)" aria-label="Close"></button>
+    </div>
+  }
+
+  <div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-header bg-dark text-white py-3">
+      <h5 class="m-0"><i class="bi bi-journal-bookmark me-2"></i>Listado de Asignaciones</h5>
+    </div>
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">Código</th>
+              <th class="py-3 px-4">Curso</th>
+              <th class="py-3 px-4">Grado</th>
+              <th class="py-3 px-4">Sección</th>
+              <th class="py-3 px-4">Ciclo</th>
+              <th class="py-3 px-4 text-center">Asistencia y zona </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            @for (asig of asignaciones(); track asig.idAsignacion) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ asig.codigoCurso }}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ asig.nombreCurso }}</td>
+                <td class="py-3 px-4 text-secondary">{{ asig.nombreGrado }} ({{ asig.nivelGrado }})</td>
+                <td class="py-3 px-4 text-secondary">Sección {{ asig.nombreSeccion }}</td>
+                <td class="py-3 px-4 text-secondary">{{ asig.ciclo }}</td>
+             <td class="py-3 px-4 text-center">
+  <div class="d-flex justify-content-center gap-2">
+    <a 
+      [routerLink]="['/MAESTRO/estudiantes']" 
+      [queryParams]="{
+        idSeccion: asig.idSeccion,
+        ciclo: asig.ciclo,
+        idAsignacion: asig.idAsignacion,
+        nombreCurso: asig.nombreCurso,  
+        nombreSeccion: asig.nombreSeccion
+      }"
+      class="btn btn-dark btn-sm"
+    >
+      Ver Estudiantes
+    </a>
+
+    <a   [routerLink]="['/MAESTRO/zona']" 
+      [queryParams]="{
+        idAsignacion: asig.idAsignacion,
+        nombreCurso: asig.nombreCurso,
+        nombreSeccion: asig.nombreSeccion
+      }"  class="btn btn-outline-dark btn-sm"> Zona</a>
+      <a 
+  [routerLink]="['/MAESTRO/notas']" 
+  [queryParams]="{
+    idAsignacion: asig.idAsignacion,
+    idSeccion: asig.idSeccion,
+    ciclo: asig.ciclo,
+    codigoCurso: asig.codigoCurso,
+    nombreCurso: asig.nombreCurso,
+    nombreSeccion: asig.nombreSeccion
+  }"
+  class="btn btn-dark btn-sm"
+>Ingreso de Notas</a>
+  </div>
+</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">
+                  No hay asignaciones cargadas para el ciclo especificado.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

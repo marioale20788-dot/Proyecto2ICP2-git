@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <form [formGroup]="updateGradoForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">DETALLES GRADO</h5>
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3">
+
+          <div class="col-md-12">
+            <label for="nombreGrado" class="form-label fw-bold">Nombre del Grado</label>
+            <input class="form-control" name="nombreGrado" id="nombreGrado" formControlName="nombreGrado" />
+          </div>
+
+    
+          <div class="col-md-6">
+            <label for="idNivel" class="form-label fw-bold">Nivel Académico</label>
+            <select class="form-select" name="idNivel" id="idNivel" formControlName="idNivel">
+              <option [ngValue]="null" disabled selected>Seleccione un nivel</option>
+              @for (nivel of niveles; track nivel.id) {
+                <option [value]="nivel.id">{{ nivel.nombre }} ({{ nivel.id }})</option>
+              }
+            </select>
+          </div>
+
+   
+<div class="col-md-6">
+  <label for="idCarrera" class="form-label fw-bold">Carrera (Opcional)</label>
+  <select class="form-select" name="idCarrera" id="idCarrera" formControlName="idCarrera">
+    <option [ngValue]="null">Ninguna </option>
+    @for (carrera of carreras(); track carrera.idCarrera) {
+      <option [value]="carrera.idCarrera">{{ carrera.nombre }}</option>
+    }
+  </select>
+</div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="updateGradoForm.invalid">
+          GUARDAR
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACIÓN REALIZADA CON ÉXITO</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if(errorOperacion()){
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

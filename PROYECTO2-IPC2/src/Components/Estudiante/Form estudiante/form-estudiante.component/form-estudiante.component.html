@@ -1,0 +1,144 @@
+<div class="container mt-4">
+  <form [formGroup]="estudianteForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm mb-4">
+      
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">INFORMACIÓN DEL ESTUDIANTE</h5>
+        
+        @if (!modoEditar) {
+          <div class="d-flex align-items-center gap-2">
+            <label for="dpiUsuario" class="col-form-label text-nowrap">DPI Estudiante:</label>
+            <input class="form-control form-control-sm" id="dpiUsuario" formControlName="dpiUsuario" placeholder="Ingrese DPI" />
+          </div>
+        } @else {
+          <div>
+            <span class="me-1">DPI Estudiante:</span>
+            <span class="badge bg-success fs-6">{{ estudianteAEditar.dpiUsuario }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="card-body">
+        <h6 class="text-primary fw-bold mb-3"> Datos Generales</h6>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="nombreEstudiante" class="form-label fw-bold">Nombre Completo</label>
+            <input class="form-control" id="nombreEstudiante" formControlName="nombreEstudiante" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="correoElectronico" class="form-label fw-bold">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correoElectronico" formControlName="correoElectronico" />
+          </div>
+
+          @if (!modoEditar) {
+            <div class="col-md-6">
+              <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+              <input type="password" class="form-control" id="contrasena" formControlName="contrasena" />
+            </div>
+          }
+
+          <!-- Switch para Estado Activo/Inactivo -->
+          <div class="col-md-3 d-flex align-items-end pb-2">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="estado" formControlName="estado" />
+              <label class="form-check-label fw-bold ms-2" for="estado">
+                @if (estudianteForm.get('estado')?.value) { 
+                    Activo 
+                } @else { 
+                    Inactivo 
+                }
+              </label>
+            </div>
+          </div>
+
+          <!-- Switch para Graduado -->
+          <div class="col-md-3 d-flex align-items-end pb-2">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="graduado" formControlName="graduado" />
+              <label class="form-check-label fw-bold ms-2" for="graduado">
+                @if (estudianteForm.get('graduado')?.value) { 
+                    Graduado 
+                } @else { 
+                    No Graduado 
+                }
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <hr />
+
+        <h6 class="text-primary fw-bold mb-3">Datos del Encargado</h6>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label for="dpiEncargado" class="form-label fw-bold">DPI Encargado</label>
+            <input class="form-control" id="dpiEncargado" formControlName="dpiEncargado" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="nombreEncargado" class="form-label fw-bold">Nombre Encargado</label>
+            <input class="form-control" id="nombreEncargado" formControlName="nombreEncargado" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="direccionEncargado" class="form-label fw-bold">Dirección Encargado</label>
+            <input class="form-control" id="direccionEncargado" formControlName="direccionEncargado" />
+          </div>
+        </div>
+
+        <hr />
+
+        <h6 class="text-primary fw-bold mb-3">Expediente Médico</h6>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="tipoDeSangre" class="form-label fw-bold">Tipo de Sangre</label>
+            <input class="form-control" id="tipoDeSangre" formControlName="tipoDeSangre" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="contactoDeEmergencia" class="form-label fw-bold">Contacto Emergencia (Teléfono)</label>
+            <input type="number" class="form-control" id="contactoDeEmergencia" formControlName="contactoDeEmergencia" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="alergias" class="form-label fw-bold">Alergias</label>
+            <input class="form-control" id="alergias" formControlName="alergias" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="enfermedades" class="form-label fw-bold">Enfermedades Padecidas</label>
+            <input class="form-control" id="enfermedades" formControlName="enfermedades" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="medicamentos" class="form-label fw-bold">Medicamentos Permanentes</label>
+            <input class="form-control" id="medicamentos" formControlName="medicamentos"  />
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100">
+          {{ modoEditar ? 'ACTUALIZAR ESTUDIANTE' : 'REGISTRAR ESTUDIANTE' }}
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACIÓN REALIZADA CON ÉXITO</strong>
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

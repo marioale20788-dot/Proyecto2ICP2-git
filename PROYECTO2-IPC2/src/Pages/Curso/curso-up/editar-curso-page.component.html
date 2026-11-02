@@ -1,0 +1,25 @@
+<div class="container justify-content-end mb-3">
+  <a [routerLink]="['/Curso']" class="btn btn-outline-secondary">
+    <i class="bi bi-arrow-left-square-fill me-1"></i>
+    Ir a libros
+  </a>
+</div>
+
+
+<div class="container mt-4">
+  <h2 class="mb-4">Editar Curso</h2>
+
+  @if (curso()) {
+    <app-form-curso [cursoAEditar]="curso()!"  [modoEditar]="true">
+    </app-form-curso>
+  } @else if (errorCarga()) {
+    <div class="alert alert-danger my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorCarga() }}
+    </div>
+  } @else {
+    <div class="d-flex align-items-center gap-2 my-3">
+      <div class="spinner-border text-dark" role="status"></div>
+      <span>Cargando datos del curso...</span>
+    </div>
+  }
+</div>

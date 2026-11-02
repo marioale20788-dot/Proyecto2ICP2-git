@@ -1,0 +1,58 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-black text-white p-3">
+      <h5 class="mb-0">GESTIÓN DE PAGOS</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="btn-group w-100 mb-4">
+        <button type="button" class="btn btn-outline-dark" [class.active]="tipoOperacionActual() === 'COSTOS'" (click)="cambiarTipo('COSTOS')">INSCRIPCIÓN / MENSUALIDAD</button>
+        <button type="button" class="btn btn-outline-dark" [class.active]="tipoOperacionActual() === 'MORA'" (click)="cambiarTipo('MORA')">PAGO DE MORA</button>
+        <button type="button" class="btn btn-outline-dark" [class.active]="tipoOperacionActual() === 'EXTRA'" (click)="cambiarTipo('EXTRA')">PAGOS EXTRAS</button>
+      </div>
+
+
+      <form [formGroup]="filtroForm" (ngSubmit)="buscar()" class="row g-3 mb-4 bg-light p-3 rounded">
+        <div class="col-md-5">
+          <label class="form-label fw-bold">ID Estudiante</label>
+          <input class="form-control" formControlName="idEstudiante" />
+        </div>
+
+        @if (tipoOperacionActual() === 'COSTOS') {
+          <div class="col-md-5">
+            <label class="form-label fw-bold">Ciclo Lectivo</label>
+            <input type="number" class="form-control" formControlName="idCiclo" />
+          </div>
+        }
+
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-sm btn-dark"  [disabled]="filtroForm.invalid">BUSCAR</button>
+        </div>
+      </form>
+
+      @if (errorBusqueda()) {
+        <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+          <strong>¡Error!</strong> {{ errorBusqueda() }}
+          <button type="button" class="btn-close" (click)="errorBusqueda.set(null)"></button>
+        </div>
+      }
+
+
+      @if (tipoOperacionActual() === 'COSTOS' && estudianteBuscado()) {
+        <app-lista-costos   [costos]="costos"   [idEstudiante]="estudianteBuscado()!">  </app-lista-costos>
+      }
+
+
+      @if (tipoOperacionActual() === 'MORA' && estudianteBuscado()) {
+        <app-lista-mora   [prestamos]="prestamos"   [idEstudiante]="estudianteBuscado()!"></app-lista-mora>
+      }
+
+
+      @if (tipoOperacionActual() === 'EXTRA' && estudianteBuscado()) {
+        <app-form-pago    [idEstudiante]="estudianteBuscado()!"> </app-form-pago>
+      }
+
+    </div>
+  </div>
+</div>

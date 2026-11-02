@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <h3>Reporte de Alumnos Solventes / Morosos</h3>
+
+  <form [formGroup]="filtroForm" (ngSubmit)="consultar()" class="row g-3 my-2">
+    <div class="col-md-4">
+      <label class="form-label">Sección ID</label>
+      <input  type="text"  class="form-control"  formControlName="idSeccion"  > </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Ciclo</label>
+     <input type="number" class="form-control" formControlName="ciclo"></div>
+
+    <div class="col-md-4 d-flex align-items-end gap-2">
+      <button type="submit"  class="btn btn-dark w-100"  [disabled]="filtroForm.invalid">Buscar </button>
+      <button type="button"  class="btn btn-dark w-100"  [disabled]="filtroForm.invalid" (click)="abrirPdf()">Ver PDF</button>
+    </div>
+  </form>
+
+  @if (errorMensaje()) {
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      {{ errorMensaje() }}
+      <button type="button" class="btn-close" (click)="errorMensaje.set('')" aria-label="Close"></button>
+    </div>
+  }
+
+  @if (alumnos.length > 0) {
+    <div class="table-responsive mt-3">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>ID Estudiante</th>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Deudas Pendientes</th>
+            <th class="text-end">Total Deudas</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of alumnos; track item.idEstudiante) {
+            <tr>
+              <td>{{ item.idEstudiante }}</td>
+              <td>{{ item.nombreEstudiante }}</td>
+              <td>         {{ item.estado }}   </td>
+              <td>{{ item.deudasPendiantes }}</td>
+              <td class="text-end">{{ item.totalDeudas | currency:'GTQ':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

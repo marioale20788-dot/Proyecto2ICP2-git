@@ -1,0 +1,91 @@
+<div class="container mt-4">
+  <form [formGroup]="asignacionForm" (ngSubmit)="guardarAsignacion()">
+    <div class="card shadow-sm">
+      
+      <div class="card-header bg-black text-white p-3">
+        <h5 class="mb-0">ASIGNAR DOCENTE A CURSO Y SECCIÓN</h5>
+      </div>
+
+      <div class="card-body">
+
+        <h6 class="text-primary fw-bold mb-3">1. Seleccionar Filtro (Grado y Ciclo)</h6>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label for="idGrado" class="form-label fw-bold">Grado</label>
+            <select class="form-select" id="idGrado" formControlName="idGrado" (change)="FiltroGradoCiclo()">
+              <option [ngValue]="null" disabled selected>Seleccione un grado...</option>
+              @for (grado of grados(); track grado.idGrado) {
+                <option [value]="grado.idGrado">{{ grado.nombreGrado }} ({{ grado.idNivel }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="cicloLectivo" class="form-label fw-bold">Ciclo Lectivo</label>
+            <input type="number" class="form-control" id="cicloLectivo" formControlName="cicloLectivo" (change)="FiltroGradoCiclo()" />
+          </div>
+        </div>
+
+        <hr />
+
+        <h6 class="text-primary fw-bold mb-3">2. Seleccionar Curso, Sección e ID del Docente</h6>
+        <div class="row g-3">
+          
+          <div class="col-md-4">
+            <label for="idCurriculo" class="form-label fw-bold">Curso (Currículo)</label>
+            <select class="form-select" id="idCurriculo" formControlName="idCurriculo">
+              <option [ngValue]="null" disabled selected>Seleccione un curso...</option>
+              @for (item of curriculos(); track item.idCurriculo) {
+                <option [value]="item.idCurriculo">
+                  {{ item.nombreCurso }} - {{ item.codigoCurso }} ({{ item.cicloLectivo }})
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="idSeccion" class="form-label fw-bold">Sección</label>
+            <select class="form-select" id="idSeccion" formControlName="idSeccion">
+              <option [ngValue]="null" disabled selected>Seleccione una sección...</option>
+              @for (seccion of secciones(); track seccion.idSeccion) {
+                <option [value]="seccion.idSeccion">{{ seccion.nombreSeccion }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="idUsuario" class="form-label fw-bold">ID / DPI Docente</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="idUsuario" 
+              formControlName="idUsuario" 
+              placeholder="Ingrese el ID o DPI del docente" 
+            />
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" [disabled]="asignacionForm.invalid">
+          GUARDAR ASIGNACIÓN
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>DOCENTE ASIGNADO CON ÉXITO</strong> 
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

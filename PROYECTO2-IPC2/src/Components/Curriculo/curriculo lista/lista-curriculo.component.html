@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">ID Currículo</th>
+              <th class="py-3 px-4">Código Curso</th>
+              <th class="py-3 px-4">Nombre del Curso</th>
+              <th class="py-3 px-4">Ciclo Lectivo</th>
+              <th class="py-3 px-4">Borrar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of curriculoList; track item.idCurriculo) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ item.idCurriculo }}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ item.codigoCurso }}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ item.nombreCurso }}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ item.cicloLectivo }}</td>
+
+                <td class="py-3 px-4">
+                  <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" title="Eliminar {{ item.idCurriculo }}" 
+                    (click)="eliminar(item.idCurriculo)"> 
+                    <i class="bi bi-trash"></i> 
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body p-0 overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle mb-0">
+          <thead class="table-dark text-uppercase small"> 
+            <tr>
+              <th class="py-3 px-4">Código</th>
+              <th class="py-3 px-4">Nombre</th>
+              <th class="py-3 px-4">Descripción</th>
+              <th class="py-3 px-4">Estado</th>
+              <th class="py-3 px-4">Editar</th>
+                        <th class="py-3 px-4">Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (curso of cursos; track curso.codigoCurso) {
+              <tr>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ curso.codigoCurso }}</td>
+                <td class="py-3 px-4 fw-bold text-secondary">{{ curso.nombreCurso }}</td>
+                <td class="py-3 px-4 text-secondary">{{ curso.descripcionCurso }}</td>
+                <td class="py-3 px-4">
+
+                    {{ curso.estado ? 'Activo' : 'Inactivo' }}
+              
+                </td>
+              <td class="py-3 px-4 fw-bold text-secondary">
+                   
+                    <a [routerLink]="['/Curso/Editar', curso.codigoCurso]"class="btn btn-close-white w-100 mb-2">EDITAR</a>
+             
+                </td>
+
+            <td class="py-3 px-4 fw-bold text-secondary">
+            
+         <button type="button"     class="btn btn-danger"      data-bs-toggle="modal" data-bs-target="#deleteModal" title="Eliminar {{ curso.codigoCurso }}" 
+                      (click)="eliminarCurso(curso.codigoCurso)"> 
+                      <i class="bi bi-trash"></i>      </button>
+
+                 
+
+                   
+                 </td>
+
+              </tr>
+
+
+
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

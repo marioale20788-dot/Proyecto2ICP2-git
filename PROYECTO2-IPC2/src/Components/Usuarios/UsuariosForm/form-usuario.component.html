@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <form [formGroup]="updateUsuarioForm" (ngSubmit)="accion()">
+    <div class="card shadow-sm">
+      
+  
+      <div class="card-header bg-black text-white p-3 d-flex justify-content-between align-items-center">
+       <h5 class="mb-0">DETALLES USUARIO</h5>
+        
+        @if (!modoEditar) {
+          <div class="d-flex align-items-center gap-2">
+            <label for="id" class="col-form-label text-nowrap">ID / DPI:</label>
+            <input class="form-control form-control-sm" id="id" formControlName="id" placeholder="Ingrese ID" />
+          </div>
+        } @else {
+          <div>
+            <span class="me-1">ID:</span>
+            <span class="badge bg-success fs-6">{{ usuarioAEditar.id }}</span>
+          </div>
+        }
+      </div>
+
+   
+      <div class="card-body">
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label for="nombreCompleto" class="form-label fw-bold">Nombre Completo</label>
+            <input class="form-control" id="nombreCompleto" formControlName="nombreCompleto" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="correoElectronico" class="form-label fw-bold">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correoElectronico" formControlName="correoElectronico" />
+          </div>
+
+          @if (!modoEditar) {
+            <div class="col-md-6">
+              <label for="contrasena" class="form-label fw-bold">Contraseña</label>
+              <input type="password" class="form-control" id="contrasena" formControlName="contrasena" />
+            </div>
+          }
+
+        <div class="col-md-6">
+  <label for="rol" class="form-label fw-bold">Rol / Tipo de Usuario</label>
+  <select class="form-select" id="rol" formControlName="rol">
+    <option [ngValue]="null" disabled selected>Seleccione un rol</option>
+  @for (rolKey of TipoUsuarioEnum | keyvalue; track rolKey.key) {
+    @if (rolKey.value !== TipoUsuarioEnum.Estudiante) {
+      <option [value]="rolKey.value">{{ rolKey.key }}</option>
+    }
+  }
+  </select>
+</div>
+
+   
+          <div class="col-md-4">
+            <label for="salario" class="form-label fw-bold">Salario (Q)</label>
+            <input type="number"  class="form-control" id="salario" formControlName="salario" />
+          </div>
+
+          <div class="col-md-4">
+            <label for="fechaDeContratacion" class="form-label fw-bold">Fecha de Contratación</label>
+            <input type="date" class="form-control" id="fechaDeContratacion" formControlName="fechaDeContratacion" />
+          </div>
+
+          <div class="col-md-4 d-flex align-items-end pb-2">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="estado" formControlName="estado" />
+            <label class="form-check-label fw-bold ms-2" for="estado">
+  @if (updateUsuarioForm.get('estado')?.value) {
+    Activo
+  } @else {
+    Inactivo
+  }
+</label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+  
+      <div class="card-footer text-end p-3 bg-light">
+        <button type="submit" class="btn btn-dark w-100" >GUARDAR
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+ 
+  @if (operacionTerminada()) {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+      <strong>OPERACION REALIZADA</strong>
+      <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+    </div>
+  }
+
+  @if (errorOperacion()) {
+    <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorOperacion() }}
+      <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+    </div>
+  }
+</div>

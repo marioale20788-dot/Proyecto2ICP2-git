@@ -1,0 +1,69 @@
+<div class="container mt-5">
+  <div class="row g-3">
+
+  
+    <form [formGroup]="valorABuscarForm" (ngSubmit)="buscarPorCodigoNombre()" class="row g-3 align-items-end">
+
+  
+      <div class="col-md-6">
+        <label class="form-label fw-bold">ID / Nombre del libro:</label>
+        <input type="text"  class="form-control"  formControlName="valor" />
+      </div>
+
+      <div class="col-md-3">
+        <button class="btn btn-dark w-100" type="submit">  Buscar Específico </button>
+      </div>
+
+      <div class="col-md-3">
+        <button   class="btn btn-outline-secondary w-100"  type="button"  (click)="buscarTodos()"> Buscar Todos
+        </button>
+      </div>
+    </form>
+
+    
+    <div class="col-12 mt-4">
+<app-lista-libros [libros]="libros()"  (idLibroAElminar)="eliminarLibro($event)"></app-lista-libros>
+
+@if (idLibroAeliminar()) {
+  <app-modal-confirmation [idAEliminar]="idLibroAeliminar()!"  (ConfirmacionEliminar)="eliminar()"> </app-modal-confirmation>
+}
+    @if (errorMensage()) {
+      <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+        <strong>¡Error!</strong> {{ errorMensage() }}
+        <button type="button" class="btn-close" (click)="errorMensage.set(null)"></button>
+      </div>
+       
+      
+
+    }
+    @if(eliminado()) {
+<div class="alert alert-success d-flex align-items-center">
+    <i class="bi bi-check-circle flex-shrink-0 me-2"></i>
+    <div>
+        Operacion realizada con exito.
+    </div>
+</div>
+}
+    @if (paginacionActiva) {
+<div class="d-flex justify-content-end align-items-center gap-2 my-3">
+  <span class="me-2">Página <strong>{{ paginaActual }}</strong></span>
+
+  <button 
+    class="btn btn-outline-secondary btn-sm"
+    (click)="paginaAnterior()" 
+    [disabled]="paginaActual === 1">
+    Anterior
+  </button>
+
+  <button 
+    class="btn btn-dark btn-sm" 
+    (click)="siguientePagina()" 
+    [disabled]="libros().length < 10">
+    Siguiente
+  </button>
+</div>
+  
+      
+    }
+  
+</div>

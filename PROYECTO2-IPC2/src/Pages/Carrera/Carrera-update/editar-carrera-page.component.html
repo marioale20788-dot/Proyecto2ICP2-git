@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Editar Carrera</h2>
+    <a [routerLink]="['/Carrera']" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left-square-fill me-1"></i> Ir a carreras
+    </a>
+  </div>
+
+  @if (carrera()) {
+    <app-form-carrera [carreraAEditar]="carrera()!"     [modoEditar]="true"> </app-form-carrera>
+  }
+  @if (errorCarga()) {
+    <div class="alert alert-danger my-3" role="alert">
+      <strong>¡Error!</strong> {{ errorCarga() }}
+    </div>
+  }
+</div>

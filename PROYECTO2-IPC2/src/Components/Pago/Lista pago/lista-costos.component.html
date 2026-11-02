@@ -1,0 +1,74 @@
+@if (costos().length > 0) {
+  <h6 class="fw-bold mb-3">Costos Pendientes:</h6>
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID Costo</th>
+          <th>Monto</th>
+          <th>Fecha Límite</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (costo of costos(); track costo.idCosto) {
+          <tr [class.table-active]="costoSeleccionado()?.idCosto === costo.idCosto">
+            <td>{{ costo.idCosto }}</td>
+            <td>Q. {{ costo.monto }}</td>
+            <td>{{ costo.fechaLimite }}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-dark" (click)="seleccionarCosto(costo)">
+                SELECCIONAR
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <form [formGroup]="pagoForm" (ngSubmit)="procesarPago()" class="row g-3 bg-light p-3 rounded mt-3">
+    <div class="col-md-3">
+      <label class="form-label fw-bold">Tipo Pago</label>
+      <select class="form-select" formControlName="tipoPago">
+        <option [value]="enumPago.INSCRIPCION">Inscripción</option>
+        <option [value]="enumPago.MENSUALIDAD">Mensualidad</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-bold">Monto</label>
+      <input type="number" step="0.01" class="form-control" formControlName="monto" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-bold">Fecha de Pago</label>
+      <input type="date" class="form-control" formControlName="fechaDePago" />
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-bold">ID Secretaría</label>
+      <input class="form-control" formControlName="idSecretaria" />
+    </div>
+
+    <div class="col-12 text-end mt-3">
+      <button type="submit" class="btn btn-sm btn-dark"  [disabled]="pagoForm.invalid || !costoSeleccionado()">
+        PAGAR Y GENERAR COMPROBANTE
+      </button>
+    </div>
+  </form>
+}
+
+@if (operacionTerminada()) {
+  <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+    <strong>OPERACIÓN REALIZADA</strong> 
+    <button type="button" class="btn-close" (click)="operacionTerminada.set(false)"></button>
+  </div>
+}
+
+@if (errorOperacion()) {
+  <div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+    <strong>¡Error!</strong> {{ errorOperacion() }}
+    <button type="button" class="btn-close" (click)="errorOperacion.set(null)"></button>
+  </div>
+}

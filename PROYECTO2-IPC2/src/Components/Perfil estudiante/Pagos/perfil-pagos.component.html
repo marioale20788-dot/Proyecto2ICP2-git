@@ -1,0 +1,69 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-end align-items-center mb-3 gap-2">
+    <label for="cicloPagosInput" class="fw-bold small text-nowrap">Ciclo Lectivo:</label>
+    <input  id="cicloPagosInput"  type="number"  class="form-control form-control-sm text-center"  style="width: 100px;"  [value]="cicloActual()"  (change)="cambiarCiclo($event)" /></div>
+
+  <div class="row g-4 mb-4">
+
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100">
+        <div class="card-header bg-black text-white p-3">
+          <h5 class="mb-0 fs-6">PAGOS REALIZADOS</h5>
+        </div>
+        <div class="card-body p-0 overflow-hidden">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark text-uppercase small">
+              <tr>
+                <th class="py-3 px-4">Tipo Pago</th>
+                <th class="py-3 px-4">Monto</th>
+                <th class="py-3 px-4">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (pago of pagos(); track pago.idPago) {
+                <tr>
+                  <td class="py-3 px-4 fw-bold text-secondary">{{ pago.tipoPago }}</td>
+                  <td class="py-3 px-4 fw-bold text-secondary">Q{{ pago.monto }}</td>
+                  <td class="py-3 px-4 fw-bold text-secondary">{{ pago.fechaPago }}</td>
+                </tr>
+              } @empty {
+                <tr><td colspan="3" class="text-center py-4 text-muted">Sin pagos en este ciclo.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 rounded-3 h-100">
+        <div class="card-header bg-black text-white p-3">
+          <h5 class="mb-0 fs-6">COSTOS Y CUOTAS PENDIENTES</h5>
+        </div>
+        <div class="card-body p-0 overflow-hidden">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark text-uppercase small">
+              <tr>
+                <th class="py-3 px-4">Monto</th>
+                <th class="py-3 px-4">Fecha Límite</th>
+                <th class="py-3 px-4">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (costo of costos(); track costo.idCosto) {
+                <tr>
+                  <td class="py-3 px-4 fw-bold text-secondary">Q{{ costo.monto }}</td>
+                  <td class="py-3 px-4 fw-bold text-secondary">{{ costo.fechaLimite }}</td>
+                  <td class="py-3 px-4 fw-bold text-secondary"> {{ costo.estado ? 'PAGADO' : 'PENDIENTE' }}  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="3" class="text-center py-4 text-muted">No existen cobros pendientes.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
