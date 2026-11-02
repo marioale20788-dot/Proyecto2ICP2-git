@@ -21,7 +21,7 @@ public class UpdateEmpleadoRequest {
  private String nombreCompleto;
   @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
- private LocalDate fechaContratacion;
+ private LocalDate fechaDeContratacion;
 
     public String getCorreoElectronico() {
         return correoElectronico;
@@ -55,19 +55,16 @@ public class UpdateEmpleadoRequest {
         this.nombreCompleto = nombreCompleto;
     }
 
-    public LocalDate getFechaContratacion() {
-        return fechaContratacion;
+    public LocalDate getFechaDeContratacion() {
+        return fechaDeContratacion;
     }
 
-    public void setFechaContratacion(LocalDate fechaContratacion) {
-        this.fechaContratacion = fechaContratacion;
+    public void setFechaDeContratacion(LocalDate fechaDeContratacion) {
+        this.fechaDeContratacion = fechaDeContratacion;
     }
- public boolean actualizarUsuario(){
-     if(correoElectronico !=null||estado!=null){
-         return true;
-     }
-     return false;
- }
+
+  
+
     
     
 }

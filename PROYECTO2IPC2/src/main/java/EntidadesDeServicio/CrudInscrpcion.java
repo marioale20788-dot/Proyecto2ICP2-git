@@ -138,6 +138,18 @@ public class CrudInscrpcion {
         return incripcionesEstudiantesRespuesta;
 
     }
+    public IncripcionRespuesta obtenerInscripcionPorId(String id) throws DatosNoValidosExcepcion, ElementoNoEncotradoExcepcion {
+     
+        inscripcionDB inscripcionDB = new inscripcionDB();
+
+        ArrayList<inscripcion> ins = inscripcionDB.incripcionesPorId(id);
+
+       if(ins.isEmpty()){
+                       throw new ElementoNoEncotradoExcepcion("NO SE ENCONTRO NINGUNA INSCRIPCION");
+       }
+        ArrayList<IncripcionRespuesta> respuesta = iniciarInscripcionEstudianteRespuesta(ins);
+        return respuesta.getFirst();
+    }
 
     public ArrayList<IncripcionRespuesta> obtenerSeccionesPorCiclo(int ciclo) throws ElementoNoEncotradoExcepcion {
         inscripcionDB inscripcionDB = new inscripcionDB();

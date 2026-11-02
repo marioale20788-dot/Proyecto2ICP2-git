@@ -51,7 +51,7 @@ public class Prestamo {
     }
     public void updatePrestamo(PrestamoUpdateRequest update){
         this.fechaPrestamo = update.getFechaDePrestamo();
-        this.fechaEsperadaEntrega = update.getFechaEsperadaEntrega();
+        this.fechaEsperadaEntrega = update.getFechaDeEntregaEsperada();
         this.idLibro = update.getIdLibro();
         this.idUsuario = update.getIdUsuario();
         this.cantidad = update.getCantidad();

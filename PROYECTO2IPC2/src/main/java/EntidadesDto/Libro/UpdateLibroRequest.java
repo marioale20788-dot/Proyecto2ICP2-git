@@ -12,7 +12,7 @@ public class UpdateLibroRequest {
     private String nombreLibro;
     private String autor;
     private String editorial;
-    private int cantidad;
+    private Integer cantidad;
 
     public String getNombreLibro() {
         return nombreLibro;
@@ -38,11 +38,11 @@ public class UpdateLibroRequest {
         this.editorial = editorial;
     }
 
-    public int getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
     

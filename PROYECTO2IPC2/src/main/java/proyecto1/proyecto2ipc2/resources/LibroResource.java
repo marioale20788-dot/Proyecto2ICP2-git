@@ -47,21 +47,30 @@ public class LibroResource {
             crud.crearLibro(libroACrear);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
 
         }
 
     }
         @GET
+        @Path("/pagina/{numero}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerTodosLosLibros() {
+    public Response obtenerTodosLosLibros(@PathParam("numero")int pagina) {
        CrudLibro crud = new CrudLibro();
-           List<LibroRespuesta> libros = crud.buscarLibros()
+            try {
+                       List<LibroRespuesta> libros = crud.buscarLibros(pagina)
                  .stream()
                 .map(LibroRespuesta::new)
                 .toList();
 
         return Response.ok(libros).build();
+            } catch (Exception e) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                       .entity(e.getMessage())
+                       .build();
+            }
+  
+
             
 
     }
@@ -91,9 +100,9 @@ public class LibroResource {
             Libro libroEditado = crud.updateLibro(idLibro, updatesLibro);
              return Response.ok(new LibroRespuesta(libroEditado)).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-           return Response.status(Response.Status.NOT_FOUND).build();
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
         

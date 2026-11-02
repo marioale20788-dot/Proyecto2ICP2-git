@@ -45,35 +45,52 @@ public class SeccionResource {
             crud.crearSeccion(nuevaSeccion);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
 
     @GET
+       @Path("pagina/{pagina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarTodasLasSecciones() {
+    public Response buscarTodasLasSecciones(@PathParam("pagina") int pagina) {
         CrudSeccion crud = new CrudSeccion();
-        List<SeccionRespuesta> resupesta = crud.obtenerTodasLasSecciones(false, "")
+        List<SeccionRespuesta> resupesta = crud.obtenerTodasLasSecciones(false, "",pagina)
                 .stream()
                 .map(SeccionRespuesta::new)
                 .toList();
         return Response.ok(resupesta).build();
 
     }
+      @GET 
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarTodasLasSeccionesSelect() {
+        CrudSeccion crud = new CrudSeccion();
+        List<SeccionRespuesta> resupesta = crud.obtenerTodasLasSeccionesSelet()
+                .stream()
+                .map(SeccionRespuesta::new)
+                .toList();
+        return Response.ok(resupesta).build();
+
+    }
+
 
     @GET
-    @Path("{NombreSeccion}")
+    @Path("{NombreSeccion}/{pagina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerSeccionesPorNombre(@PathParam("NombreSeccion") String nombreSeccion) {
+    public Response obtenerSeccionesPorNombre(@PathParam("NombreSeccion") String nombreSeccion,
+            @PathParam("pagina") int pagina) {
         CrudSeccion crud = new CrudSeccion();
 
-        List<SeccionRespuesta> resupesta = crud.obtenerTodasLasSecciones(true, nombreSeccion)
+        List<SeccionRespuesta> resupesta = crud.obtenerTodasLasSecciones(true, nombreSeccion,pagina)
                 .stream()
                 .map(SeccionRespuesta::new)
                 .toList();
         return Response.ok(resupesta).build();
     }
+    
+    
+    
       @GET
     @Path("/Grado/{idGrado}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,6 +103,23 @@ public class SeccionResource {
                 .toList();
         return Response.ok(resupesta).build();
     }
+          @GET
+    @Path("/id/{idGrado}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerSeccionesPorId(@PathParam("idGrado") String idSeccion) {
+        CrudSeccion crud = new CrudSeccion();
+        try {
+            SeccionRespuesta respuesta = new SeccionRespuesta(crud.obtenerSeccionPorId(idSeccion));
+             return Response.ok(respuesta).build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+
+
+
+    }
+    
+
 
 
     @PUT
@@ -100,9 +134,9 @@ public class SeccionResource {
             Seccion seccionEditado = crud.updateSeccion(idSeccion, updatesSeccion);
             return Response.ok(new SeccionRespuesta(seccionEditado)).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -115,9 +149,9 @@ public class SeccionResource {
             crud.eliminarSeccion(idLibro);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         }
     }
 

@@ -93,6 +93,7 @@ public class CrudPrestamo {
         return prestamos;
 
     }
+    
 
     public void eliminarPretamo(String idPrestamo) throws ElementoNoEncotradoExcepcion, ElemtoAElminarEnUsoExcepcion, DatosNoValidosExcepcion {
         PrestamoDB prestamoDb = new PrestamoDB();

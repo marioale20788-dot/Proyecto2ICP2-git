@@ -28,9 +28,11 @@ public class Empleado {
    public void updateEmpleado(UpdateEmpleadoRequest update){
        if(update.getNombreCompleto()!=null){
            this.nombre=update.getNombreCompleto();
-       }else if(update.getFechaContratacion()!=null){
-           this.fechaDeContratacion = update.getFechaContratacion();
-       }else if(update.getSalario()!=null){
+       } 
+       if(update.getFechaDeContratacion()!=null){
+           this.fechaDeContratacion = update.getFechaDeContratacion();
+       }
+       if(update.getSalario()!=null){
            this.salario = update.getSalario();
            
        }

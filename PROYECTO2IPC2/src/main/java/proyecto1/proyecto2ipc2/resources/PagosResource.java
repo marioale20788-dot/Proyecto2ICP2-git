@@ -41,11 +41,11 @@ public class PagosResource {
                 String idPago =crud.registrarPago(nuevoPago);
                 return Response.ok(idPago).build();
             } catch (ElementoNoEncotradoExcepcion ex) {
-                return Response.status(Response.Status.NOT_FOUND).build();
+                return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
             }
 
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -62,7 +62,7 @@ public class PagosResource {
                     .toList();
             return Response.ok(estudianteCostos).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-                  return Response.status(Response.Status.NOT_FOUND).build();
+                  return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
         
          
@@ -72,6 +72,7 @@ public class PagosResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerPrestamosConMora(@PathParam("idEstudinate") String idEstudiante) {
       CrudPago crud = new CrudPago();
+      
         try {
             List<GetPrestamosConMoraEstudiante> estudianteCostos = crud.prestamosConMoraEstudiante(idEstudiante)
                     .stream()
@@ -79,7 +80,7 @@ public class PagosResource {
                     .toList();
             return Response.ok(estudianteCostos).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-                  return Response.status(Response.Status.NOT_FOUND).build();
+                  return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
         
          

@@ -9,9 +9,27 @@ package EntidadesDto.Seccion;
  * @author mario
  */
 public class NuevaSeccionRequest {
-    
-    private String nombreSeccion;
+
     private String idGrado;
+    private int anio;
+    private String nombreSeccion;
+
+  
+    public String getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(String idGrado) {
+        this.idGrado = idGrado;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
 
     public String getNombreSeccion() {
         return nombreSeccion;
@@ -19,14 +37,6 @@ public class NuevaSeccionRequest {
 
     public void setNombreSeccion(String nombreSeccion) {
         this.nombreSeccion = nombreSeccion;
-    }
-
-    public String getIdGrado() {
-        return idGrado;
-    }
-
-    public void setIdGrado(String idGrado) {
-        this.idGrado = idGrado;
     }
     
     

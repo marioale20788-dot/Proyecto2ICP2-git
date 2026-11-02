@@ -27,6 +27,11 @@ public class Usuario {
         this.tipo = tipo;
         this.estado = estado;
     }
+
+    public Usuario() {
+    }
+    
+    
     public void updateUsuario(UpdateEmpleadoRequest update){
         if(update.getCorreoElectronico()!=null){
             this.correoElectronico = update.getCorreoElectronico();

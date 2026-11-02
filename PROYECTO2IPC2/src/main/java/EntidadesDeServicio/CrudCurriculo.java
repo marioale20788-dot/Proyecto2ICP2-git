@@ -64,11 +64,19 @@ public class CrudCurriculo {
         
     }
     
-    public void quitarCursoDelCurriculo(String idCurriculo) throws ElementoNoEncotradoExcepcion, ElemtoAElminarEnUsoExcepcion{
+    public void quitarCursoDelCurriculo(String idCurriculo) throws ElementoNoEncotradoExcepcion, ElemtoAElminarEnUsoExcepcion, DatosNoValidosExcepcion{
           CurriculoDB curriculoDb = new CurriculoDB();
           if(curriculoDb.curriculoExiste(idCurriculo)==false){
                 throw  new ElementoNoEncotradoExcepcion("NO SE ENCONTRO NINGUN CURRICULO0");
           }
+         Curriculo curriculo = curriculoDb.obtenreCurriculoPorId(idCurriculo);
+         ArrayList<CurriculoRespuesta> curriculos = obtenerCurriculoPorGradoCiclo(curriculo.getIdGrado(), curriculo.getCicloLectivo());
+         if(curriculos.size()==1){
+             
+              throw new DatosNoValidosExcepcion("NO PUEDES ELIMINAR ESTE CURSO, DEBE HABER AL MENO SUN CURSO EN EL CURRICULO");
+         }
+          
+          
           curriculoDb.eliminarCursoCurriculo(idCurriculo);
           
         

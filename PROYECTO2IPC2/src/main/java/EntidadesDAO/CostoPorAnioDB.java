@@ -38,7 +38,7 @@ public class CostoPorAnioDB {
 
     }
 
-    public ArrayList<CostoPorAnio> obtenerCostoPorId(String idCosto,String idEstudiante) throws DatosNoValidosExcepcion {
+    public ArrayList<CostoPorAnio> obtenerCostoPorId(String idCosto, String idEstudiante) throws DatosNoValidosExcepcion {
         String sql = "SELECT * FROM costos_por_anio WHERE id_costo = ? AND id_estudiante = ?";
         ArrayList<CostoPorAnio> costo = new ArrayList<>();
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
@@ -61,9 +61,9 @@ public class CostoPorAnioDB {
         }
     }
 
-    public boolean pagarCosto(Connection conne, String idCosto, double monto,String idEstudiante) throws DatosNoValidosExcepcion, SQLException {
+    public boolean pagarCosto(Connection conne, String idCosto, double monto, String idEstudiante) throws DatosNoValidosExcepcion, SQLException {
 
-        ArrayList<CostoPorAnio> costo = obtenerCostoPorId(idCosto,idEstudiante);
+        ArrayList<CostoPorAnio> costo = obtenerCostoPorId(idCosto, idEstudiante);
         if (costo.isEmpty()) {
             return false;
         }
@@ -92,47 +92,120 @@ public class CostoPorAnioDB {
             throw new ElemtoAElminarEnUsoExcepcion(sqlExcepcion(ex));
         }
     }
-    public ArrayList<CostoPorAnio> obtenerCostosDeEstudiante(int idCiclo, String idEstudiante,boolean incluirEstado){
-   String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND id_ciclo_lectivo = ?";
-   if(incluirEstado==true){
-       sql = sql+" AND estado = false";
-   }
-   ArrayList<CostoPorAnio> costos = new ArrayList<>();
-   
-        try (Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement queryStatement = conn.prepareStatement(sql);){
+
+    public ArrayList<CostoPorAnio> obtenerCostosDeEstudiante(int idCiclo, String idEstudiante, boolean incluirEstado) {
+        String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND id_ciclo_lectivo = ?";
+        if (incluirEstado == true) {
+            sql = sql + " AND estado = false";
+        }
+        ArrayList<CostoPorAnio> costos = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
             queryStatement.setString(1, idEstudiante);
             queryStatement.setInt(2, idCiclo);
             ResultSet resultado = queryStatement.executeQuery();
-            while(resultado.next()){
-                CostoPorAnio costoEstuidante = new CostoPorAnio(resultado.getString("id_costo"), 
-                      resultado.getDouble("monto"),
-                       resultado.getDate("fecha_limite").toLocalDate(), 
-                       resultado.getBoolean("estado"), 
+            while (resultado.next()) {
+                CostoPorAnio costoEstuidante = new CostoPorAnio(resultado.getString("id_costo"),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_limite").toLocalDate(),
+                        resultado.getBoolean("estado"),
                         resultado.getString("id_estudiante"),
                         resultado.getInt("id_ciclo_lectivo"));
                 costos.add(costoEstuidante);
             }
             return costos;
-            
+
         } catch (SQLException e) {
-             return costos;
+            return costos;
         }
     }
-    public boolean costosPendientesParaInscripcion(String idEstudiante){
-        String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND estado = false";
-         
-   
-        try (Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement queryStatement = conn.prepareStatement(sql);){
+      public ArrayList<CostoPorAnio> obtenerTodosLosCostos(String idEstudiante) {
+        String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ?  AND estado = false";
+        
+        ArrayList<CostoPorAnio> costos = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
             queryStatement.setString(1, idEstudiante);
-       
             ResultSet resultado = queryStatement.executeQuery();
-          return resultado.next();
-            
+            while (resultado.next()) {
+                CostoPorAnio costoEstuidante = new CostoPorAnio(resultado.getString("id_costo"),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_limite").toLocalDate(),
+                        resultado.getBoolean("estado"),
+                        resultado.getString("id_estudiante"),
+                        resultado.getInt("id_ciclo_lectivo"));
+                costos.add(costoEstuidante);
+            }
+            return costos;
+
         } catch (SQLException e) {
-             return false;
+            return costos;
         }
+    }
+     public ArrayList<CostoPorAnio> obtenerCostosDeEstudianteFechas(String idEstudiante, LocalDate fechaInicio,LocalDate fechaFinal) {
+      String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND estado = false AND (fecha_limite BETWEEN ? AND ?)";
+     
+        ArrayList<CostoPorAnio> costos = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, idEstudiante);
+            queryStatement.setDate(2, Date.valueOf(fechaInicio));
+               queryStatement.setDate(3, Date.valueOf(fechaFinal));
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                CostoPorAnio costoEstuidante = new CostoPorAnio(resultado.getString("id_costo"),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_limite").toLocalDate(),
+                        resultado.getBoolean("estado"),
+                        resultado.getString("id_estudiante"),
+                        resultado.getInt("id_ciclo_lectivo"));
+                costos.add(costoEstuidante);
+            }
+            return costos;
+
+        } catch (SQLException e) {
+            return costos;
+        }
+    }
+
+
+    public boolean costosPendientesParaInscripcion(String idEstudiante) {
+        String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND estado = false";
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, idEstudiante);
+
+            ResultSet resultado = queryStatement.executeQuery();
+            return resultado.next();
+
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public ArrayList<CostoPorAnio> costosMorosos(String idEstudiante, LocalDate fechaActual) {
+
+        String sql = "SELECT * FROM costos_por_anio WHERE id_estudiante = ? AND estado = false AND fecha_limite < ?";
+        ArrayList<CostoPorAnio> costos = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, idEstudiante);
+            queryStatement.setDate(2, Date.valueOf(fechaActual));
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                CostoPorAnio costoEstuidante = new CostoPorAnio(resultado.getString("id_costo"),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_limite").toLocalDate(),
+                        resultado.getBoolean("estado"),
+                        resultado.getString("id_estudiante"),
+                        resultado.getInt("id_ciclo_lectivo"));
+                costos.add(costoEstuidante);
+            }
+            return costos;
+
+        } catch (SQLException e) {
+            return costos;
+        }
+
     }
 
     public String sqlExcepcion(SQLException excepcion) {

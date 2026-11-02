@@ -16,10 +16,21 @@ public class NuevoEstudianteRequest {
     private String contrasena;
     private String correoElectronico;
     private String nombreEstudiante;
+    private boolean graduado;
 
     public String getDpiUsuario() {
         return dpiUsuario;
     }
+
+    public boolean getGraduado() {
+        return graduado;
+    }
+
+    public void setGraduado(boolean graduado) {
+        this.graduado = graduado;
+    }
+    
+    
 
     public void setDpiUsuario(String dpiUsuario) {
         this.dpiUsuario = dpiUsuario;

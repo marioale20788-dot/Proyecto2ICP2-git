@@ -41,23 +41,23 @@ public class AdministrarCursoResource {
            administrarCurso.TomarAsistencia(nuevaAsistencia);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
     
      @GET
-    @Path("{idResgistro}")
+    @Path("{idEstudiante}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerEstadoAsistencia(@PathParam("idResgistro") String idEstudiante) {
+    public Response obtenerEstadoAsistencia(@PathParam("idEstudiante") String idEstudiante) {
        AdministrarCurso administrarCurso = new AdministrarCurso();
         try {
             ArrayList<AsistenciaRepuesta> respuesta = administrarCurso.obtenerAsistencia(idEstudiante);
             return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-                  return Response.status(Response.Status.NOT_FOUND).build();
+                  return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-               return Response.status(Response.Status.BAD_REQUEST).build();
+               return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
          }
         
          

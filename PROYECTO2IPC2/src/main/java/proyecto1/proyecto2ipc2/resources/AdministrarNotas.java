@@ -41,7 +41,7 @@ public class AdministrarNotas {
             ArrayList<GetNotas> respuesta = notas.obtenerNotas(idUsuario, idResgistro);
             return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-                  return Response.status(Response.Status.NOT_FOUND).build();
+                  return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
         
          
@@ -55,7 +55,7 @@ public class AdministrarNotas {
            NotaActividad nota = notas.actualizarNota(nuevaNota);
             return Response.ok(nota).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -69,7 +69,7 @@ public class AdministrarNotas {
           admNotaFinal.insertarNotaFinal(notaFinal);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }

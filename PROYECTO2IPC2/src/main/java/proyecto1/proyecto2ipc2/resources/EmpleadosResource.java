@@ -54,7 +54,7 @@ public class EmpleadosResource {
         CrudUsuario crud = new CrudUsuario();
 
         try {
-            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(false, null,estado);
+            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(false, null,estado,1);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion ex) {
                  return Response.status(Response.Status.NOT_FOUND).build();
@@ -70,7 +70,7 @@ public class EmpleadosResource {
        CrudUsuario crud = new CrudUsuario();
 
         try {
-            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(true, rol,estado);
+            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(true, rol,estado,1);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion ex) {
                  return Response.status(Response.Status.NOT_FOUND).build();

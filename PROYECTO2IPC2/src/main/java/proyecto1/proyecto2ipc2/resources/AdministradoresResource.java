@@ -44,38 +44,38 @@ public class AdministradoresResource {
             crud.crearUsuario(nuevoAdmin);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-     @Path("/{estado}")
-    public Response buscarTodosLosUsuarios(@PathParam("estado") boolean estado) {
+     @Path("/{estado}/{numero}")
+    public Response buscarTodosLosUsuarios(@PathParam("estado") boolean estado, @PathParam("numero") int pagina) {
         CrudUsuario crud = new CrudUsuario();
 
         try {
-            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(false, null,estado);
+            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(false, null,estado,pagina);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion ex) {
-                 return Response.status(Response.Status.NOT_FOUND).build();
+                 return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
        
 
     }
 
     @GET
-    @Path("/rol/{rol}/{estado}")
+    @Path("/rol/{rol}/{estado}/{numero}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarUsuarioPorRol(@PathParam("rol") String rol,@PathParam("estado") boolean estado) {
+    public Response buscarUsuarioPorRol(@PathParam("rol") String rol,@PathParam("estado") boolean estado,@PathParam("numero") int pagina) {
        CrudUsuario crud = new CrudUsuario();
 
         try {
-            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(true, rol,estado);
+            ArrayList<EmpleadoUsuarioRespuesta> respuesta = crud.buscarTodosUsuariosRespuesta(true, rol,estado,pagina);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion ex) {
-                 return Response.status(Response.Status.NOT_FOUND).build();
+                 return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
  @GET
@@ -88,7 +88,7 @@ public class AdministradoresResource {
             EmpleadoUsuarioRespuesta respuesta = crud.buscarEmpleadoUsuarioPorId(dpi);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion | ElementoNoEncotradoExcepcion ex) {
-                 return Response.status(Response.Status.NOT_FOUND).build();
+                 return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
     
@@ -103,9 +103,9 @@ public class AdministradoresResource {
              EmpleadoUsuarioRespuesta updateUsuario  = crud.actualizarUsuario(dpi, update);
             return Response.ok(updateUsuario).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }

@@ -12,31 +12,34 @@ import Entidades.Grado;
  * @author mario
  */
 public class CurriculoRespuesta {
-    private String IdCurriculo;
+    private String idCurriculo;
     private String idGrado;
-    private String coidgoCurso;
+    private String codigoCurso;
     private String nombreCurso;
-    private Integer cilcloLectivo;
+    private Integer cicloLectivo;
 
 
     public CurriculoRespuesta(Curriculo curriculo,String nombreCurso ) {
-        this.IdCurriculo = curriculo.getIdCurriculo();
+        this.idCurriculo = curriculo.getIdCurriculo();
         this.idGrado = curriculo.getIdGrado();
-        this.coidgoCurso =curriculo.getCodigoCurso();
-        this.cilcloLectivo = curriculo.getCicloLectivo();
+        this.codigoCurso =curriculo.getCodigoCurso();
+        this.cicloLectivo = curriculo.getCicloLectivo();
         this.nombreCurso=nombreCurso;
         
      
        
     }
+    public CurriculoRespuesta(){
+        
+    }
 
    
     public String getIdCurriculo() {
-        return IdCurriculo;
+        return idCurriculo;
     }
 
     public void setIdCurriculo(String IdCurriculo) {
-        this.IdCurriculo = IdCurriculo;
+        this.idCurriculo = IdCurriculo;
     }
 
     public String getIdGrado() {
@@ -55,22 +58,22 @@ public class CurriculoRespuesta {
         this.idGrado = idGrado;
     }
 
-    public String getCoidgoCurso() {
-        return coidgoCurso;
+    public String getCodigoCurso() {
+        return codigoCurso;
     }
 
-    public void setCoidgoCurso(String coidgoCurso) {
-        this.coidgoCurso = coidgoCurso;
+    public void setCodigoCurso(String codigoCurso) {
+        this.codigoCurso = codigoCurso;
     }
 
-    public Integer getCilcloLectivo() {
-        return cilcloLectivo;
+    public Integer getCicloLectivo() {
+        return cicloLectivo;
     }
 
-    public void setCilcloLectivo(Integer cilcloLectivo) {
-        this.cilcloLectivo = cilcloLectivo;
+    public void setCicloLectivo(Integer cicloLectivo) {
+        this.cicloLectivo = cicloLectivo;
     }
-    
+
     
     
     

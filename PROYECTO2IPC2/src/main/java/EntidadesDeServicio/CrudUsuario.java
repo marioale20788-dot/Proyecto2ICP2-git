@@ -28,9 +28,9 @@ public class CrudUsuario {
 
         UsuarioDB usuarioBaseDeDatos = new UsuarioDB();
         EmpleadoDB empleadoBaseDeDatos = new EmpleadoDB();
-        Usuario usuario = new Usuario(nuevoUsuario.getDpiUsuario(),
+        Usuario usuario = new Usuario(nuevoUsuario.getId(),
                 nuevoUsuario.getCorreoElectronico(), nuevoUsuario.getContrasena(),
-                nuevoUsuario.getTipoUsuario(), true);
+                nuevoUsuario.getRol(), true);
         if (usuario.datosValidosCrearUsuario() == false) {
 
             throw new DatosNoValidosExcepcion("DATOS NO VALIDOS");
@@ -44,16 +44,19 @@ public class CrudUsuario {
         empleadoBaseDeDatos.CrearEmpleado(usuario.getIdUsuario(), empleado);
     }
 
-    public ArrayList<EmpleadoUsuarioRespuesta> buscarTodosUsuariosRespuesta(boolean categoriaSi, String categoria,boolean estado) throws DatosNoValidosExcepcion {
+    public ArrayList<EmpleadoUsuarioRespuesta> buscarTodosUsuariosRespuesta(boolean categoriaSi, String categoria,boolean estado, int pagina) throws DatosNoValidosExcepcion {
         UsuarioDB usuarioBaseDeDatos = new UsuarioDB();
         EmpleadoDB empleadoBaseDeDatos = new EmpleadoDB();
         ArrayList<EmpleadoUsuarioRespuesta> respuesta = new ArrayList<>();
 
-        ArrayList<Usuario> usuarios = usuarioBaseDeDatos.obtenerTodosLosUsuarios(categoriaSi, categoria,estado);
+        ArrayList<Usuario> usuarios = usuarioBaseDeDatos.obtenerTodosLosUsuarios(categoriaSi, categoria,estado,pagina);
         for (Usuario usuario : usuarios) {
-            Empleado empleado = empleadoBaseDeDatos.obtenerEmpleadoPorId(usuario.getIdUsuario());
+            if(usuario.getTipo()!=TipoUsuarioEnum.Estudiante){
+                   Empleado empleado = empleadoBaseDeDatos.obtenerEmpleadoPorId(usuario.getIdUsuario());
             EmpleadoUsuarioRespuesta respuestaEU = new EmpleadoUsuarioRespuesta(usuario, empleado);
             respuesta.add(respuestaEU);
+            }
+         
 
         }
         return respuesta;
@@ -81,15 +84,24 @@ public class CrudUsuario {
             throw new ElementoNoEncotradoExcepcion("NO SE ENCONTRO UN USARUIO CON ESE DPI");
         }
 
-        if (updateEmpleado.actualizarUsuario() == true) {
  
             Usuario usarioAEditar = usuario.getFirst();
             usarioAEditar.updateUsuario(updateEmpleado);
             if(usarioAEditar.datosValidosCrearUsuario()==false){
                    throw new DatosNoValidosExcepcion("DATOS NO VALIDOS");
             }
-            usuarioBaseDeDatos.updateUsuario(usarioAEditar, dpi);
-        } else {
+            if(usarioAEditar.getTipo()==TipoUsuarioEnum.Super_Admin){
+                if(usarioAEditar.getEstado()==false){
+                    if(usuarioBaseDeDatos.esUtimoSuperAdmin()==true){
+                      throw new DatosNoValidosExcepcion("DEBE HABER AL MENOS UN SUPER ADMIN ACTIVO");
+                        
+                    }
+                    
+                }
+            }
+            
+        
+
             EmpleadoDB empleadoBaseDeDatos = new EmpleadoDB();
             Empleado empleadoAEditar = empleadoBaseDeDatos.obtenerEmpleadoPorId(dpi);
             empleadoAEditar.updateEmpleado(updateEmpleado);
@@ -97,10 +109,11 @@ public class CrudUsuario {
                      throw new DatosNoValidosExcepcion("NO SE ENCONTRO UN USARUIO CON ESE DPI");
         
             }
+                usuarioBaseDeDatos.updateUsuario(usarioAEditar, dpi);
             empleadoBaseDeDatos.updateEmpleado(dpi, empleadoAEditar);
             
 
-        }
+       
         return buscarEmpleadoUsuarioPorId(dpi);
 
     }

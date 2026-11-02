@@ -13,7 +13,7 @@ public class UpdateCurso {
     private String descripcionCurso;
     private Boolean estado;
 
-    public String getNombrecurso() {
+    public String getNombreCurso() {
         return nombreCurso;
     }
 

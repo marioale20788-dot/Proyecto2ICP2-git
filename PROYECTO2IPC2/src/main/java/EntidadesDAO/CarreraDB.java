@@ -38,12 +38,38 @@ public class CarreraDB {
 
     }
 
-    public ArrayList<Carrera> buscarTodasLasCarreras() {
-        String sql = "SELECT * FROM carrera";
+    public ArrayList<Carrera> buscarTodasLasCarreras(boolean estado) {
+        String sql = "SELECT * FROM carrera WHERE estado = ?";
         ArrayList<Carrera> carreras = new ArrayList<>();
 
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setBoolean(1, estado);
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Carrera carrera = new Carrera(resultado.getString("id_carrera"),
+                        resultado.getString("nombre"),
+                        resultado.getBoolean("estado"));
+                carreras.add(carrera);
+            }
+            return carreras;
 
+        } catch (SQLException ex) {
+            return carreras;
+        }
+
+    }
+
+    public ArrayList<Carrera> buscarTodasLasCarrerasPagina(boolean estado, int pagina) {
+         int limite = 10;
+        int offset = (pagina - 1) * limite;
+
+        String sql = "SELECT * FROM carrera WHERE estado = ? ORDER BY id_carrera ASC LIMIT ? OFFSET ? ";
+        ArrayList<Carrera> carreras = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setBoolean(1, estado);
+            queryStatement.setInt(2,limite);
+             queryStatement.setInt(3,offset);
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
                 Carrera carrera = new Carrera(resultado.getString("id_carrera"),
@@ -61,8 +87,7 @@ public class CarreraDB {
 
     public Carrera updateCarrera(Carrera carrera, String idCarrera) throws DatosNoValidosExcepcion {
         String sql = "UPDATE carrera SET nombre = ?,estado = ? WHERE id_carrera = ? ";
-        try (Connection conn = DBConnection.getInstance().getConnection(); 
-                PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
 
             updateStatement.setString(1, carrera.getNombre());
             updateStatement.setBoolean(2, carrera.getEstado());
@@ -79,9 +104,8 @@ public class CarreraDB {
         String sql = "SELECT * FROM carrera  WHERE (id_carrera = ? OR nombre = ?)";
         ArrayList<Carrera> carreras = new ArrayList<>();
 
-        try ( Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement queryStatement = conn.prepareStatement(sql);){
-           
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+
             queryStatement.setString(1, dato);
             queryStatement.setString(2, dato);
             ResultSet resultado = queryStatement.executeQuery();
@@ -102,9 +126,8 @@ public class CarreraDB {
 
     public void EliminarCarrera(String id) throws ElemtoAElminarEnUsoExcepcion {
         String sql = "DELETE FROM carrera WHERE id_carrera = ?";
-        try ( Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement updateStatement = conn.prepareStatement(sql);){
-           
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement updateStatement = conn.prepareStatement(sql);) {
+
             updateStatement.setString(1, id);
             updateStatement.execute();
 

@@ -44,17 +44,18 @@ public class GradoResource {
 
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
 
         }
 
     }
 
     @GET
+        @Path("{pagina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerTodosLosGrados() {
+    public Response obtenerTodosLosGrados(@PathParam("pagina") int pagina) {
         CrudGrado crud = new CrudGrado();;
-        List<GradoRespuesta> grados = crud.obtenerTodosLosGrados()
+        List<GradoRespuesta> grados = crud.obtenerTodosLosGrados(pagina)
                 .stream()
                 .map(GradoRespuesta::new)
                 .toList();
@@ -62,9 +63,25 @@ public class GradoResource {
         return Response.ok(grados).build();
 
     }
+    
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerTodosLosGradosSelect() {
+        CrudGrado crud = new CrudGrado();;
+        List<GradoRespuesta> grados = crud.obtenerTodosLosGradosSelect()
+                .stream()
+                .map(GradoRespuesta::new)
+                .toList();
+
+        return Response.ok(grados).build();
+
+    }
+    
+    
 
     @GET
-    @Path("{idNivel}")
+    @Path("Nivel/{idNivel}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerGradosPorNivel(@PathParam("idNivel") String idNivel) {
         CrudGrado crud = new CrudGrado();;
@@ -77,7 +94,7 @@ public class GradoResource {
             return Response.ok(grados).build();
 
         } catch (ElementoNoEncotradoExcepcion e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
     @DELETE
@@ -89,8 +106,8 @@ public class GradoResource {
             crud.EliminarGrado(idGrado);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-           return Response.status(Response.Status.NOT_FOUND).build();
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();        }
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();        }
     }
 }

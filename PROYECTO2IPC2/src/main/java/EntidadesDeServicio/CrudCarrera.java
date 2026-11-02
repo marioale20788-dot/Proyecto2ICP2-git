@@ -32,13 +32,21 @@ public class CrudCarrera {
 
     }
 
-    public ArrayList<Carrera> buscarTodasCarreras() {
+    public ArrayList<Carrera> buscarTodasCarreras(boolean estado) {
 
         CarreraDB carreraDb = new CarreraDB();
-        ArrayList<Carrera> carrera = carreraDb.buscarTodasLasCarreras();
+        ArrayList<Carrera> carrera = carreraDb.buscarTodasLasCarreras(estado);
         return carrera;
 
     }
+      public ArrayList<Carrera> buscarTodasCarrerasCrud(boolean estado, int pagina) {
+
+        CarreraDB carreraDb = new CarreraDB();
+        ArrayList<Carrera> carrera = carreraDb.buscarTodasLasCarrerasPagina(estado,pagina);
+        return carrera;
+
+    }
+
 
     public Carrera buscarCarreraPorNombreId(String nombreId) throws ElementoNoEncotradoExcepcion {
         CarreraDB carreraDb = new CarreraDB();
@@ -59,10 +67,14 @@ public class CrudCarrera {
             if (!StringUtils.isNotBlank(updatesCarrera.getNombre())) {
                 throw new DatosNoValidosExcepcion("VALOR VACIO");
             }
-            CarreraAEditar.setNombre(updatesCarrera.getNombre());
-        } else {
-            CarreraAEditar.setEstado(updatesCarrera.getEstado());
+           
+        } 
+        if(updatesCarrera.getEstado()!=null){
+             CarreraAEditar.setNombre(updatesCarrera.getNombre());
         }
+        
+            CarreraAEditar.setEstado(updatesCarrera.getEstado());
+        
         return carreraDb.updateCarrera(CarreraAEditar, id);
 
     }

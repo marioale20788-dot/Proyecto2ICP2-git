@@ -28,9 +28,9 @@ public class CrudLibro {
 
     }
 
-    public ArrayList<Libro> buscarLibros() {
+    public ArrayList<Libro> buscarLibros(int pagina) {
         LibroDB libroDB = new LibroDB();
-        ArrayList<Libro> libros = libroDB.devolverTodosLosLibros();
+        ArrayList<Libro> libros = libroDB.devolverTodosLosLibros(pagina);
         return libros;
     }
 
@@ -51,11 +51,14 @@ public class CrudLibro {
 
         if (updatesLibro.getAutor() != null) {
             libroConUpdates.setAutor(updatesLibro.getAutor());
-        } else if (updatesLibro.getEditorial() != null) {
+        } 
+       if (updatesLibro.getEditorial() != null) {
             libroConUpdates.setEditorial(updatesLibro.getEditorial());
-        } else if (updatesLibro.getNombreLibro() != null) {
+        } 
+      if (updatesLibro.getNombreLibro() != null) {
             libroConUpdates.setNombreLibro(updatesLibro.getNombreLibro());
-        } else {
+        } 
+      if(updatesLibro.getCantidad()!=null) {
             libroConUpdates.setCantidad(updatesLibro.getCantidad());
         }
 

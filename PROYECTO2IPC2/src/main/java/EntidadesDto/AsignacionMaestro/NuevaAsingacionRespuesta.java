@@ -11,34 +11,32 @@ import Entidades.AsignacionDocente;
  * @author mario
  */
 public class NuevaAsingacionRespuesta {
-      private String idAsginacion;
-    private String idMaestro;
+ private String idAsignacion;
+    private String idUsuario;
     private String idSeccion;
-    private String idCurricuolo;
+    private String idCurriculo;
 
     public NuevaAsingacionRespuesta(AsignacionDocente asignacion) {
-        this.idAsginacion = asignacion.getIdAsginacion();
-        this.idMaestro = asignacion.getIdMaestro();
+        this.idAsignacion = asignacion.getIdAsginacion();
+        this.idUsuario = asignacion.getIdMaestro();
         this.idSeccion = asignacion.getIdSeccion();
-        this.idCurricuolo = asignacion.getIdCurricuolo();
+        this.idCurriculo = asignacion.getIdCurricuolo();
     }
 
-    
-    
-    public String getIdAsginacion() {
-        return idAsginacion;
+    public String getIdAsignacion() {
+        return idAsignacion;
     }
 
-    public void setIdAsginacion(String idAsginacion) {
-        this.idAsginacion = idAsginacion;
+    public void setIdAsignacion(String idAsignacion) {
+        this.idAsignacion = idAsignacion;
     }
 
-    public String getIdMaestro() {
-        return idMaestro;
+    public String getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdMaestro(String idMaestro) {
-        this.idMaestro = idMaestro;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getIdSeccion() {
@@ -49,13 +47,15 @@ public class NuevaAsingacionRespuesta {
         this.idSeccion = idSeccion;
     }
 
-    public String getIdCurricuolo() {
-        return idCurricuolo;
+    public String getIdCurriculo() {
+        return idCurriculo;
     }
 
-    public void setIdCurricuolo(String idCurricuolo) {
-        this.idCurricuolo = idCurricuolo;
+    public void setIdCurriculo(String idCurriculo) {
+        this.idCurriculo = idCurriculo;
     }
+
+    
     
     
     

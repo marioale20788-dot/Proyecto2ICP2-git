@@ -75,6 +75,26 @@ public class InsripcionResource {
         }
 
     }
+      @GET
+    @Path("/id/{idInscripcion}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerInscripcionesPorID(@PathParam("idInscripcion") String idInscripcion) {
+        CrudInscrpcion crud = new CrudInscrpcion();
+
+     
+        try {
+               IncripcionRespuesta resupesta = crud.obtenerInscripcionPorId(idInscripcion);
+
+            return Response.ok(resupesta).build();
+        } catch (DatosNoValidosExcepcion ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+    }
+    
+    
 
     @GET
     @Path("/Ciclo/{ciclo}")

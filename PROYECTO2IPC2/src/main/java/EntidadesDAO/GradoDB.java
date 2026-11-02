@@ -41,11 +41,41 @@ public class GradoDB {
 
     }
 
-    public ArrayList<Grado> obtenerTodosLosGrados() {
+    public ArrayList<Grado> obtenerTodosLosGrados(int pagina) {
+        
+           int limite = 10;
+        int offset = (pagina - 1) * limite;
+
+        String sql = "SELECT * FROM grado  ORDER BY id_grado ASC LIMIT ? OFFSET ?";
+        ArrayList<Grado> gradosCreados = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement queryStatement = conn.prepareStatement(sql);){
+            queryStatement.setInt(1, limite);
+            queryStatement.setInt(2, offset);
+            
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Grado grado = new Grado(resultado.getString("nombre_grado"),
+                        resultado.getString("id_grado"),
+                        resultado.getString("id_nivel"),
+                        resultado.getString("id_carrera"));
+                
+                gradosCreados.add(grado);
+            }
+            return gradosCreados;
+        } catch (SQLException ex) {
+          return gradosCreados;
+        }
+
+    }
+    
+    public ArrayList<Grado> obtenerTodosLosGradosSelect( ) {
+   
         String sql = "SELECT * FROM grado";
         ArrayList<Grado> gradosCreados = new ArrayList<>();
         try (Connection conn = DBConnection.getInstance().getConnection();
             PreparedStatement queryStatement = conn.prepareStatement(sql);){
+
             
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
@@ -86,6 +116,7 @@ public class GradoDB {
         }
 
     }
+    
     public boolean eliminarGrado(String id) throws ElemtoAElminarEnUsoExcepcion {
         String sql = "DELETE FROM grado WHERE id_grado = ?";
       

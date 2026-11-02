@@ -45,7 +45,7 @@ public class ZonaCursoResource {
             crud.crearActividad(nuevaActividad);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -63,9 +63,29 @@ public class ZonaCursoResource {
                     .toList();
             return Response.ok(resupesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
+    
+    @GET
+    @Path("idActividad/{idAsignacion}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response obtenerActividadePorId(@PathParam("idAsignacion") String idAsignacion) {
+        try {
+            CrudZona crud = new CrudZona();
+
+            List<ZonaActividadRespuesta> resupesta = crud.obtenerActiviadesDeAsignacion(idAsignacion)
+                    .stream()
+                    .map(ZonaActividadRespuesta::new)
+                    .toList();
+            return Response.ok(resupesta).build();
+        } catch (ElementoNoEncotradoExcepcion ex) {
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+    
+    
+    
 
     @PUT
     @Path("{idActividad}")
@@ -75,13 +95,13 @@ public class ZonaCursoResource {
             UpdateActividadRequest update) {
         CrudZona crud = new CrudZona();
 
-        try {
+        try {   
             ActividadZona actividadZona = crud.updateActividad(idActividad, update);
             return Response.ok(new ZonaActividadRespuesta(actividadZona)).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -93,9 +113,9 @@ public class ZonaCursoResource {
             crud.eliminarActividad(idActividad);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         }
     }
 

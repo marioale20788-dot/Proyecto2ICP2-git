@@ -42,9 +42,9 @@ public class CurriculoResource {
             crud.AgregarCurriculo(nuevoCurriculo);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-             return Response.status(Response.Status.NOT_FOUND).build();
+             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
 
     }
@@ -52,7 +52,7 @@ public class CurriculoResource {
     @GET
     @Path("{idGrado}/{ciclo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerSeccionesPorNombre(@PathParam("idGrado") String idGrado,
+    public Response obtenerCurriculoPorGradoCiclo(@PathParam("idGrado") String idGrado,
             @PathParam("ciclo") int ciclo) {
         CrudCurriculo crud = new CrudCurriculo();
 
@@ -60,22 +60,24 @@ public class CurriculoResource {
             ArrayList<CurriculoRespuesta> respuesta = crud.obtenerCurriculoPorGradoCiclo(idGrado, ciclo);
             return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
 
     }
   @DELETE
     @Path("{idCurriculo}")
-    public Response borrarSeccion(@PathParam("idCurriculo") String idCurriculo) {
+    public Response borrarCursoDelCurriculo(@PathParam("idCurriculo") String idCurriculo) {
     CrudCurriculo crud = new CrudCurriculo();
 
         try {
             crud.quitarCursoDelCurriculo(idCurriculo);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
+        } catch (DatosNoValidosExcepcion ex) {
+           return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 

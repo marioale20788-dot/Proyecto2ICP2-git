@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="ModeloReporteEstudiantesMorosos" 
+              whenNoDataType="AllSectionsNoDetail" 
+              pageWidth="842" pageHeight="595" 
+              orientation="Landscape" 
+              columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" 
+              uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+
+    <style name="Title" fontName="DejaVu Sans" fontSize="26.0" isBold="true"/>
+    <style name="SubTitle" forecolor="#666666" fontName="DejaVu Sans" fontSize="18.0"/>
+    <style name="Column header" forecolor="#FFFFFF" fontName="DejaVu Sans" fontSize="12.0" isBold="true"/>
+    <style name="Detail" fontName="DejaVu Sans" fontSize="12.0"/>
+
+    <parameter name="TITULO_REPORTE" class="java.lang.String"/>
+    <parameter name="SUBTITULO_REPORTE" class="java.lang.String"/>
+
+    <field name="idEstudiante" class="java.lang.String"/>
+    <field name="nombreEstudiante" class="java.lang.String"/>
+    <field name="estado" class="java.lang.String"/>
+    <field name="deudasPendiantes" class="java.lang.String"/>
+    <field name="totalDeudas" class="java.lang.Double"/>
+
+    <title>
+        <band height="104" splitType="Stretch">
+            <textField isBlankWhenNull="true">
+                <reportElement style="Title" x="0" y="0" width="802" height="67" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="36" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{TITULO_REPORTE}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement style="SubTitle" x="232" y="67" width="570" height="37" uuid="862cb50c-5a5e-4906-a495-226e25115fb6"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="20"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{SUBTITULO_REPORTE}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25" splitType="Stretch">
+            <frame>
+                <reportElement mode="Opaque" x="0" y="2" width="802" height="22" backcolor="#666666" uuid="35d90a9b-bb7e-4ec4-bfa2-68be1967d6b2"/>
+                <staticText>
+                    <reportElement style="Column header" x="5" y="2" width="100" height="18" uuid="a1b2c3d4-e5f6-7890-1111-222233334444"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                    <text><![CDATA[ID Estudiante]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement style="Column header" x="110" y="2" width="220" height="18" uuid="c3d4e5f6-a7b8-9012-3333-444455556666"/>
+                    <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                    <text><![CDATA[Nombre Estudiante]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement style="Column header" x="335" y="2" width="100" height="18" uuid="d4e5f6a7-b8c9-0123-4444-555566667777"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                    <text><![CDATA[Estado]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement style="Column header" x="440" y="2" width="210" height="18" uuid="e5f6a7b8-c9d0-1234-5555-666677778888"/>
+                    <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                    <text><![CDATA[Deudas Pendientes]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement style="Column header" x="655" y="2" width="142" height="18" uuid="f6a7b8c9-d0e1-2345-6666-777788889999"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                    <text><![CDATA[Total Deudas]]></text>
+                </staticText>
+            </frame>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="28" splitType="Stretch">
+            <frame>
+                <reportElement x="0" y="1" width="802" height="22" uuid="89a3da05-fdde-4ffe-965f-cc476f72e3ab"/>
+                <textField isBlankWhenNull="true">
+                    <reportElement style="Detail" x="5" y="2" width="100" height="18" uuid="a8b7c6d5-e4f3-2109-8765-43210fe9dcba"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                    <textFieldExpression><![CDATA[$F{idEstudiante}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement style="Detail" x="110" y="2" width="220" height="18" uuid="c0d9e8f7-a6b5-4321-0987-6543210fedcb"/>
+                    <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                    <textFieldExpression><![CDATA[$F{nombreEstudiante}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement style="Detail" x="335" y="2" width="100" height="18" uuid="d1e0f9a8-b7c6-5432-1098-76543210fedc"/>
+                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                    <textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+                </textField>
+                <textField isBlankWhenNull="true">
+                    <reportElement style="Detail" x="440" y="2" width="210" height="18" uuid="e2f1a0b9-c8d7-6543-2109-876543210fed"/>
+                    <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                    <textFieldExpression><![CDATA[$F{deudasPendiantes}]]></textFieldExpression>
+                </textField>
+                <textField pattern="Q #,##0.00" isBlankWhenNull="true">
+                    <reportElement style="Detail" x="655" y="2" width="142" height="18" uuid="f3a2b1c0-d9e8-7654-3210-9876543210fe"/>
+                    <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                    <textFieldExpression><![CDATA[$F{totalDeudas}]]></textFieldExpression>
+                </textField>
+            </frame>
+            <line>
+                <reportElement positionType="FixRelativeToBottom" x="0" y="25" width="802" height="1" uuid="e5f21b91-7f24-498e-97a1-0e93db9225a4"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#CCCCCC"/>
+                </graphicElement>
+            </line>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="1"/>
+    </summary>
+</jasperReport>

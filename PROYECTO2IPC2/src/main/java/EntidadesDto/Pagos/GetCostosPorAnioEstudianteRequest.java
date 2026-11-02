@@ -14,7 +14,7 @@ import java.time.LocalDate;
  *
  * @author mario
  */
-public class GetCostosPorAnioEstudianteRequest {
+    public class GetCostosPorAnioEstudianteRequest {
       private String idCosto;
     private Double monto;
       @JsonFormat(pattern = "yyyy-MM-dd")

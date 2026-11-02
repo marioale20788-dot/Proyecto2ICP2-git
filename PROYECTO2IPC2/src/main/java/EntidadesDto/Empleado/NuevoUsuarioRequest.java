@@ -15,27 +15,44 @@ import java.time.LocalDate;
  * @author mario
  */
 public class NuevoUsuarioRequest {
-    private String dpiUsuario;    
+    private String id;    
     private String contrasena;
     private String correoElectronico;
-    private TipoUsuarioEnum tipoUsuario;
+    private TipoUsuarioEnum rol;
         private double salario;
     private String nombreCompleto;
     
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fechaDeContratacion;
+    private boolean estado;
     
     public NuevoUsuarioRequest(){
         
     }
 
-    public String getDpiUsuario() {
-        return dpiUsuario;
+    public String getId() {
+        return id;
     }
 
-    public void setDpiUsuario(String dpiUsuario) {
-        this.dpiUsuario = dpiUsuario;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public TipoUsuarioEnum getRol() {
+        return rol;
+    }
+
+    public void setRol(TipoUsuarioEnum rol) {
+        this.rol = rol;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
    
@@ -56,13 +73,7 @@ public class NuevoUsuarioRequest {
         this.correoElectronico = correoElectronico;
     }
 
-    public TipoUsuarioEnum getTipoUsuario() {
-        return tipoUsuario;
-    }
-
-    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
+ 
 
     public double getSalario() {
         return salario;

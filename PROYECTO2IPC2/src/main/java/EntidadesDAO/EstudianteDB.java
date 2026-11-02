@@ -22,12 +22,13 @@ public class EstudianteDB {
     
     
     public void crearEstudiante(Estudiante estudiante) throws DatosNoValidosExcepcion{
-        String sql = "INSERT INTO estudiante(id_estudiante,nombre) values(?,?)";
+        String sql = "INSERT INTO estudiante(id_estudiante,nombre,graduado) values(?,?,?)";
         try(     Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement insertStatement = conn.prepareStatement(sql);) {
-       
+     
             insertStatement.setString(1, estudiante.getDpiUsuario());
             insertStatement.setString(2, estudiante.getNombreEstudiante());
+              insertStatement.setBoolean(3, estudiante.getGraduado());
             insertStatement.execute();
             
         } catch (SQLException ex) {
@@ -35,12 +36,13 @@ public class EstudianteDB {
         }
     }
     public void updateEstudiante(Estudiante estudiante, String idEstudiante) throws DatosNoValidosExcepcion{
-          String sql = "UPDATE estudiante SET nombre = ? WHERE id_estudiante = ? ";
+          String sql = "UPDATE estudiante SET nombre = ? , graduado = ? WHERE id_estudiante = ? ";
           try(     Connection conn = DBConnection.getInstance().getConnection();
                 PreparedStatement updateStatement = conn.prepareStatement(sql);) {
        
             updateStatement.setString(1, estudiante.getNombreEstudiante());
-            updateStatement.setString(2, idEstudiante);
+            updateStatement.setBoolean(2, estudiante.getGraduado());
+            updateStatement.setString(3, idEstudiante);
 
             updateStatement.executeUpdate();
             
@@ -58,7 +60,7 @@ public class EstudianteDB {
     
             ResultSet resultado = queryStatement.executeQuery();
             while(resultado.next()){
-                estudiante = new Estudiante(resultado.getString("id_estudiante"),resultado.getString("nombre") );
+                estudiante = new Estudiante(resultado.getString("id_estudiante"),resultado.getString("nombre"),resultado.getBoolean("graduado") );
             }
             return estudiante;
             

@@ -36,16 +36,17 @@ public class AdministrarNotasActividades {
         
         for (ActividadZona actividade : actividades) {
             NotaActividad nota = notaDb.obtenerNotasPorActividad(idUsuario, actividade.getIdActividad());
-            String punteo;
+            double punteo;
             if(nota==null){
-                punteo = "SIN PUNTEO DEFINIDO";
+                punteo = 0;
                 
             }else{
-                punteo = String.valueOf(nota.getPunteoObtenido());
+                punteo = nota.getPunteoObtenido();
                 
             }
+            String ponderacion=String.valueOf(actividade.getPonderacion());
             GetNotas notaEstado = new GetNotas(actividade.getIdActividad(), actividade.getNombreActividad(),
-                    actividade.getPonderacion(),punteo, idUsuario);
+                punteo,   ponderacion, idUsuario);
             Resultado.add(notaEstado);
             
         }
@@ -55,6 +56,9 @@ public class AdministrarNotasActividades {
         
         
     }
+     
+       
+       
        public NotaActividad actualizarNota(NuevaNotaRequest nuevaNota) throws DatosNoValidosExcepcion{
            
            

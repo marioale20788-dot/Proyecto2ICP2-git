@@ -4,6 +4,9 @@
  */
 package Entidades;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import java.time.LocalDate;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,6 +19,8 @@ public class Pagos {
     private String idPago;
     private EnumPago tipoPago;
     private Double monto;
+     @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate fechaPago;
     private String idEstuidante;
     private String idSecretaria;
@@ -42,6 +47,7 @@ public class Pagos {
         this.idCosto = idCosto;
         this.idPrestamo=idPrestamo;
     }
+   
 
     public boolean esValido() {
         return tipoPago != null

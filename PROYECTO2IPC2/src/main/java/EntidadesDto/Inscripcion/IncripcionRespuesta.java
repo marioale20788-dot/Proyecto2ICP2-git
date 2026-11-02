@@ -23,7 +23,7 @@ public class IncripcionRespuesta {
     private String idEstudiante;
     private String idSeccion;
     private String descripcionSeccion;
-    private Integer cicloLectivo;
+    private Integer idCicloLectivo;
 
     public IncripcionRespuesta(String idIncripcion, LocalDate fechaInscripcion, String idEstudiante, String idSeccion, String descripcionSeccion, Integer cicloLectivo) {
         this.idIncripcion = idIncripcion;
@@ -31,7 +31,7 @@ public class IncripcionRespuesta {
         this.idEstudiante = idEstudiante;
         this.idSeccion = idSeccion;
         this.descripcionSeccion = descripcionSeccion;
-        this.cicloLectivo = cicloLectivo;
+        this.idCicloLectivo = cicloLectivo;
     }
     
     
@@ -77,14 +77,15 @@ public class IncripcionRespuesta {
         this.descripcionSeccion = descripcionSeccion;
     }
 
-    public Integer getCicloLectivo() {
-        return cicloLectivo;
+    public Integer getIdCicloLectivo() {
+        return idCicloLectivo;
     }
 
-    public void setCicloLectivo(Integer cicloLectivo) {
-        this.cicloLectivo = cicloLectivo;
+    public void setIdCicloLectivo(Integer idCicloLectivo) {
+        this.idCicloLectivo = idCicloLectivo;
     }
-    
+
+   
     
     
     

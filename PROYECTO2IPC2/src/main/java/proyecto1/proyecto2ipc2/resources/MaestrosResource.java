@@ -40,21 +40,31 @@ public class MaestrosResource {
         }
 
     }
-      @GET
-   
+  @GET
+    @Path("/{idSeccion}/{ciclo}/{idAsignacion}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerEstudiantesInscritosAseccion (getEstudiantesInscritos estudiantesInscitos) {
-           SistemaMaestros maestros = new SistemaMaestros();
-           try {
-               ArrayList<getInscripcionesSeccionRequest> inscripciones = maestros.obtenerEstuidantesInscritos(estudiantesInscitos.getIdSeccion(),
-                       estudiantesInscitos.getCiclo(),estudiantesInscitos.getIdAsignacion());
-                 return Response.ok(inscripciones).build();
-           } catch (ElementoNoEncotradoExcepcion ex) {
-             return Response.status(Response.Status.NOT_FOUND).build();
-           } catch (DatosNoValidosExcepcion ex) {
-             return Response.status(Response.Status.BAD_REQUEST).build();
+    public Response obtenerEstudiantesInscritosAseccion(
+            @PathParam("idSeccion") String idSeccion,
+            @PathParam("ciclo") int ciclo,
+            @PathParam("idAsignacion") String idAsignacion) {
+
+        SistemaMaestros maestros = new SistemaMaestros();
+
+        try {
+            ArrayList<getInscripcionesSeccionRequest> inscripciones = maestros.obtenerEstuidantesInscritos(
+                    idSeccion, 
+                    ciclo, 
+                    idAsignacion
+            );
+            return Response.ok(inscripciones).build();
+
+        } catch (ElementoNoEncotradoExcepcion ex) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } catch (DatosNoValidosExcepcion ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-      
     }
     
     

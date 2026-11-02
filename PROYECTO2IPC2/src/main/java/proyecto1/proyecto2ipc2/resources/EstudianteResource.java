@@ -46,22 +46,22 @@ public class EstudianteResource {
                 crud.crearEstudiante(registros.getEstudiante(), registros.getEncargado(), registros.getDatosMedicos());
                 return Response.status(Response.Status.CREATED).build();
             } catch (DatosNoValidosExcepcion ex) {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
             }
 
         }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-     @Path("/{estado}")
-    public Response buscarTodosLosEstudiantes(@PathParam("estado") boolean estado) {
+     @Path("/{estado}/{pagina}")
+    public Response buscarTodosLosEstudiantes(@PathParam("estado") boolean estado,@PathParam("pagina") int pagina) {
        CrudEstudiante crud = new CrudEstudiante();
 
         try {
-            ArrayList<EstudianteRespuesta> respuesta = crud.obtnerTodosLosEstudiantes(estado);
+            ArrayList<EstudianteRespuesta> respuesta = crud.obtnerTodosLosEstudiantes(estado,pagina);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion ex) {
-                 return Response.status(Response.Status.NOT_FOUND).build();
+                 return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
        
 
@@ -77,14 +77,14 @@ public class EstudianteResource {
             EstudianteRespuesta respuesta = crud.buscarEstudiantePorId(dpi);
                   return Response.ok(respuesta).build();
         } catch (DatosNoValidosExcepcion | ElementoNoEncotradoExcepcion ex) {
-                 return Response.status(Response.Status.NOT_FOUND).build();
+                 return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
     }
           @PUT
     @Path("{dpi}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response UpdateEmpleado(@PathParam("dpi") String dpi,
+    public Response UpdateEstudiante(@PathParam("dpi") String dpi,
             UpdateEstudiante update) {
           CrudEstudiante crud = new CrudEstudiante();
 
@@ -92,9 +92,9 @@ public class EstudianteResource {
              EstudianteRespuesta respuesta   = crud.updateEstudiante(dpi, update);
               return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }

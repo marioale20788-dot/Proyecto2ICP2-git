@@ -114,16 +114,48 @@ public class SeccionDB {
             return secciones;
         }
     }
-    public ArrayList<Seccion> obtenerTodasLasSeccion(boolean buscarSeccionPorNombre, String nombre) {
+  public ArrayList<Seccion> obtenerTodasLasSeccionSelect(  ) {
+        String sql = "SELECT * FROM seccion";  
+        ArrayList<Seccion> secciones = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Seccion seccion = new Seccion(resultado.getString("id_seccion"),
+                        resultado.getString("nombre_seccion"),
+                        resultado.getString("id_grado"));
+                secciones.add(seccion);
+            }
+            return secciones;
+
+        } catch (SQLException e) {
+            return secciones;
+        }
+    }
+    public ArrayList<Seccion> obtenerTodasLasSeccion(boolean buscarSeccionPorNombre, String nombre, int pagina) {
+           int limite = 10;
+        int offset = (pagina - 1) * limite;
+
+     
+        
         String sql = "SELECT * FROM seccion";
         if (buscarSeccionPorNombre == true) {
             sql = sql + " WHERE nombre_seccion = ?";
         }
+        sql = sql +" ORDER BY id_seccion ASC LIMIT ? OFFSET ?";
+        
+        
         ArrayList<Seccion> secciones = new ArrayList<>();
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
             if (buscarSeccionPorNombre == true) {
                 queryStatement.setString(1, nombre);
+                   queryStatement.setInt(2, limite);
+                      queryStatement.setInt(3, offset);
+            }else{
+                 queryStatement.setInt(1, limite);
+                      queryStatement.setInt(2, offset);
             }
+            
 
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {

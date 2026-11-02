@@ -26,9 +26,9 @@ public class CrudCicloLectivo {
 
     }
 
-    public ArrayList<CicloLectivo> obtenerTodosLosCiclos() {
+    public ArrayList<CicloLectivo> obtenerTodosLosCiclos(int pagina) {
         CicloLectivoDB cicloDB = new CicloLectivoDB();
-        ArrayList<CicloLectivo> ciclos = cicloDB.obtenerTodosLosCiclos();
+        ArrayList<CicloLectivo> ciclos = cicloDB.obtenerTodosLosCiclos(pagina);
         return ciclos;
 
     }
@@ -57,11 +57,13 @@ public class CrudCicloLectivo {
         CicloLectivo ciclo = obtenerCicloPorAnio(anio);
         if (datosACamiar.getFechaFinal() != null) {
             ciclo.setFechaFinal(datosACamiar.getFechaFinal());
-        } else if (datosACamiar.getFechaInicio() != null) {
+        } 
+        if (datosACamiar.getFechaInicio() != null) {
             ciclo.setFechaInicio(datosACamiar.getFechaInicio());
-        } else {
+        } 
+        
             ciclo.setEstado(datosACamiar.getEstado());
-        }
+        
         if (ciclo.datosValidos() == false) {
             throw new DatosNoValidosExcepcion("LAS FECHAS NO CONCUERDAN ");
 

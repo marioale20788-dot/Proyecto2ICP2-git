@@ -155,6 +155,9 @@ public class AsignacionDocenteDB {
             case 1292:
                 error = "Formato no válido.";
                 break;
+            case 1451:
+                error = "Este elemento esta siendo usado";
+                break;
             
             case 1406:
                 error = "Dato ingresado muy largo.";

@@ -29,11 +29,17 @@ public class CrudCurso {
         
     }
     
-    public ArrayList<Curso> obtenerTodosLosCursos() {
+    public ArrayList<Curso> obtenerTodosLosCursos(int pagina) {
         CursoDB cursoDB = new CursoDB();
-        ArrayList<Curso> cursos = cursoDB.obtenerTodosLosCursos();
+        ArrayList<Curso> cursos = cursoDB.obtenerTodosLosCursos(pagina);
         return cursos;
     }
+      public ArrayList<Curso> obtenerTodosLosCursosSelect() {
+        CursoDB cursoDB = new CursoDB();
+        ArrayList<Curso> cursos = cursoDB.obtenerTodosLosCursosSelect();
+        return cursos;
+    }
+
 
     public Curso buscarCarreraPorCodigoNombre(String dato) throws ElementoNoEncotradoExcepcion {
         CursoDB cursoDB = new CursoDB();
@@ -48,11 +54,13 @@ public class CrudCurso {
     public Curso updateCurso(String idCurso, UpdateCurso updateCurso) throws ElementoNoEncotradoExcepcion, DatosNoValidosExcepcion {
         CursoDB cursoDB = new CursoDB();
         Curso curso = buscarCarreraPorCodigoNombre(idCurso);
-        if (updateCurso.getNombrecurso() != null) {
-            curso.setNombreCurso(updateCurso.getNombrecurso());
-        } else if (updateCurso.getDescripcionCurso() != null) {
+        if (updateCurso.getNombreCurso() != null) {
+            curso.setNombreCurso(updateCurso.getNombreCurso());
+        }
+        if (updateCurso.getDescripcionCurso() != null) {
             curso.setDescripcionCurso(updateCurso.getDescripcionCurso());
-        } else if (updateCurso.getEstado() != null) {
+        } 
+        if (updateCurso.getEstado() != null) {
             curso.setEstado(updateCurso.getEstado());
         }
         if (curso.cursoValido() == false) {

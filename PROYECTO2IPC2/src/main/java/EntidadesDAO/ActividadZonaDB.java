@@ -91,6 +91,7 @@ public class ActividadZonaDB {
                return actividades;
         }
     }
+  
         public ArrayList<ActividadZona> obtenerActividadePorId(String idActividad){
         String sql = "SELECT * FROM actividad WHERE id_actividad = ?";
         ArrayList<ActividadZona> actividades = new ArrayList<>();

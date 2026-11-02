@@ -44,37 +44,38 @@ public class AsignacionDocenteResource {
             crud.asingarDocente(nuevaAsginacion);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
 
     @GET
-
+    @Path("{idSeccion}/{idCurriculo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerAsignaciones(NuevaAsginacionGetRequest nuevaAsignacion) {
+    public Response obtenerAsignaciones(@PathParam("idSeccion") String idSeccion, @PathParam("idCurriculo") String idCurriculo) {
         CrudAsignacionDocente crud = new CrudAsignacionDocente();
         try {
-            AsignacionDocente asingacion = crud.obtenerAsignacionsPorSeccionCurriculo(nuevaAsignacion.getIdSeccion(), nuevaAsignacion.getIdCurriculo());
-            return Response.ok(new NuevaAsingacionRespuesta(asingacion)).build();
+            AsignacionDocente asingacion = crud.obtenerAsignacionsPorSeccionCurriculo(idSeccion, idCurriculo);
+            NuevaAsingacionRespuesta respuesta = new NuevaAsingacionRespuesta(asingacion);
+            return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
 
     }
-      @DELETE
+
+    @DELETE
     @Path("{idAsignacion}")
     public Response borrarAsignacion(@PathParam("idAsignacion") String idAsginacion) {
-     CrudAsignacionDocente crud = new CrudAsignacionDocente();
+        CrudAsignacionDocente crud = new CrudAsignacionDocente();
         try {
             crud.eliminarAsignacion(idAsginacion);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         }
     }
-
 
 }

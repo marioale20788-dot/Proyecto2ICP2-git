@@ -22,18 +22,36 @@ public class PrestamoRespuesta {
     private LocalDate fechaPrestamo;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate fechaEsperadaEntrega;
+    private LocalDate fechaDeEntregaEsperada;
     private double estimacionMora;
     private String idLibro;
     private int cantidad;
+    private String idUsuario;
 
     public PrestamoRespuesta(Prestamo prestamo) {
         this.idPrestamo = prestamo.getIdPrestamo();
         this.fechaPrestamo = prestamo.getFechaPrestamo();
-        this.fechaEsperadaEntrega = prestamo.getFechaEsperadaEntrega();
+        this.fechaDeEntregaEsperada = prestamo.getFechaEsperadaEntrega();
         this.estimacionMora = prestamo.getMora();
         this.idLibro = prestamo.getIdLibro();
         this.cantidad = prestamo.getCantidad();
+        this.idUsuario=prestamo.getIdUsuario();
+    }
+
+    public double getEstimacionMora() {
+        return estimacionMora;
+    }
+
+    public void setEstimacionMora(double estimacionMora) {
+        this.estimacionMora = estimacionMora;
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getIdPrestamo() {
@@ -52,13 +70,14 @@ public class PrestamoRespuesta {
         this.fechaPrestamo = fechaPrestamo;
     }
 
-    public LocalDate getFechaEsperadaEntrega() {
-        return fechaEsperadaEntrega;
+    public LocalDate getFechaDeEntregaEsperada() {
+        return fechaDeEntregaEsperada;
     }
 
-    public void setFechaEsperadaEntrega(LocalDate fechaEsperadaEntrega) {
-        this.fechaEsperadaEntrega = fechaEsperadaEntrega;
+    public void setFechaDeEntregaEsperada(LocalDate fechaDeEntregaEsperada) {
+        this.fechaDeEntregaEsperada = fechaDeEntregaEsperada;
     }
+
 
     public double getEstamcionMora() {
         return estimacionMora;

@@ -128,6 +128,85 @@ public class PagoDb {
         }
 
     }
+        public ArrayList<Pagos> obtenerPagoPorUsuarioAnioTipo(EnumPago tipoPAgp, LocalDate fechaInicio, LocalDate fechaFinal) {
+        String sql = "SELECT * FROM pagos WHERE tipo = ? AND (fecha_de_pago BETWEEN ? AND ?)";
+        ArrayList<Pagos> pagos = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, tipoPAgp.toString());
+            queryStatement.setDate(2, Date.valueOf(fechaInicio));
+            queryStatement.setDate(3, Date.valueOf(fechaFinal));
+               ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Pagos pagoId = new Pagos(EnumPago.valueOf(resultado.getString("tipo")),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_de_pago").toLocalDate(),
+                        resultado.getString("id_estudiante"),
+                        resultado.getString("id_secretaria"),
+                        resultado.getString("id_costo"),
+                        resultado.getString("id_prestamo"));
+                pagoId.setIdPago(resultado.getString("id_pago"));
+                pagos.add(pagoId);
+            }
+            return pagos;
+            
+
+        } catch (SQLException ex) {
+           return pagos;
+        }
+
+    }
+        public ArrayList<Pagos> obtenerTodsLosPagosTipo(EnumPago tipo) {
+        String sql = "SELECT * FROM pagos WHERE tipo = ?";
+        ArrayList<Pagos> pagos = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, tipo.toString());
+               ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Pagos pagoId = new Pagos(EnumPago.valueOf(resultado.getString("tipo")),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_de_pago").toLocalDate(),
+                        resultado.getString("id_estudiante"),
+                        resultado.getString("id_secretaria"),
+                        resultado.getString("id_costo"),
+                        resultado.getString("id_prestamo"));
+                pagoId.setIdPago(resultado.getString("id_pago"));
+                pagos.add(pagoId);
+            }
+            return pagos;
+            
+
+        } catch (SQLException ex) {
+           return pagos;
+        }
+
+    }
+
+    public ArrayList<Pagos> obtenerTodsLosPagos(String idUsuario) {
+        String sql = "SELECT * FROM pagos WHERE id_estudiante = ?";
+        ArrayList<Pagos> pagos = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setString(1, idUsuario);
+               ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Pagos pagoId = new Pagos(EnumPago.valueOf(resultado.getString("tipo")),
+                        resultado.getDouble("monto"),
+                        resultado.getDate("fecha_de_pago").toLocalDate(),
+                        resultado.getString("id_estudiante"),
+                        resultado.getString("id_secretaria"),
+                        resultado.getString("id_costo"),
+                        resultado.getString("id_prestamo"));
+                pagoId.setIdPago(resultado.getString("id_pago"));
+                pagos.add(pagoId);
+            }
+            return pagos;
+            
+
+        } catch (SQLException ex) {
+           return pagos;
+        }
+
+    }
+
 
     public String generarIdPagoAleatorio() {
         String sql = "SELECT * FROM pagos WHERE id_pago = ?";

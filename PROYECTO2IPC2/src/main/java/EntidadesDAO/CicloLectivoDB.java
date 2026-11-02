@@ -41,12 +41,17 @@ public class CicloLectivoDB {
 
     }
 
-    public ArrayList<CicloLectivo> obtenerTodosLosCiclos() {
-        String sql = "SELECT * FROM ciclo_lectivo";
+    public ArrayList<CicloLectivo> obtenerTodosLosCiclos(int pagina) {
+
+        int limite = 10;
+        int offset = (pagina - 1) * limite;
+
+        String sql = "SELECT * FROM ciclo_lectivo  ORDER BY anio ASC LIMIT ? OFFSET ? ";
         ArrayList<CicloLectivo> ciclos = new ArrayList<>();
 
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
-
+            queryStatement.setInt(1, limite);
+            queryStatement.setInt(2, offset);
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {
                 CicloLectivo ciclo = new CicloLectivo(resultado.getInt("anio"),

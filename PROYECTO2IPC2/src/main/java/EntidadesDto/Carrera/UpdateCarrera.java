@@ -10,7 +10,7 @@ package EntidadesDto.Carrera;
  */
 public class UpdateCarrera {
         private String   nombre;
-    private boolean estado;
+    private Boolean estado;
 
     public String getNombre() {
         return nombre;
@@ -20,7 +20,7 @@ public class UpdateCarrera {
         this.nombre = nombre;
     }
 
-    public boolean getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 

@@ -54,7 +54,7 @@ public class CrudPago {
         if (usEstudiante.isEmpty()) {
             throw new ElementoNoEncotradoExcepcion("NO SE ENCONTRO NINGUN ESTUDIANTE CON ESE ID");
 
-        } 
+        }
 
         if (pago.getTipoPago() == EnumPago.INSCRIPCION || pago.getTipoPago() == EnumPago.MENSUALIDAD) {
             if (pago.getIdCosto() == null) {
@@ -91,11 +91,10 @@ public class CrudPago {
                 if (prestamo.getFirst().getEstado() == PrestamoEnum.DEVUELTO || prestamo.getFirst().getEstado() == PrestamoEnum.ACTIVO) {
                     throw new DatosNoValidosExcepcion("ESTE PAGO YA A SDIO REALIZADO");
                 }
-            if (prestamo.getFirst().getFechaEntregaReal().isAfter(pago.getFechaPago())) {
-      throw new DatosNoValidosExcepcion("LA FEHCA DE PAGO DE MORA DEBE SER DESPUES DE LA FEHCA DE ENTREGA FINA;");
-}
-                
-                
+                if (prestamo.getFirst().getFechaEntregaReal().isAfter(pago.getFechaPago())) {
+                    throw new DatosNoValidosExcepcion("LA FEHCA DE PAGO DE MORA DEBE SER DESPUES DE LA FEHCA DE ENTREGA FINA;");
+                }
+
             }
         }
         PagoDb pagoDb = new PagoDb();
@@ -105,25 +104,87 @@ public class CrudPago {
         return pago.getIdPago();
 
     }
-    
-    public ArrayList<CostoPorAnio> costosPorEsudianteCiclo(String idEstudiante, int idCiclo) throws ElementoNoEncotradoExcepcion{
+
+    public ArrayList<CostoPorAnio> costosPorEsudianteCiclo(String idEstudiante, int idCiclo) throws ElementoNoEncotradoExcepcion {
         CostoPorAnioDB costosDb = new CostoPorAnioDB();
-        ArrayList<CostoPorAnio> costos = costosDb.obtenerCostosDeEstudiante(idCiclo, idEstudiante,true);
-        if(costos.isEmpty()){
-               throw new ElementoNoEncotradoExcepcion("NINGUN COSTO PENDIENTE REGISTRADO");
+        ArrayList<CostoPorAnio> costos = costosDb.obtenerCostosDeEstudiante(idCiclo, idEstudiante, true);
+        if (costos.isEmpty()) {
+            throw new ElementoNoEncotradoExcepcion("NINGUN COSTO PENDIENTE REGISTRADO");
         }
         return costos;
-        
+
     }
-    public ArrayList<Prestamo> prestamosConMoraEstudiante(String idEstudiante) throws ElementoNoEncotradoExcepcion{
+        public ArrayList<CostoPorAnio> costosPorEsudianteFecha(String idEstudiante, String fechaInicio,String fechaFinal) throws ElementoNoEncotradoExcepcion {
+        CostoPorAnioDB costosDb = new CostoPorAnioDB();
+         ArrayList<CostoPorAnio> costos = new ArrayList<>();
+            try {
+                LocalDate fechaInicioA = LocalDate.parse(fechaInicio);
+              LocalDate  fechaFinalA = LocalDate.parse(fechaFinal);
+              
+              costos = costosDb.obtenerCostosDeEstudianteFechas(idEstudiante, fechaInicioA, fechaFinalA);
+                 
+            } catch (Exception e) {
+                costos = costosDb.obtenerTodosLosCostos(idEstudiante);
+            }
+        
+  
+        if (costos.isEmpty()) {
+            throw new ElementoNoEncotradoExcepcion("NINGUN COSTO PENDIENTE REGISTRADO");
+        }
+        return costos;
+
+    }
+
+
+    public ArrayList<Pagos> pagosRealizados(String idEstudiante, int idCiclo) throws ElementoNoEncotradoExcepcion {
+        PagoDb pagoDb = new PagoDb();
+        LocalDate inicioAnio = LocalDate.of(idCiclo, 1, 1);
+        LocalDate finAnio = LocalDate.of(idCiclo, 12, 31);
+        ArrayList<Pagos> pagos = pagoDb.obtenerPagoPorUsuarioAnio(idEstudiante, inicioAnio, finAnio);
+        if (pagos.isEmpty()) {
+            throw new ElementoNoEncotradoExcepcion("NINGUN PAGO REGISTRADO");
+        }
+        return pagos;
+
+    }
+
+    public ArrayList<Pagos> pagosRealizadosPorFecha(String idEstudiante, String fechaInicio, String fechaFinal) throws ElementoNoEncotradoExcepcion, DatosNoValidosExcepcion {
+        PagoDb pagoDb = new PagoDb();
+        LocalDate fechaInicioA;
+        LocalDate fechaFinalA;
+        ArrayList<Pagos> pagos;
+        try {
+            fechaInicioA = LocalDate.parse(fechaInicio);
+            fechaFinalA = LocalDate.parse(fechaFinal);
+            pagos = pagoDb.obtenerPagoPorUsuarioAnio(idEstudiante, fechaInicioA, fechaFinalA);
+
+            if (fechaInicioA.isAfter(fechaFinalA)) {
+                throw new DatosNoValidosExcepcion("FECHA DE INICIO POSTERIOR A FECHA FINAL");
+
+            }
+        } catch (Exception e) {
+            pagos = pagoDb.obtenerTodsLosPagos(idEstudiante);
+        }
+
+        if (pagos.isEmpty()) {
+            throw new ElementoNoEncotradoExcepcion("NINGUN PAGO REGISTRADO");
+        }
+        return pagos;
+
+    }
+
+    public ArrayList<Prestamo> prestamosConMoraEstudiante(String idEstudiante) throws ElementoNoEncotradoExcepcion {
         PrestamoDB prestamoDb = new PrestamoDB();
-        ArrayList<Prestamo> prestamos = prestamoDb.obtenerPrestamosEstudiante(idEstudiante,"DEVUELTO_CON_MORA");
-        if(prestamos.isEmpty()){
+        ArrayList<Prestamo> prestamos = prestamoDb.obtenerPrestamosEstudiante(idEstudiante, "DEVUELTO_CON_MORA");
+        if (prestamos.isEmpty()) {
             throw new ElementoNoEncotradoExcepcion("NINGUN PRESTAMO PENDIENTE REGISTRADO");
         }
         return prestamos;
-        
+
     }
+
+
+    
     
     
 

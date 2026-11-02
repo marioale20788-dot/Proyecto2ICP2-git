@@ -149,6 +149,22 @@ public class PrestamoDB {
             throw new ElementoNoEncotradoExcepcion(sqlExcepcion(ex));
         }
     }
+     public ArrayList<Prestamo> obtenerPrestamosPendientes() throws ElementoNoEncotradoExcepcion {
+        String sql = "SELECT * FROM prestamo WHERE estado = 'DEVUELTO_CON_MORA'";
+        ArrayList<Prestamo> prestamo = new ArrayList<>();
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+  
+            ResultSet resultado = queryStatement.executeQuery();
+            while (resultado.next()) {
+                Prestamo prestamoid = crearPrestamo(resultado);
+                prestamo.add(prestamoid);
+            }
+            return prestamo;
+
+        } catch (SQLException ex) {
+            throw new ElementoNoEncotradoExcepcion(sqlExcepcion(ex));
+        }
+    }
 
     public Prestamo crearPrestamo(ResultSet resultado) throws SQLException {
         Prestamo prestamoid = new Prestamo(resultado.getString("id_prestamo"),

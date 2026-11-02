@@ -25,7 +25,9 @@ public class EstudianteRespuesta {
     private String enfermedades;
     private String tipoDeSangre;
     private String medicamentos;
+    private boolean estado;
     private int contactoDeEmergencia;
+    private boolean graduado;
 
     public EstudianteRespuesta(Usuario usuario, Estudiante estudiante, EncargadoEstudiante encargado, DatosMedicosEstudiante datosMedicos) {
         this.dpiUsuario = usuario.getIdUsuario();
@@ -39,6 +41,24 @@ public class EstudianteRespuesta {
         this.tipoDeSangre = datosMedicos.getTipoDeSangre();
         this.medicamentos = datosMedicos.getMedicamentos();
         this.contactoDeEmergencia = datosMedicos.getContactoDeEmergencia();
+        this.graduado=estudiante.getGraduado();
+        this.estado = usuario.getEstado();
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public boolean getGraduado() {
+        return graduado;
+    }
+
+    public void setGraduado(boolean graduado) {
+        this.graduado = graduado;
     }
     
     

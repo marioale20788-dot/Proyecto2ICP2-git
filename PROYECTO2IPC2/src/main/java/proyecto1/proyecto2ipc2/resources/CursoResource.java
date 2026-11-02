@@ -41,22 +41,31 @@ public class CursoResource {
              crud.crearCurso(nuevoCurso);
              return Response.status(Response.Status.CREATED).build();
          } catch (DatosNoValidosExcepcion ex) {
-           return Response.status(Response.Status.BAD_REQUEST).build();
+           return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
          }
          
      }
      
      @GET
+         @Path("{pagina}")
       @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarTodosLosCursos() {
+    public Response buscarTodosLosCursos(@PathParam("pagina") int pagina) {
          CrudCurso crud = new CrudCurso();
-         ArrayList<Curso>cursos = crud.obtenerTodosLosCursos();
+         ArrayList<Curso>cursos = crud.obtenerTodosLosCursos(pagina);
+         return Response.ok(cursos).build();
+        
+    }
+      @GET
+      @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarTodosLosCursosActivosSelect() {
+         CrudCurso crud = new CrudCurso();
+         ArrayList<Curso>cursos = crud.obtenerTodosLosCursosSelect();
          return Response.ok(cursos).build();
         
     }
     
     @GET
-    @Path("{identificador}")
+    @Path("Id/{identificador}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerCursoPorCodigoNombre(@PathParam("identificador") String identificador) {
      CrudCurso crud = new CrudCurso();
@@ -65,7 +74,7 @@ public class CursoResource {
             Curso curso = crud.buscarCarreraPorCodigoNombre(identificador);
             return Response.ok(curso).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
     
@@ -80,9 +89,9 @@ public class CursoResource {
           Curso curso = crud.updateCurso(codigoCurso, cursoUpdate);
             return Response.ok(curso).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
@@ -94,9 +103,9 @@ public class CursoResource {
             crud.elminarCurso(codigoCurso);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-           return Response.status(Response.Status.NOT_FOUND).build();
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();        }
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();        }
     }
     
 

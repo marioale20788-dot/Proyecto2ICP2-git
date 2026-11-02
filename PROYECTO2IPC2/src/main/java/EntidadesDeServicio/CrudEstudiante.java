@@ -38,7 +38,7 @@ public class CrudEstudiante {
             throw new DatosNoValidosExcepcion("DATOS INGRESADOS NO VALIDOS");
 
         }
-        Estudiante estudiante = new Estudiante(usuario.getIdUsuario(), nuevoEstudiante.getNombreEstudiante());
+        Estudiante estudiante = new Estudiante(usuario.getIdUsuario(), nuevoEstudiante.getNombreEstudiante(),nuevoEstudiante.getGraduado());
         if (estudiante.esValido() == false) {
             throw new DatosNoValidosExcepcion("DATOS INGRESADOS NO VALIDOS");
         }
@@ -66,14 +66,14 @@ public class CrudEstudiante {
 
     }
 
-    public ArrayList<EstudianteRespuesta> obtnerTodosLosEstudiantes(boolean estado) throws DatosNoValidosExcepcion {
+    public ArrayList<EstudianteRespuesta> obtnerTodosLosEstudiantes(boolean estado,int pagina) throws DatosNoValidosExcepcion {
         UsuarioDB usuarioBaseDeDatos = new UsuarioDB();
 
         ArrayList<EstudianteRespuesta> respuesta = new ArrayList<>();
         EstudianteDB estudianteDB = new EstudianteDB();
         EncargadoEstudianteDB encargadoDB = new EncargadoEstudianteDB();
         DatosMedicosEstudianteDB datosMedicosDb = new DatosMedicosEstudianteDB();
-        ArrayList<Usuario> usuarios = usuarioBaseDeDatos.obtenerTodosLosUsuarios(true, "Estudiante", estado);
+        ArrayList<Usuario> usuarios = usuarioBaseDeDatos.obtenerTodosLosUsuarios(true, "Estudiante", estado, pagina);
         for (Usuario usuario : usuarios) {
             Estudiante estudiante = estudianteDB.obtenerEstudiantePorId(usuario.getIdUsuario());
             EncargadoEstudiante encargado = encargadoDB.obtenerEncargadoPorDpiUs(usuario.getIdUsuario());
@@ -119,7 +119,8 @@ public class CrudEstudiante {
               throw new DatosNoValidosExcepcion("DATOS INGRESADOS NO VALIDOS");
          }
          usuarioBaseDeDatos.updateUsuario(usuario, id);
-       }else  if(update.editarEstudiante()){
+       }
+       if(update.editarEstudiante()){
              EstudianteDB estudianteDB = new EstudianteDB();
              Estudiante estudiante = estudianteDB.obtenerEstudiantePorId(id);
              estudiante.updateEstudiante(update);
@@ -128,7 +129,8 @@ public class CrudEstudiante {
              }
              estudianteDB.updateEstudiante(estudiante,id);
            
-       }else if(update.editarEncargado()){
+       }
+       if(update.editarEncargado()){
             EncargadoEstudianteDB encargadoDB = new EncargadoEstudianteDB();
             EncargadoEstudiante encargado = encargadoDB.obtenerEncargadoPorDpiUs(id);
             encargado.updateEncargado(update);
@@ -137,7 +139,8 @@ public class CrudEstudiante {
             }
             encargadoDB.updateEncargado(encargado,id);
            
-       }else if(update.editarDatosMedicos()){
+       }
+       if(update.editarDatosMedicos()){
             DatosMedicosEstudianteDB datosMedicosDb = new DatosMedicosEstudianteDB();
             DatosMedicosEstudiante datosMedicos = datosMedicosDb.obtenerDatosPorDpiUs(id);
             datosMedicos.updateDatosMedicos(update);

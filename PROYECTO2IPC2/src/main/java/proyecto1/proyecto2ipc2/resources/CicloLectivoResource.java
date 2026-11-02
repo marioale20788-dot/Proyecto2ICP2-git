@@ -50,16 +50,17 @@ public class CicloLectivoResource {
             
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
 
         }
 
     }
         @GET
+         @Path("{pagina}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response obtenerCiclosLectivos() {
+    public Response obtenerCiclosLectivos(@PathParam("pagina") int pagina) {
       CrudCicloLectivo crud = new CrudCicloLectivo();
-           List<CicloLectivoRespuesta> ciclos = crud.obtenerTodosLosCiclos()
+           List<CicloLectivoRespuesta> ciclos = crud.obtenerTodosLosCiclos(pagina)
                  .stream()
                 .map(CicloLectivoRespuesta::new)
                 .toList();
@@ -69,7 +70,7 @@ public class CicloLectivoResource {
 
     }
     @GET
-    @Path("{anio}")
+    @Path("/Anio/{anio}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerCicloPorAnio(@PathParam("anio") int anio) {
    CrudCicloLectivo crud = new CrudCicloLectivo();
@@ -77,7 +78,7 @@ public class CicloLectivoResource {
             CicloLectivo ciclo = crud.obtenerCicloPorAnio(anio);
             return Response.ok(new CicloLectivoRespuesta(ciclo)).build();
         } catch (ElementoNoEncotradoExcepcion e) {
-                  return Response.status(Response.Status.NOT_FOUND).build();
+                  return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
         
@@ -94,9 +95,9 @@ public class CicloLectivoResource {
             CicloLectivo ciclo = crud.updateCiclo(anio, updatesCiclo);
              return Response.ok(new CicloLectivoRespuesta(ciclo)).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-           return Response.status(Response.Status.NOT_FOUND).build();
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
         
@@ -110,9 +111,9 @@ public class CicloLectivoResource {
             crud.ElminiarCiclo(anio);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-           return Response.status(Response.Status.NOT_FOUND).build();
+           return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();        }
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();        }
     }
  
 

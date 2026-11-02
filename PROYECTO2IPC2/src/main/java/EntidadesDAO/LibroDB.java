@@ -36,11 +36,16 @@ public class LibroDB {
 
     }
 
-    public ArrayList<Libro> devolverTodosLosLibros() {
-        String sql = "SELECT * FROM libro WHERE activo = true";
+    public ArrayList<Libro> devolverTodosLosLibros(int pagina) {
+        int limite = 10;
+        int offset = (pagina - 1) * limite;
+        String sql = "SELECT * FROM libro WHERE activo = true ORDER BY id_libro ASC LIMIT ? OFFSET ?";
+
         ArrayList<Libro> libros = new ArrayList<>();
 
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement queryStatement = conn.prepareStatement(sql);) {
+            queryStatement.setInt(1, limite);
+            queryStatement.setInt(2, offset);
 
             ResultSet resultado = queryStatement.executeQuery();
             while (resultado.next()) {

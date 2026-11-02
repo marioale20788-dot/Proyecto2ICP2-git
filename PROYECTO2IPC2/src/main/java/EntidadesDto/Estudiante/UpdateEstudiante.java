@@ -11,6 +11,7 @@ package EntidadesDto.Estudiante;
 public class UpdateEstudiante {
      private String correoElectronico;
      private Boolean estado;
+     private boolean graduado;
      
     private String nombreEstudiante;
     
@@ -34,6 +35,14 @@ public class UpdateEstudiante {
 
     public Boolean getEstado() {
         return estado;
+    }
+
+    public boolean getGraduado() {
+        return graduado;
+    }
+
+    public void setGraduado(boolean graduado) {
+        this.graduado = graduado;
     }
 
     public void setEstado(Boolean estado) {

@@ -49,10 +49,20 @@ public class CarreraResource {
     }
 
     @GET
+    @Path("Estado/{estado}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarTodasLasCarreras() {
+    public Response buscarTodasLasCarreras(@PathParam("estado") boolean estado) {
         CrudCarrera crud = new CrudCarrera();
-        ArrayList<Carrera> carreras = crud.buscarTodasCarreras();
+        ArrayList<Carrera> carreras = crud.buscarTodasCarreras( estado );
+        return Response.ok(carreras).build();
+    }
+    
+    @GET
+    @Path("Estado/{estado}/{pagina}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarTodasLasCarrerasCrud(@PathParam("estado") boolean estado,@PathParam("pagina") int pagina) {
+        CrudCarrera crud = new CrudCarrera();
+        ArrayList<Carrera> carreras = crud.buscarTodasCarrerasCrud(estado ,pagina);
         return Response.ok(carreras).build();
     }
 

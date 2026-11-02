@@ -14,10 +14,12 @@ import org.apache.commons.lang3.StringUtils;
 public class Estudiante {
     private String dpiUsuario;    
     private String nombreEstudiante;
+    private Boolean graduado;
 
-    public Estudiante(String dpiUsuario, String nombreEstudiante) {
+    public Estudiante(String dpiUsuario, String nombreEstudiante, Boolean graduado) {
         this.dpiUsuario = dpiUsuario;
         this.nombreEstudiante = nombreEstudiante;
+        this.graduado = graduado;
     }
   
     public String getDpiUsuario() {
@@ -36,14 +38,24 @@ public class Estudiante {
         this.nombreEstudiante = nombreEstudiante;
     }
 
+    public Boolean getGraduado() {
+        return graduado;
+    }
+
+    public void setGraduado(Boolean graduado) {
+        this.graduado = graduado;
+    }
+
    
     public boolean esValido(){
                return StringUtils.isNotBlank(dpiUsuario)
-                && StringUtils.isNotBlank(nombreEstudiante);
+                && StringUtils.isNotBlank(nombreEstudiante)
+               &&graduado!=null;
 
     }
     public void updateEstudiante(UpdateEstudiante update){
         this.nombreEstudiante = update.getNombreEstudiante();
+        this.graduado=update.getGraduado();
         
     }
 

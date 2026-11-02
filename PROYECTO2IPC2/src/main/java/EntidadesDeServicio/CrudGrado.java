@@ -37,9 +37,15 @@ public class CrudGrado {
     }
 
     
-    public ArrayList<Grado> obtenerTodosLosGrados(){
+    public ArrayList<Grado> obtenerTodosLosGrados(int pagina){
        GradoDB gradoDB = new GradoDB();
-        ArrayList<Grado> grados = gradoDB.obtenerTodosLosGrados();
+        ArrayList<Grado> grados = gradoDB.obtenerTodosLosGrados(pagina);
+        return grados;
+    }
+      
+    public ArrayList<Grado> obtenerTodosLosGradosSelect(){
+       GradoDB gradoDB = new GradoDB();
+        ArrayList<Grado> grados = gradoDB.obtenerTodosLosGradosSelect();
         return grados;
     }
     public  ArrayList<Grado>   obtenerGradoPorId(String id) throws ElementoNoEncotradoExcepcion{

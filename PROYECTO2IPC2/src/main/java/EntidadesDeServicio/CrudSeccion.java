@@ -4,7 +4,9 @@
  */
 package EntidadesDeServicio;
 
+import Entidades.Curriculo;
 import Entidades.Seccion;
+import EntidadesDAO.CurriculoDB;
 import EntidadesDAO.SeccionDB;
 import EntidadesDto.Seccion.NuevaSeccionRequest;
 import Excepciones.DatosNoValidosExcepcion;
@@ -25,6 +27,14 @@ public class CrudSeccion {
         if(seccion.esValido()==false){
             throw  new DatosNoValidosExcepcion("DATOS NO VALIDOS");
         }
+        CurriculoDB curriculoDb = new CurriculoDB();
+        ArrayList<Curriculo> curriculos = curriculoDb.obtenerCurriculoCicloGrado(nuevaSeccion.getIdGrado(), nuevaSeccion.getAnio());
+        if(curriculos.isEmpty()){
+            throw  new DatosNoValidosExcepcion("DEBE DE CREAR UN CURRICULO PARA ESTA EN EL CICLO SELECCIONADO");
+        }
+        
+        
+        
         if (seccionDB.buscarSeccionPorNombreId(seccion.getNombreSeccion(), seccion.getIdGrado())) {
              throw  new DatosNoValidosExcepcion("YA EXISTE UNA SECCION CON ESE NOMBRE ASOCIADA A ESE GRADO");
         }
@@ -32,9 +42,15 @@ public class CrudSeccion {
         
     }
     
-    public ArrayList<Seccion> obtenerTodasLasSecciones(boolean buscarSeccionPorNombre, String nombre){
+    public ArrayList<Seccion> obtenerTodasLasSecciones(boolean buscarSeccionPorNombre, String nombre, int pagina){
         SeccionDB seccionDB = new SeccionDB();
-        ArrayList<Seccion> secciones = seccionDB.obtenerTodasLasSeccion(buscarSeccionPorNombre, nombre);
+        ArrayList<Seccion> secciones = seccionDB.obtenerTodasLasSeccion(buscarSeccionPorNombre, nombre,pagina);
+        return secciones;
+        
+    }
+     public ArrayList<Seccion> obtenerTodasLasSeccionesSelet(){
+        SeccionDB seccionDB = new SeccionDB();
+        ArrayList<Seccion> secciones = seccionDB.obtenerTodasLasSeccionSelect();
         return secciones;
         
     }
@@ -44,6 +60,14 @@ public class CrudSeccion {
         return secciones;
         
     }
+     public Seccion obtenerSeccionPorId(String idSeccion) throws ElementoNoEncotradoExcepcion{
+          SeccionDB seccionDB = new SeccionDB();
+        ArrayList<Seccion> secciones = seccionDB.obtenerSeccionPorId(idSeccion);
+        if(secciones.isEmpty()){
+             throw  new ElementoNoEncotradoExcepcion("NO SE ENCONTRO UNA SECCION CON ESE ID");
+        }
+        return secciones.getFirst();
+     }
    
     
     public Seccion updateSeccion(String idSeccion, NuevaSeccionRequest updateSeccion) throws ElementoNoEncotradoExcepcion, DatosNoValidosExcepcion{

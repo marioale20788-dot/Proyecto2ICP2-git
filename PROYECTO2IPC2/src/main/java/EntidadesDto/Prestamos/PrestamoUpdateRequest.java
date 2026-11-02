@@ -20,7 +20,7 @@ public class PrestamoUpdateRequest {
     LocalDate fechaDePrestamo;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    LocalDate FechaEsperadaEntrega;
+    LocalDate fechaDeEntregaEsperada;
     
     String idLibro;
     String idUsuario;
@@ -34,13 +34,15 @@ public class PrestamoUpdateRequest {
         this.fechaDePrestamo = fechaDePrestamo;
     }
 
-    public LocalDate getFechaEsperadaEntrega() {
-        return FechaEsperadaEntrega;
+    public LocalDate getFechaDeEntregaEsperada() {
+        return fechaDeEntregaEsperada;
     }
 
-    public void setFechaEsperadaEntrega(LocalDate FechaEsperadaEntrega) {
-        this.FechaEsperadaEntrega = FechaEsperadaEntrega;
+    public void setFechaDeEntregaEsperada(LocalDate fechaDeEntregaEsperada) {
+        this.fechaDeEntregaEsperada = fechaDeEntregaEsperada;
     }
+
+   
 
     public String getIdLibro() {
         return idLibro;

@@ -48,14 +48,14 @@ public class PrestamoResource {
             crud.registrarPrestamo(nuevoPrestamo);
             return Response.status(Response.Status.CREATED).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-               return Response.status(Response.Status.NOT_FOUND).build();
+               return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }   
 
     }
      @GET
-    @Path("/Prestamo/{idUsuario}")
+    @Path("Prestamo/{idUsuario}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerPrestamosActivos(@PathParam("idUsuario") String idUsuario) {
              CrudPrestamo crud = new CrudPrestamo();
@@ -68,12 +68,12 @@ public class PrestamoResource {
                     .toList();
               return Response.ok(resupesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-             return Response.status(Response.Status.NOT_FOUND).build();
+             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
       
     }
      @GET
-       @Path("/{idPrestamo}")
+       @Path("{idPrestamo}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response obtenerPrestamoPorId(@PathParam("idPrestamo") String idPrestamo) {
              CrudPrestamo crud = new CrudPrestamo();
@@ -83,7 +83,7 @@ public class PrestamoResource {
           PrestamoRespuesta respuesta = new PrestamoRespuesta(crud.obtenerPrestamoPorId(idPrestamo));
               return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-             return Response.status(Response.Status.NOT_FOUND).build();
+             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         }
       
     }
@@ -99,15 +99,15 @@ public class PrestamoResource {
             crud.terminarPrestamo(finalizarPrestamo);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
 
     }
     
      @PUT
-    @Path("/Prestamo/{idPrestamo}")
+    @Path("Prestamo/{idPrestamo}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updatePretamo(@PathParam("idPrestamo") String idPrestamo,
@@ -118,13 +118,9 @@ public class PrestamoResource {
           PrestamoRespuesta respuesta = new PrestamoRespuesta(crud.updatePrestamo(idPrestamo, updatePrestamo));
             return Response.ok(respuesta).build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).entity("{\"error\": \"" + ex.getMessage() + "\"}")
-               .type(MediaType.APPLICATION_JSON)
-               .build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("{\"error\": \"" + ex.getMessage() + "\"}")
-               .type(MediaType.APPLICATION_JSON)
-               .build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()) .build();
         }
 
     }
@@ -139,11 +135,11 @@ public class PrestamoResource {
             crud.eliminarPretamo(idPrestamo);
             return Response.ok().build();
         } catch (ElementoNoEncotradoExcepcion ex) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
         } catch (ElemtoAElminarEnUsoExcepcion ex) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         } catch (DatosNoValidosExcepcion ex) {
-           return Response.status(Response.Status.BAD_REQUEST).build();
+           return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
     }
 
